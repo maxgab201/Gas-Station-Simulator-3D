@@ -58,20 +58,35 @@
         }
         .btn:hover { background-color: white; color: black; transform: scale(1.05); }
 
-        /* MODAL */
+        /* MODAL GENERAL */
         .modal {
             display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.8); backdrop-filter: blur(5px);
+            background-color: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
             align-items: center; justify-content: center;
         }
         .modal-content {
             background-color: #111; border: 1px solid #333; padding: 40px;
-            width: 400px; text-align: center; border-radius: 0;
-            box-shadow: 0 0 20px rgba(255, 165, 0, 0.2); position: relative;
+            width: 450px; text-align: center; border-radius: 0;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5); position: relative;
         }
         .close { position: absolute; top: 10px; right: 20px; color: #aaa; font-size: 28px; font-weight: bold; cursor: pointer; }
         .close:hover { color: white; }
         
+        /* ESTILOS DEL CARTEL DE ADVERTENCIA */
+        .warning-box {
+            border: 3px solid #FFD700; /* Borde amarillo peligro */
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+        }
+        .warning-title { color: #FFD700; font-family: 'Anton'; font-size: 32px; margin-bottom: 10px; letter-spacing: 1px;}
+        .warning-text { color: #ddd; font-size: 15px; line-height: 1.5; margin-bottom: 25px; text-align: left; background: #222; padding: 15px; border-radius: 5px;}
+        .btn-warning {
+            background-color: #FFD700; color: black; border: none; padding: 15px 30px;
+            font-weight: bold; font-size: 16px; cursor: pointer; text-transform: uppercase; width: 100%;
+            transition: 0.3s;
+        }
+        .btn-warning:hover { background-color: white; transform: scale(1.02); }
+
+        /* ESTILOS DE LOS BOTONES DE VERSION */
         .version-btn {
             display: block; width: 100%; padding: 15px; margin: 10px 0;
             background: #222; color: white; border: 1px solid #444;
@@ -119,13 +134,32 @@
                 El simulador definitivo. Gestiona stock, controla la economía y atiende clientes con físicas realistas.
                 <br>Desarrollado por Maximo.
             </p>
-            <button class="btn" onclick="abrirModal()">DESCARGAR AHORA</button>
+            <button class="btn" onclick="abrirAdvertencia()">DESCARGAR AHORA</button>
         </div>
     </section>
 
+    <div id="warningModal" class="modal">
+        <div class="modal-content warning-box">
+            <span class="close" onclick="cerrarTodo()">&times;</span>
+            <div class="warning-title">⚠️ IMPORTANTE ⚠️</div>
+            
+            <div class="warning-text">
+                <p style="margin-top:0;"><strong>El juego es 100% SEGURO.</strong></p>
+                <p>Al ser un Desarrollador Indie, Windows no reconoce mi firma digital y puede mostrar una pantalla azul de protección.</p>
+                <p>Si esto pasa, seguí estos pasos:</p>
+                <ul style="padding-left: 20px; color: #FFD700;">
+                    <li>Hacé clic en <u>"Más información"</u>.</li>
+                    <li>Presioná el botón <strong>"Ejecutar de todas formas"</strong>.</li>
+                </ul>
+            </div>
+
+            <button class="btn-warning" onclick="pasarAVersiones()">¡ENTENDIDO! MOSTRAR DESCARGAS</button>
+        </div>
+    </div>
+
     <div id="downloadModal" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="cerrarModal()">&times;</span>
+            <span class="close" onclick="cerrarTodo()">&times;</span>
             <h2 style="margin-top:0">ELIGE TU VERSIÓN</h2>
             <p style="color:#777; font-size:14px; margin-bottom:20px; letter-spacing: 1px;">VERSIONES DISPONIBLES:</p>
             
@@ -180,11 +214,30 @@
     </footer>
 
     <script>
-        function abrirModal() { document.getElementById("downloadModal").style.display = "flex"; }
-        function cerrarModal() { document.getElementById("downloadModal").style.display = "none"; }
+        // Función 1: Abre el cartel amarillo de advertencia
+        function abrirAdvertencia() {
+            document.getElementById("warningModal").style.display = "flex";
+        }
+
+        // Función 2: Cierra la advertencia y abre el menú de versiones
+        function pasarAVersiones() {
+            document.getElementById("warningModal").style.display = "none";
+            document.getElementById("downloadModal").style.display = "flex";
+        }
+
+        // Función 3: Cierra todo
+        function cerrarTodo() {
+            document.getElementById("warningModal").style.display = "none";
+            document.getElementById("downloadModal").style.display = "none";
+        }
+
+        // Cerrar si clic afuera de cualquier modal
         window.onclick = function(event) {
-            var modal = document.getElementById("downloadModal");
-            if (event.target == modal) { modal.style.display = "none"; }
+            var warning = document.getElementById("warningModal");
+            var download = document.getElementById("downloadModal");
+            
+            if (event.target == warning) { warning.style.display = "none"; }
+            if (event.target == download) { download.style.display = "none"; }
         }
     </script>
 
