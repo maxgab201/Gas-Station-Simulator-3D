@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gas Station Simulator 3D - MGGX Games</title>
+    <style>
+        /* --- [CSS] ESTILOS VISUALES --- */
+        @import url('https://fonts.googleapis.com/css2?family=Anton&family=Roboto:wght@300;400;700&display=swap');
+
+        body, html {
+            margin: 0; padding: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #050505;
+            color: white;
+            scroll-behavior: smooth;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 50px; background: rgba(0, 0, 0, 0.9);
+            position: fixed; width: 100%; top: 0; z-index: 1000;
+            box-sizing: border-box; border-bottom: 2px solid #333;
+        }
+        .logo { font-family: 'Anton', sans-serif; font-size: 28px; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; }
+        .logo span { color: #FFA500; }
+        .menu { margin-left: auto; }
+        .menu a {
+            color: #aaa; text-decoration: none; margin-left: 40px;
+            font-weight: 700; font-size: 14px; text-transform: uppercase;
+            transition: 0.3s;
+        }
+        .menu a:hover { color: #FFA500; }
+
+        /* HERO SECTION */
+        .hero {
+            height: 100vh;
+            background-image: url('fondo.jpg'); /* FOTO DE PORTADA */
+            background-size: cover; background-position: center;
+            display: flex; align-items: center; position: relative;
+        }
+        .overlay {
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(to right, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
+        }
+        .content { position: relative; z-index: 2; padding-left: 80px; max-width: 600px; }
+        h1 { font-family: 'Anton', sans-serif; font-size: 80px; line-height: 0.9; margin: 0 0 20px 0; text-transform: uppercase; }
+        h2 { font-size: 24px; font-weight: 300; margin-bottom: 30px; color: #FFA500; }
+        .description { font-size: 16px; line-height: 1.6; margin-bottom: 40px; color: #ccc; }
+
+        /* BOTONES */
+        .btn {
+            display: inline-block; padding: 15px 40px; font-weight: 700;
+            text-transform: uppercase; text-decoration: none; border: 2px solid white;
+            transition: all 0.3s ease; cursor: pointer; letter-spacing: 1px;
+            background: transparent; color: white; font-size: 18px;
+        }
+        .btn:hover { background-color: white; color: black; transform: scale(1.05); }
+
+        /* MODAL (VENTANA DE DESCARGA) */
+        .modal {
+            display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.8); backdrop-filter: blur(5px);
+            align-items: center; justify-content: center;
+        }
+        .modal-content {
+            background-color: #111; border: 1px solid #333; padding: 40px;
+            width: 400px; text-align: center; border-radius: 0;
+            box-shadow: 0 0 20px rgba(255, 165, 0, 0.2); position: relative;
+        }
+        .close { position: absolute; top: 10px; right: 20px; color: #aaa; font-size: 28px; font-weight: bold; cursor: pointer; }
+        .close:hover { color: white; }
+        
+        .version-btn {
+            display: block; width: 100%; padding: 15px; margin: 10px 0;
+            background: #222; color: white; border: 1px solid #444;
+            text-decoration: none; font-weight: bold; transition: 0.3s; box-sizing: border-box;
+        }
+        .version-btn:hover { background: #FFA500; color: black; border-color: #FFA500; }
+        .version-tag { font-size: 10px; background: #444; padding: 2px 5px; border-radius: 3px; margin-left: 10px; text-transform: uppercase;}
+
+        /* SECCIONES */
+        section { padding: 80px 50px; border-bottom: 1px solid #222; }
+        .sec-title { font-family: 'Anton'; font-size: 40px; color: #FFA500; margin-bottom: 20px; }
+        .text-block { color: #aaa; line-height: 1.6; max-width: 800px; }
+        
+        /* GALERÍA */
+        .gallery-grid { display: flex; gap: 15px; margin-top: 30px; flex-wrap: wrap; }
+        .gallery-img { 
+            width: 300px; height: 170px; object-fit: cover;
+            border: 1px solid #333; transition: transform 0.3s; cursor: pointer;
+        }
+        .gallery-img:hover { transform: scale(1.05); border-color: #FFA500; }
+
+        /* FOOTER */
+        footer { padding: 40px; text-align: center; color: #555; font-size: 12px; background: #080808; }
+        .mail-link { color: #FFA500; font-size: 20px; font-weight: bold; text-decoration: none; }
+        .mail-link:hover { text-decoration: underline; }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 50px; } .content { padding-left: 20px; } .navbar { padding: 20px; } .menu { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo" onclick="window.scrollTo(0,0)">MGGX <span>GAMES</span></div>
+        <div class="menu">
+            <a href="#info">Información</a>
+            <a href="#galeria">Galería</a>
+            <a href="#soporte">Soporte</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="overlay"></div>
+        <div class="content">
+            <h1>Gas Station<br>Simulator 3D</h1>
+            <h2>YA DISPONIBLE PARA PC</h2>
+            <p class="description">
+                El simulador definitivo. Gestiona stock, controla la economía y atiende clientes con físicas realistas.
+                <br>Desarrollado por Maximo.
+            </p>
+            <button class="btn" onclick="abrirModal()">DESCARGAR AHORA</button>
+        </div>
+    </section>
+
+    <div id="downloadModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarModal()">&times;</span>
+            <h2 style="margin-top:0">ELIGE TU VERSIÓN</h2>
+            
+            <p style="color:#777; font-size:14px; margin-bottom:20px; letter-spacing: 1px;">VERSIONES DISPONIBLES:</p>
+            
+            <a href="Instalador_v1.11.exe" class="version-btn" style="border-color: #FFA500;">
+                VERSIÓN 1.11 <span class="version-tag" style="background:#FFA500; color:black;">ULTIMATE</span>
+            </a>
+
+            <a href="Instalador_v1.1.exe" class="version-btn">
+                VERSIÓN 1.1 <span class="version-tag">TURBO</span>
+            </a>
+
+            <a href="Instalador_v1.0.exe" class="version-btn">
+                VERSIÓN 1.0 <span class="version-tag">LEGACY</span>
+            </a>
+        </div>
+    </div>
+
+    <section id="info" style="background-color: #0a0a0a;">
+        <div class="sec-title">SOBRE EL JUEGO</div>
+        <div class="text-block">
+            <p>Gas Station Simulator 3D rompe con los esquemas tradicionales. No es solo hacer clic; es vivir la experiencia.
+            Con un sistema de economía dinámica, cada gota de combustible cuenta.</p>
+            <ul>
+                <li>Control en Tercera Persona</li>
+                <li>Físicas de Manguera en tiempo real</li>
+                <li>IA de Tráfico Inteligente y sistema de Paciencia</li>
+                <li>Múltiples versiones y mejoras constantes</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="galeria">
+        <div class="sec-title">GALERÍA</div>
+        <div class="text-block">Capturas in-game de la versión 1.11.</div>
+        <div class="gallery-grid">
+            <img src="foto1.jpg" class="gallery-img" alt="Gameplay 1">
+            <img src="foto2.jpg" class="gallery-img" alt="Gameplay 2">
+            <img src="foto3.jpg" class="gallery-img" alt="Gameplay 3">
+        </div>
+    </section>
+
+    <section id="soporte" style="background-color: #0a0a0a;">
+        <div class="sec-title">SOPORTE TÉCNICO</div>
+        <div class="text-block">
+            <p>¿Encontraste un bug? ¿Tenés ideas para la Versión 2.0?</p>
+            <a href="mailto:maxgab201@gmail.com" class="mail-link">maxgab201@gmail.com</a>
+        </div>
+    </section>
+
+    <footer>
+        COPYRIGHT © 2025 MGGX GAMES. POWERED BY UNITY.
+    </footer>
+
+    <script>
+        function abrirModal() { document.getElementById("downloadModal").style.display = "flex"; }
+        function cerrarModal() { document.getElementById("downloadModal").style.display = "none"; }
+        window.onclick = function(event) {
+            var modal = document.getElementById("downloadModal");
+            if (event.target == modal) { modal.style.display = "none"; }
+        }
+    </script>
+
+</body>
+</html>
