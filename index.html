@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gas Station Simulator 3D - MGGX Games</title>
+    <title>MGGX Games - Official Site</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Anton&family=Roboto:wght@300;400;700&display=swap');
 
-        /* ESTILOS GENERALES */
+        /* --- ESTILOS GENERALES --- */
         body, html {
             margin: 0; padding: 0;
             font-family: 'Roboto', sans-serif;
@@ -16,10 +16,10 @@
             scroll-behavior: smooth;
         }
 
-        /* NAVBAR */
+        /* --- NAVBAR GLOBAL --- */
         .navbar {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 20px 50px; background: rgba(0, 0, 0, 0.9);
+            padding: 20px 50px; background: rgba(0, 0, 0, 0.95);
             position: fixed; width: 100%; top: 0; z-index: 1000;
             box-sizing: border-box; border-bottom: 2px solid #333;
         }
@@ -33,16 +33,72 @@
         }
         .menu a:hover { color: #FFA500; }
 
-        /* HERO SECTION */
-        .hero {
+        /* --- SECCIÓN 1: INTRO MGGX --- */
+        .intro-section {
             height: 100vh;
-            background-image: url('fondo.jpg'); /* FOTO DE PORTADA */
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            background: radial-gradient(circle, #1a1a1a 0%, #000000 100%);
+            text-align: center; padding: 20px;
+        }
+        .mggx-title {
+            font-family: 'Anton', sans-serif; font-size: 100px; margin: 0;
+            background: linear-gradient(to right, #fff, #888);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            letter-spacing: 5px;
+        }
+        .mggx-subtitle {
+            font-size: 20px; color: #FFA500; margin-top: 10px; letter-spacing: 3px; text-transform: uppercase;
+        }
+        .mggx-desc {
+            max-width: 600px; margin-top: 30px; color: #aaa; line-height: 1.6; font-size: 16px;
+        }
+        .scroll-down {
+            margin-top: 60px; font-size: 30px; animation: bounce 2s infinite; color: #555; cursor: pointer;
+        }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-10px);} 60% {transform: translateY(-5px);} }
+
+        /* --- SECCIÓN 2: CATÁLOGO DE JUEGOS --- */
+        .games-list-section {
+            padding: 100px 50px; background-color: #0a0a0a; min-height: 60vh;
+            border-bottom: 1px solid #222;
+        }
+        .section-header { font-family: 'Anton'; font-size: 50px; color: white; margin-bottom: 50px; text-align: center; }
+        .section-header span { color: #FFA500; }
+        
+        .games-grid {
+            display: flex; justify-content: center; flex-wrap: wrap; gap: 40px;
+        }
+        .game-card {
+            width: 350px; background: #111; border: 1px solid #333;
+            transition: transform 0.3s, border-color 0.3s; position: relative;
+            overflow: hidden;
+        }
+        .game-card:hover { transform: translateY(-10px); border-color: #FFA500; }
+        .card-img {
+            width: 100%; height: 200px; object-fit: cover;
+            filter: grayscale(0.5); transition: 0.3s;
+        }
+        .game-card:hover .card-img { filter: grayscale(0); }
+        .card-content { padding: 25px; text-align: left; }
+        .card-title { font-family: 'Anton'; font-size: 24px; margin: 0 0 10px 0; color: white; }
+        .card-desc { font-size: 14px; color: #aaa; margin-bottom: 20px; line-height: 1.4; }
+        .btn-card {
+            display: inline-block; padding: 10px 20px; background: transparent; border: 1px solid #FFA500;
+            color: #FFA500; font-weight: bold; text-decoration: none; text-transform: uppercase; font-size: 12px;
+            transition: 0.3s;
+        }
+        .btn-card:hover { background: #FFA500; color: black; }
+
+        /* --- SECCIÓN 3: GSS3D DETALLE --- */
+        .game-hero {
+            height: 100vh;
+            background-image: url('fondo.jpg'); /* FOTO PORTADA */
             background-size: cover; background-position: center;
             display: flex; align-items: center; position: relative;
         }
         .overlay {
             position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(to right, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
+            background: linear-gradient(to right, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.5) 60%, transparent 100%);
         }
         .content { position: relative; z-index: 2; padding-left: 80px; max-width: 600px; }
         h1 { font-family: 'Anton', sans-serif; font-size: 80px; line-height: 0.9; margin: 0 0 20px 0; text-transform: uppercase; }
@@ -58,7 +114,7 @@
         }
         .btn:hover { background-color: white; color: black; transform: scale(1.05); }
 
-        /* MODAL GENERAL */
+        /* MODALES */
         .modal {
             display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%;
             background-color: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
@@ -72,21 +128,15 @@
         .close { position: absolute; top: 10px; right: 20px; color: #aaa; font-size: 28px; font-weight: bold; cursor: pointer; }
         .close:hover { color: white; }
         
-        /* ESTILOS DEL CARTEL DE ADVERTENCIA */
-        .warning-box {
-            border: 3px solid #FFD700; /* Borde amarillo peligro */
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
-        }
+        .warning-box { border: 3px solid #FFD700; box-shadow: 0 0 30px rgba(255, 215, 0, 0.3); }
         .warning-title { color: #FFD700; font-family: 'Anton'; font-size: 32px; margin-bottom: 10px; letter-spacing: 1px;}
         .warning-text { color: #ddd; font-size: 15px; line-height: 1.5; margin-bottom: 25px; text-align: left; background: #222; padding: 15px; border-radius: 5px;}
         .btn-warning {
             background-color: #FFD700; color: black; border: none; padding: 15px 30px;
-            font-weight: bold; font-size: 16px; cursor: pointer; text-transform: uppercase; width: 100%;
-            transition: 0.3s;
+            font-weight: bold; font-size: 16px; cursor: pointer; text-transform: uppercase; width: 100%; transition: 0.3s;
         }
         .btn-warning:hover { background-color: white; transform: scale(1.02); }
 
-        /* ESTILOS DE LOS BOTONES DE VERSION */
         .version-btn {
             display: block; width: 100%; padding: 15px; margin: 10px 0;
             background: #222; color: white; border: 1px solid #444;
@@ -95,23 +145,19 @@
         .version-btn:hover { background: #FFA500; color: black; border-color: #FFA500; }
         .version-tag { font-size: 10px; background: #444; padding: 2px 5px; border-radius: 3px; margin-left: 10px; text-transform: uppercase;}
 
-        /* SECCIONES Y GALERÍA */
-        section { padding: 80px 50px; border-bottom: 1px solid #222; }
+        .detail-section { padding: 80px 50px; border-bottom: 1px solid #222; background-color: #080808;}
         .sec-title { font-family: 'Anton'; font-size: 40px; color: #FFA500; margin-bottom: 20px; }
-        .text-block { color: #aaa; line-height: 1.6; max-width: 800px; }
-        
         .gallery-grid { display: flex; gap: 15px; margin-top: 30px; flex-wrap: wrap; }
-        .gallery-img { 
-            width: 300px; height: 170px; object-fit: cover;
-            border: 1px solid #333; transition: transform 0.3s; cursor: pointer;
-        }
+        .gallery-img { width: 300px; height: 170px; object-fit: cover; border: 1px solid #333; transition: transform 0.3s; cursor: pointer; }
         .gallery-img:hover { transform: scale(1.05); border-color: #FFA500; }
 
-        footer { padding: 40px; text-align: center; color: #555; font-size: 12px; background: #080808; }
+        footer { padding: 40px; text-align: center; color: #555; font-size: 12px; background: #050505; }
         .mail-link { color: #FFA500; font-size: 20px; font-weight: bold; text-decoration: none; }
-        .mail-link:hover { text-decoration: underline; }
 
-        @media (max-width: 768px) { h1 { font-size: 50px; } .content { padding-left: 20px; } .navbar { padding: 20px; } .menu { display: none; } }
+        @media (max-width: 768px) { 
+            h1 { font-size: 50px; } .mggx-title { font-size: 60px; }
+            .content { padding-left: 20px; } .navbar { padding: 20px; } .menu { display: none; } 
+        }
     </style>
 </head>
 <body>
@@ -119,41 +165,85 @@
     <nav class="navbar">
         <div class="logo" onclick="window.scrollTo(0,0)">MGGX <span>GAMES</span></div>
         <div class="menu">
-            <a href="#info">Información</a>
-            <a href="#galeria">Galería</a>
-            <a href="#soporte">Soporte</a>
+            <a href="#inicio">Inicio</a>
+            <a href="#juegos">Juegos</a>
+            <a href="#contacto">Contacto</a>
         </div>
     </nav>
 
-    <section class="hero">
-        <div class="overlay"></div>
-        <div class="content">
-            <h1>Gas Station<br>Simulator 3D</h1>
-            <h2>YA DISPONIBLE PARA PC</h2>
-            <p class="description">
-                El simulador definitivo. Gestiona stock, controla la economía y atiende clientes con físicas realistas.
-                <br>Desarrollado por Maximo.
-            </p>
-            <button class="btn" onclick="abrirAdvertencia()">DESCARGAR AHORA</button>
+    <div id="inicio" class="intro-section">
+        <h1 class="mggx-title">MGGX GAMES</h1>
+        <div class="mggx-subtitle">INDIE GAME DEVELOPMENT</div>
+        <p class="mggx-desc">
+            Estudio independiente creado por Máximo.<br>
+            Desarrollando experiencias inmersivas, mecánicas únicas y mundos abiertos en Unity.
+            <br>Desde Argentina para el mundo.
+        </p>
+        <div class="scroll-down" onclick="location.href='#juegos'">&#x2193;</div>
+    </div>
+
+    <div id="juegos" class="games-list-section">
+        <div class="section-header">NUESTROS <span>PROYECTOS</span></div>
+        <div class="games-grid">
+            <div class="game-card">
+                <img src="fondo.jpg" alt="Gas Station" class="card-img">
+                <div class="card-content">
+                    <div class="card-title">GAS STATION SIM 3D</div>
+                    <p class="card-desc">El simulador definitivo de gestión y acción en tercera persona. Economía real, autos deportivos y libertad total.</p>
+                    <a href="#gss3d-detail" class="btn-card">VER JUEGO COMPLETO</a>
+                </div>
+            </div>
         </div>
+    </div>
+
+    <div id="gss3d-detail">
+        <section class="game-hero">
+            <div class="overlay"></div>
+            <div class="content">
+                <h1>Gas Station<br>Simulator 3D</h1>
+                <h2>YA DISPONIBLE PARA PC</h2>
+                <p class="description">
+                    Gestiona stock, controla la economía y atiende clientes con físicas realistas.
+                    <br>Versión 1.11 Ultimate disponible.
+                </p>
+                <button class="btn" onclick="abrirAdvertencia()">DESCARGAR AHORA</button>
+            </div>
+        </section>
+
+        <section class="detail-section">
+            <div class="sec-title">GALERÍA</div>
+            <div style="color:#aaa;">Capturas in-game de la versión 1.11.</div>
+            <div class="gallery-grid">
+                <img src="foto1.jpg" class="gallery-img" alt="Gameplay 1">
+                <img src="foto2.jpg" class="gallery-img" alt="Gameplay 2">
+                <img src="foto3.jpg" class="gallery-img" alt="Gameplay 3">
+            </div>
+        </section>
+    </div>
+
+    <section id="contacto" class="detail-section" style="background-color: #0a0a0a; text-align: center;">
+        <div class="sec-title">CONTACTO</div>
+        <p style="color:#aaa;">¿Tenés feedback o propuestas?</p>
+        <a href="mailto:maxgab201@gmail.com" class="mail-link">maxgab201@gmail.com</a>
     </section>
+
+    <footer>
+        COPYRIGHT © 2025 MGGX GAMES. POWERED BY UNITY.
+    </footer>
 
     <div id="warningModal" class="modal">
         <div class="modal-content warning-box">
             <span class="close" onclick="cerrarTodo()">&times;</span>
             <div class="warning-title">⚠️ IMPORTANTE ⚠️</div>
-            
             <div class="warning-text">
-                <p style="margin-top:0;"><strong>El juego es 100% SEGURO.</strong></p>
-                <p>Al ser un Desarrollador Indie, Windows no reconoce mi firma digital y puede mostrar una pantalla azul de protección.</p>
-                <p>Si esto pasa, seguí estos pasos:</p>
+                <p><strong>El juego es 100% SEGURO.</strong></p>
+                <p>Al ser Indie, Windows puede mostrar una alerta azul (SmartScreen).</p>
                 <ul style="padding-left: 20px; color: #FFD700;">
-                    <li>Hacé clic en <u>"Más información"</u>.</li>
-                    <li>Presioná el botón <strong>"Ejecutar de todas formas"</strong>.</li>
+                    <li>Clic en <u>"Más información"</u>.</li>
+                    <li>Clic en <strong>"Ejecutar de todas formas"</strong>.</li>
                 </ul>
             </div>
-
-            <button class="btn-warning" onclick="pasarAVersiones()">¡ENTENDIDO! MOSTRAR DESCARGAS</button>
+            <button class="btn-warning" onclick="pasarAVersiones()">¡ENTENDIDO!</button>
         </div>
     </div>
 
@@ -161,86 +251,36 @@
         <div class="modal-content">
             <span class="close" onclick="cerrarTodo()">&times;</span>
             <h2 style="margin-top:0">ELIGE TU VERSIÓN</h2>
-            <p style="color:#777; font-size:14px; margin-bottom:20px; letter-spacing: 1px;">VERSIONES DISPONIBLES:</p>
+            <p style="color:#777; font-size:14px; margin-bottom:20px;">DESDE GITHUB:</p>
             
             <a href="https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/v1.11/Gas.Station.Simulator.3D.exe" class="version-btn" style="border-color: #FFA500;">
                 VERSIÓN 1.11 <span class="version-tag" style="background:#FFA500; color:black;">ULTIMATE</span>
             </a>
-
+            
             <a href="https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/v1.1/Gas.Station.Simulator.3D.exe" class="version-btn">
                 VERSIÓN 1.1 <span class="version-tag">TURBO</span>
             </a>
-
             <a href="https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/v1.0/Gas.Station.Simulator.3D.exe" class="version-btn">
                 VERSIÓN 1.0 <span class="version-tag">LEGACY</span>
             </a>
         </div>
     </div>
 
-    <section id="info" style="background-color: #0a0a0a;">
-        <div class="sec-title">SOBRE EL JUEGO</div>
-        <div class="text-block">
-            <p>Gas Station Simulator 3D rompe con los esquemas tradicionales. No es solo hacer clic; es vivir la experiencia.
-            Con un sistema de economía dinámica, cada gota de combustible cuenta.</p>
-            <ul>
-                <li>Control en Tercera Persona</li>
-                <li>Físicas de Manguera en tiempo real</li>
-                <li>IA de Tráfico Inteligente y sistema de Paciencia</li>
-                <li>Múltiples versiones y mejoras constantes</li>
-            </ul>
-        </div>
-    </section>
-
-    <section id="galeria">
-        <div class="sec-title">GALERÍA</div>
-        <div class="text-block">Capturas in-game de la versión 1.11.</div>
-        <div class="gallery-grid">
-            <img src="foto1.jpg" class="gallery-img" alt="Gameplay 1">
-            <img src="foto2.jpg" class="gallery-img" alt="Gameplay 2">
-            <img src="foto3.jpg" class="gallery-img" alt="Gameplay 3">
-        </div>
-    </section>
-
-    <section id="soporte" style="background-color: #0a0a0a;">
-        <div class="sec-title">SOPORTE TÉCNICO</div>
-        <div class="text-block">
-            <p>¿Encontraste un bug? ¿Tenés ideas para la Versión 2.0?</p>
-            <a href="mailto:maxgab201@gmail.com" class="mail-link">maxgab201@gmail.com</a>
-        </div>
-    </section>
-
-    <footer>
-        COPYRIGHT © 2025 MGGX GAMES. POWERED BY UNITY.
-    </footer>
-
     <script>
-        // Función 1: Abre el cartel amarillo de advertencia
-        function abrirAdvertencia() {
-            document.getElementById("warningModal").style.display = "flex";
-        }
-
-        // Función 2: Cierra la advertencia y abre el menú de versiones
+        function abrirAdvertencia() { document.getElementById("warningModal").style.display = "flex"; }
         function pasarAVersiones() {
             document.getElementById("warningModal").style.display = "none";
             document.getElementById("downloadModal").style.display = "flex";
         }
-
-        // Función 3: Cierra todo
         function cerrarTodo() {
             document.getElementById("warningModal").style.display = "none";
             document.getElementById("downloadModal").style.display = "none";
         }
-
-        // Cerrar si clic afuera de cualquier modal
         window.onclick = function(event) {
-            var warning = document.getElementById("warningModal");
-            var download = document.getElementById("downloadModal");
-            
-            if (event.target == warning) { warning.style.display = "none"; }
-            if (event.target == download) { download.style.display = "none"; }
+            if (event.target == document.getElementById("warningModal")) cerrarTodo();
+            if (event.target == document.getElementById("downloadModal")) cerrarTodo();
         }
     </script>
 
 </body>
 </html>
-
