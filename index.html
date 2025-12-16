@@ -8,98 +8,51 @@
         @import url('https://fonts.googleapis.com/css2?family=Anton&family=Roboto:wght@300;400;700&display=swap');
 
         /* ESTILOS GENERALES */
-        body, html {
-            margin: 0; padding: 0;
-            font-family: 'Roboto', sans-serif;
-            background-color: #050505;
-            color: white;
-            scroll-behavior: smooth;
-        }
+        body, html { margin: 0; padding: 0; font-family: 'Roboto', sans-serif; background-color: #050505; color: white; scroll-behavior: smooth; }
 
         /* NAVBAR */
-        .navbar {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 20px 50px; background: rgba(0, 0, 0, 0.95);
-            position: fixed; width: 100%; top: 0; z-index: 1000;
-            box-sizing: border-box; border-bottom: 2px solid #333;
-        }
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 20px 50px; background: rgba(0, 0, 0, 0.95); position: fixed; width: 100%; top: 0; z-index: 1000; box-sizing: border-box; border-bottom: 2px solid #333; }
         .logo { font-family: 'Anton', sans-serif; font-size: 28px; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; text-decoration: none; color: white; }
         .logo span { color: #FFA500; }
         .menu { margin-left: auto; }
-        .menu a {
-            color: #aaa; text-decoration: none; margin-left: 40px;
-            font-weight: 700; font-size: 14px; text-transform: uppercase;
-            transition: 0.3s;
-        }
+        .menu a { color: #aaa; text-decoration: none; margin-left: 40px; font-weight: 700; font-size: 14px; text-transform: uppercase; transition: 0.3s; }
         .menu a:hover { color: #FFA500; }
 
-        /* INTRO SECTION */
-        .intro-section {
-            height: 100vh;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            background: radial-gradient(circle, #1a1a1a 0%, #000000 100%);
-            text-align: center; padding: 20px;
-        }
-        .mggx-title {
-            font-family: 'Anton', sans-serif; font-size: 100px; margin: 0;
-            background: linear-gradient(to right, #fff, #888);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            letter-spacing: 5px;
-        }
-        .mggx-subtitle {
-            font-size: 20px; color: #FFA500; margin-top: 10px; letter-spacing: 3px; text-transform: uppercase;
-        }
-        .mggx-desc {
-            max-width: 600px; margin-top: 30px; color: #aaa; line-height: 1.6; font-size: 16px;
-        }
-        .scroll-down {
-            margin-top: 60px; font-size: 30px; animation: bounce 2s infinite; color: #555; cursor: pointer;
-        }
+        /* INTRO */
+        .intro-section { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: radial-gradient(circle, #1a1a1a 0%, #000000 100%); text-align: center; padding: 20px; }
+        .mggx-title { font-family: 'Anton', sans-serif; font-size: 100px; margin: 0; background: linear-gradient(to right, #fff, #888); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 5px; }
+        .mggx-subtitle { font-size: 20px; color: #FFA500; margin-top: 10px; letter-spacing: 3px; text-transform: uppercase; }
+        .mggx-desc { max-width: 600px; margin-top: 30px; color: #aaa; line-height: 1.6; font-size: 16px; }
+        .scroll-down { margin-top: 60px; font-size: 30px; animation: bounce 2s infinite; color: #555; cursor: pointer; }
         @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-10px);} 60% {transform: translateY(-5px);} }
 
-        /* CATALOGO SECTION */
-        .games-list-section {
-            padding: 100px 50px; background-color: #0a0a0a; min-height: 60vh;
-            border-bottom: 1px solid #222;
-        }
+        /* CATALOGO */
+        .games-list-section { padding: 100px 50px; background-color: #0a0a0a; min-height: 60vh; border-bottom: 1px solid #222; }
         .section-header { font-family: 'Anton'; font-size: 50px; color: white; margin-bottom: 50px; text-align: center; }
         .section-header span { color: #FFA500; }
         
-        .games-grid {
-            display: flex; justify-content: center; flex-wrap: wrap; gap: 40px;
-        }
-        .game-card {
-            width: 350px; background: #111; border: 1px solid #333;
-            transition: transform 0.3s, border-color 0.3s; position: relative;
-            overflow: hidden;
-        }
+        .games-grid { display: flex; justify-content: center; flex-wrap: wrap; gap: 40px; }
+        .game-card { width: 350px; background: #111; border: 1px solid #333; transition: transform 0.3s, border-color 0.3s; position: relative; overflow: hidden; }
         .game-card:hover { transform: translateY(-10px); border-color: #FFA500; }
-        .card-img {
-            width: 100%; height: 200px; object-fit: cover;
-            filter: grayscale(0.5); transition: 0.3s;
-        }
+        .card-img { width: 100%; height: 200px; object-fit: cover; filter: grayscale(0.5); transition: 0.3s; }
         .game-card:hover .card-img { filter: grayscale(0); }
         .card-content { padding: 25px; text-align: left; }
         .card-title { font-family: 'Anton'; font-size: 24px; margin: 0 0 10px 0; color: white; }
         .card-desc { font-size: 14px; color: #aaa; margin-bottom: 20px; line-height: 1.4; }
-        
-        /* BOTÓN TARJETA */
-        .btn-card {
-            display: inline-block; padding: 10px 20px; background: transparent;
-            border: 1px solid #FFA500; color: #FFA500; font-weight: bold;
-            text-decoration: none; text-transform: uppercase; font-size: 12px;
-            transition: 0.3s;
-        }
+        .btn-card { display: inline-block; padding: 10px 20px; background: transparent; border: 1px solid #FFA500; color: #FFA500; font-weight: bold; text-decoration: none; text-transform: uppercase; font-size: 12px; transition: 0.3s; }
         .btn-card:hover { background: #FFA500; color: black; }
 
-        footer { padding: 40px; text-align: center; color: #555; font-size: 12px; background: #050505; }
-        .mail-link { color: #FFA500; font-size: 20px; font-weight: bold; text-decoration: none; }
+        /* CONTACTO (MEJORADO) */
+        .contact-section { padding: 80px 20px; background: #050505; text-align: center; }
+        .contact-box { max-width: 500px; margin: 0 auto; background: #111; padding: 40px; border: 1px solid #333; }
+        .contact-name { font-size: 24px; font-weight: bold; color: white; margin-bottom: 10px; }
+        .contact-role { color: #FFA500; font-size: 14px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 30px; }
+        .contact-btn { background: #FFA500; color: black; padding: 15px 30px; text-decoration: none; font-weight: bold; display: inline-block; text-transform: uppercase; transition: 0.3s; }
+        .contact-btn:hover { background: white; }
 
-        @media (max-width: 768px) {
-            .mggx-title { font-size: 60px; }
-            .navbar { padding: 20px; }
-            .menu { display: none; }
-        }
+        footer { padding: 40px; text-align: center; color: #555; font-size: 12px; background: #000; border-top: 1px solid #222;}
+
+        @media (max-width: 768px) { .mggx-title { font-size: 60px; } .navbar { padding: 20px; } .menu { display: none; } }
     </style>
 </head>
 <body>
@@ -109,7 +62,7 @@
         <div class="menu">
             <a href="#inicio">Inicio</a>
             <a href="#juegos">Proyectos</a>
-            <a href="mailto:maxgab201@gmail.com">Contacto</a>
+            <a href="#contacto">Contacto</a>
         </div>
     </nav>
 
@@ -132,12 +85,22 @@
                 <div class="card-content">
                     <div class="card-title">GAS STATION SIM 3D</div>
                     <p class="card-desc">El simulador definitivo. Economía real, autos deportivos y libertad total.</p>
-                    
                     <a href="gas-station/" class="btn-card">VER JUEGO COMPLETO</a>
-                
                 </div>
             </div>
 
+        </div>
+    </div>
+
+    <div id="contacto" class="contact-section">
+        <div class="section-header">CONTACTO <span>OFICIAL</span></div>
+        <div class="contact-box">
+            <div class="contact-name">MÁXIMO</div>
+            <div class="contact-role">Fundador & Desarrollador Principal</div>
+            <p style="color:#aaa; margin-bottom: 30px; line-height: 1.6;">
+                ¿Tenés feedback sobre los juegos, reportes de bugs o propuestas de colaboración?
+            </p>
+            <a href="mailto:maxgab201@gmail.com" class="contact-btn">ENVIAR EMAIL</a>
         </div>
     </div>
 
