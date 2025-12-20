@@ -14,7 +14,7 @@ function init() {
 
     // 2. Configuración de la cámara
     camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
-    camera.position.set(0, 0, 3); // Posición de la cámara ajustada // Posición inicial de la cámara
+    camera.position.set(-1, 0, 3); // Posición de la cámara ajustada // Posición inicial de la cámara
 
     // 3. Configuración del renderizador
     renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -36,7 +36,7 @@ function init() {
         './models/DamagedHelmet.glb', // Ruta al modelo GLB/GLTF
         function (gltf) {
             model = gltf.scene;
-            model.scale.set(10, 10, 10); // Escala ajustada para el casco // Ajustar escala si es necesario
+            model.scale.set(15, 15, 15); // Escala ajustada para el casco // Ajustar escala si es necesario
             model.position.set(0, 0, 0); // Posición del modelo
             scene.add(model);
 
