@@ -3,27 +3,170 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MGGX Autoclicker - Official Tool</title>
+    <title>MGGX Autoclicker - Herramienta Oficial</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Anton&family=Roboto:wght@300;400;700&display=swap');
-        body, html { margin: 0; padding: 0; font-family: 'Roboto', sans-serif; background-color: #050505; color: white; text-align: center; }
-        .hero { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: radial-gradient(circle, #1a1a1a 0%, #000000 100%); padding: 20px; }
-        h1 { font-family: 'Anton', sans-serif; font-size: 70px; color: #FFA500; margin: 0; }
-        p { color: #aaa; max-width: 500px; margin: 20px 0; line-height: 1.6; }
-        .btn-download { display: inline-block; padding: 15px 40px; background: #FFA500; color: black; font-weight: bold; text-decoration: none; text-transform: uppercase; transition: 0.3s; border: 2px solid #FFA500; }
-        .btn-download:hover { background: transparent; color: #FFA500; transform: scale(1.05); }
-        .back-link { margin-top: 30px; display: block; color: #555; text-decoration: none; text-transform: uppercase; font-size: 12px; letter-spacing: 1px; }
+
+        body, html { 
+            margin: 0; padding: 0; 
+            font-family: 'Roboto', sans-serif; 
+            background-color: #050505; 
+            color: white; 
+            overflow-x: hidden;
+        }
+
+        /* Fondo con efecto de profundidad */
+        .hero { 
+            height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%); 
+            padding: 20px; 
+            position: relative;
+        }
+
+        /* Título con Neón */
+        h1 { 
+            font-family: 'Anton', sans-serif; 
+            font-size: clamp(40px, 8vw, 80px); 
+            color: #FFA500; 
+            margin: 0; 
+            text-shadow: 0 0 20px rgba(255, 165, 0, 0.5);
+            letter-spacing: 2px;
+        }
+
+        .tagline {
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            font-weight: bold;
+            margin-bottom: 40px;
+            font-size: 14px;
+        }
+
+        /* Contenedor de la App (La "Card" Pro) */
+        .app-card {
+            background: rgba(20, 20, 20, 0.8);
+            border: 1px solid #333;
+            padding: 40px;
+            border-radius: 15px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+            transition: border-color 0.3s ease;
+        }
+        
+        .app-card:hover {
+            border-color: #FFA500;
+        }
+
+        .features {
+            text-align: left;
+            margin: 30px 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: #ccc;
+        }
+
+        .feature-item span {
+            color: #FFA500;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        /* Botón de Descarga Mejorado */
+        .btn-download { 
+            display: block; 
+            padding: 20px; 
+            background: #FFA500; 
+            color: black; 
+            font-weight: 900; 
+            text-decoration: none; 
+            text-transform: uppercase; 
+            transition: 0.4s; 
+            border-radius: 8px;
+            font-size: 18px;
+            box-shadow: 0 4px 15px rgba(255, 165, 0, 0.3);
+        }
+
+        .btn-download:hover { 
+            background: white; 
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
+        }
+
+        .file-info {
+            margin-top: 15px;
+            font-size: 12px;
+            color: #555;
+        }
+
+        /* Enlace de regreso */
+        .back-link { 
+            margin-top: 40px; 
+            display: inline-block; 
+            color: #444; 
+            text-decoration: none; 
+            text-transform: uppercase; 
+            font-size: 12px; 
+            letter-spacing: 2px;
+            transition: 0.3s;
+        }
+
         .back-link:hover { color: #FFA500; }
+
+        /* Decoración de fondo */
+        .bg-glow {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: #FFA500;
+            filter: blur(150px);
+            opacity: 0.1;
+            z-index: 0;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
+
+    <div class="bg-glow"></div>
+
     <div class="hero">
         <h1>MGGX AUTOCLICKER</h1>
-        <p>Potenciá tu eficiencia. Herramienta liviana y potente diseñada para gamers y desarrolladores por MGGX Games.</p>
-        
-        <a href="URL_DE_TU_INSTALADOR_AUTOCLICKER" class="btn-download">DESCARGAR AHORA</a>
+        <div class="tagline">Utility Tool v1.0</div>
+
+        <div class="app-card">
+            <p style="color: #aaa; line-height: 1.6;">
+                La herramienta definitiva para automatizar tareas repetitivas. Ligera, rápida y diseñada para no afectar el rendimiento de tus juegos.
+            </p>
+
+            <div class="features">
+                <div class="feature-item"><span>✓</span> 0ms Delay</div>
+                <div class="feature-item"><span>✓</span> Low CPU Usage</div>
+                <div class="feature-item"><span>✓</span> Hotkeys Setup</div>
+                <div class="feature-item"><span>✓</span> Clean Code</div>
+            </div>
+
+            <a href="https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/v1.0.0/Autoclicker.instaler.exe" class="btn-download">
+                DESCARGAR INSTALADOR (.EXE)
+            </a>
+            
+            <div class="file-info">Compatible con Windows 10/11 | Verificado por MGGX Games</div>
+        </div>
 
         <a href="../" class="back-link">← VOLVER AL ESTUDIO</a>
     </div>
+
 </body>
 </html>
