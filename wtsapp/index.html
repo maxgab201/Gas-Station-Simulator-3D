@@ -164,6 +164,18 @@
         .tag-android { background: #3ddc84; color: black; }
         .tag-pending { background: #555; color: #ccc; font-style: italic; }
 
+        /* HERO BUTTONS */
+        .hero-btns { display: flex; gap: 15px; flex-wrap: wrap; margin-top: 5px; }
+        .btn-android { display: inline-block; padding: 18px 35px; background: #3ddc84; color: black; font-weight: 900; text-decoration: none; text-transform: uppercase; transition: 0.4s; border-radius: 6px; font-size: 18px; cursor: pointer; border: none; letter-spacing: 1px; }
+        .btn-android:hover { background: white; transform: translateY(-4px); box-shadow: 0 10px 30px rgba(61, 220, 132, 0.3); }
+        .warning-android { border: 3px solid #3ddc84 !important; box-shadow: 0 0 30px rgba(61, 220, 132, 0.3) !important; }
+        .warning-title-android { color: #3ddc84; font-family: 'Anton'; font-size: 28px; margin-bottom: 10px; letter-spacing: 1px; }
+        .btn-warning-android { background-color: #3ddc84; color: black; border: none; padding: 15px 30px; font-weight: bold; font-size: 16px; cursor: pointer; text-transform: uppercase; width: 100%; transition: 0.3s; }
+        .btn-warning-android:hover { background-color: white; transform: scale(1.02); }
+        .install-steps { padding-left: 20px; color: #ccc; margin: 10px 0 0; line-height: 2.1; font-size: 14px; }
+        .install-steps li { margin-bottom: 2px; }
+        .install-steps .highlight { color: #3ddc84; font-weight: bold; }
+
         footer { padding: 40px; text-align: center; color: #555; font-size: 12px; background: #080808; }
 
         @media (max-width: 768px) {
@@ -196,7 +208,10 @@
                     <span class="ram-vs">VS</span>
                     <span class="ram-good">WtsApp: <strong>0.5 MB</strong> de RAM</span>
                 </div>
-                <button class="btn-download" onclick="abrirAdvertencia()">DESCARGA YA</button>
+                <div class="hero-btns">
+                    <button class="btn-download" onclick="abrirAdvertencia()">🖥️ DESCARGAR PC</button>
+                    <button class="btn-android" onclick="abrirAdvertenciaAndroid()">📱 DESCARGAR ANDROID</button>
+                </div>
             </div>
         </div>
     </div>
@@ -227,17 +242,16 @@
 
             <p style="color:#777; font-size:11px; text-transform:uppercase; letter-spacing:2px; margin:0 0 12px;">🖥️ PC — Windows</p>
 
-            <a href="#PENDING" class="version-btn" style="border-color:#FFA500; opacity:0.7; cursor:not-allowed;">
+            <a href="https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.6.0/v0.6.0.exe" class="version-btn" style="border-color:#FFA500;">
                 VERSIÓN 0.6.0 <span class="version-tag" style="background:#FFA500; color:black;">CROSS-PLATFORM (NUEVA)</span>
                 <span class="version-note">Compatibilidad Android ↔ PC, menú hamburguesa y optimización general.</span>
-                <span class="version-note" style="color:#FFA500;">⏳ Link próximamente</span>
             </a>
-            <a href="#PENDING" class="version-btn" style="opacity:0.7; cursor:not-allowed;">
-                VERSIÓN 0.5.1 <span class="version-tag tag-pending">LINK PRÓXIMAMENTE</span>
+            <a href="https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.5.1/v8.exe" class="version-btn">
+                VERSIÓN 0.5.1 <span class="version-tag">AUTO-UPDATER PATCH</span>
                 <span class="version-note">Fix del sistema de llamadas y auto-actualización integrada.</span>
             </a>
-            <a href="#PENDING" class="version-btn" style="opacity:0.7; cursor:not-allowed;">
-                VERSIÓN 0.5.0 <span class="version-tag tag-pending">LINK PRÓXIMAMENTE</span>
+            <a href="https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.5.0/wtsapp-0.5.0-setup.exe" class="version-btn">
+                VERSIÓN 0.5.0 <span class="version-tag">MESSAGES UPDATE</span>
                 <span class="version-note">Copiar y editar mensajes.</span>
             </a>
             <a href="https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.4.1/wtsapp-0.4.1-setup.exe" class="version-btn">
@@ -260,13 +274,27 @@
                 VERSIÓN 0.1.0 <span class="version-tag">ALPHA</span>
                 <span class="version-note">Primera versión. Chat de texto básico.</span>
             </a>
+        </div>
+    </div>
 
-            <div class="version-separator">📱 Android</div>
-            <a href="#PENDING" class="version-btn" style="border-color:#3ddc84; opacity:0.7; cursor:not-allowed;">
-                VERSIÓN 0.6.0a <span class="version-tag tag-android">ANDROID (NUEVA)</span>
-                <span class="version-note">Última versión para celular. Compatible con chats de la versión PC.</span>
-                <span class="version-note" style="color:#3ddc84;">⏳ Link próximamente</span>
-            </a>
+    <!-- MODAL: ADVERTENCIA ANDROID -->
+    <div id="warningAndroidModal" class="modal">
+        <div class="modal-content warning-android">
+            <span class="close" onclick="cerrarTodo()">&times;</span>
+            <div class="warning-title-android">📱 INSTALACIÓN ANDROID</div>
+            <div class="warning-text">
+                <p><strong>La app es 100% SEGURA y GRATUITA.</strong> Al ser un APK fuera de Google Play, Android requiere unos pasos extra la primera vez:</p>
+                <ol class="install-steps">
+                    <li>Descargá el archivo <span class="highlight">.apk</span>.</li>
+                    <li>Abrilo desde tu carpeta de descargas.</li>
+                    <li>Android pedirá <span class="highlight">habilitar fuentes desconocidas</span> → tocá <u>"Configuración"</u> y activalo.</li>
+                    <li>Volvé atrás y retomá la instalación.</li>
+                    <li>Si aparece un aviso de análisis → tocá <span class="highlight">"Analizar"</span>.</li>
+                    <li>Cuando termine → tocá <span class="highlight">"Aceptar"</span> (es un falso positivo, la app es segura).</li>
+                    <li>✅ ¡Listo! La app se instala normalmente.</li>
+                </ol>
+            </div>
+            <button class="btn-warning-android" onclick="descargarAndroid()">¡ENTENDIDO, DESCARGAR APK!</button>
         </div>
     </div>
 
@@ -277,50 +305,47 @@
         <div class="patch-box" style="border-left-color:#3ddc84;">
             <div class="patch-header">
                 <span class="patch-title">v0.6.0a <span class="patch-tag tag-android">ANDROID</span></span>
-                <span class="patch-date">Próximamente</span>
+                <span class="patch-date">Junio 2026</span>
             </div>
             <ul class="patch-list">
                 <li><strong>COMPATIBILIDAD TOTAL:</strong> Tus chats de PC y Android están sincronizados en tiempo real.</li>
                 <li><strong>APP NATIVA PARA CELULAR:</strong> Interfaz adaptada para pantallas táctiles, fluida y rápida.</li>
+                <li><strong>BAJO CONSUMO:</strong> Mínimo gasto de batería, datos y memoria en celular.</li>
             </ul>
-            <p style="color:#3ddc84; font-size:13px; margin:12px 0 0;">📱 Última versión para Android — link disponible próximamente.</p>
         </div>
 
         <div class="patch-box">
             <div class="patch-header">
                 <span class="patch-title">v0.6.0 <span class="patch-tag tag-latest">CROSS-PLATFORM UPDATE</span></span>
-                <span class="patch-date">Próximamente</span>
+                <span class="patch-date">Junio 2026</span>
             </div>
             <ul class="patch-list">
                 <li><strong>COMPATIBILIDAD ANDROID ↔ PC:</strong> Continuá tus conversaciones en cualquier dispositivo sin fricción.</li>
                 <li><strong>MENÚ HAMBURGUESA:</strong> Nueva navegación lateral más intuitiva y accesible.</li>
-                <li><strong>OPTIMIZACIÓN:</strong> Reducción adicional de consumo de CPU y memoria en segundo plano.</li>
+                <li><strong>ULTRA OPTIMIZACIÓN:</strong> Refactorización del código para mayor velocidad en modo multiplataforma.</li>
             </ul>
-            <p style="color:#888; font-size:13px; margin:12px 0 0;">⏳ Link de descarga disponible próximamente.</p>
         </div>
 
         <div class="patch-box">
             <div class="patch-header">
-                <span class="patch-title">v0.5.1 <span class="patch-tag tag-stable">STABILITY PATCH</span></span>
-                <span class="patch-date">Próximamente</span>
+                <span class="patch-title">v0.5.1 <span class="patch-tag tag-stable">AUTO-UPDATER PATCH</span></span>
+                <span class="patch-date">Junio 2026</span>
             </div>
             <ul class="patch-list">
-                <li><strong>FIX DE LLAMADAS:</strong> Corrección de bugs en el sistema de llamadas de voz y videollamadas.</li>
-                <li><strong>AUTO-UPDATE:</strong> Sistema de actualización automática integrado — siempre en la última versión sin hacer nada.</li>
+                <li><strong>FIX DE LLAMADAS:</strong> Eliminados los bugs de conexión y cuelgues inesperados en llamadas de voz y video.</li>
+                <li><strong>AUTO-UPDATE:</strong> Sistema de actualización automática integrado — la app se mantiene al día sola.</li>
             </ul>
-            <p style="color:#888; font-size:13px; margin:12px 0 0;">⏳ Link de descarga disponible próximamente.</p>
         </div>
 
         <div class="patch-box">
             <div class="patch-header">
                 <span class="patch-title">v0.5.0 <span class="patch-tag tag-stable">MESSAGES UPDATE</span></span>
-                <span class="patch-date">Próximamente</span>
+                <span class="patch-date">Junio 2026</span>
             </div>
             <ul class="patch-list">
                 <li><strong>COPIAR MENSAJES:</strong> Seleccioná y copiá cualquier mensaje con un clic.</li>
-                <li><strong>EDITAR MENSAJES:</strong> Editá lo que mandaste después de enviarlo, sin límite de tiempo.</li>
+                <li><strong>EDITAR MENSAJES:</strong> Corregí errores de tipeo al instante, sin borrar y reenviar.</li>
             </ul>
-            <p style="color:#888; font-size:13px; margin:12px 0 0;">⏳ Link de descarga disponible próximamente.</p>
         </div>
 
         <div class="patch-box">
@@ -455,14 +480,25 @@
             document.getElementById("downloadModal").style.display = "flex";
         }
 
+        function abrirAdvertenciaAndroid() {
+            document.getElementById("warningAndroidModal").style.display = "flex";
+        }
+
+        function descargarAndroid() {
+            window.location.href = "https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.6.0a/wtsapp-v8-signed.apk";
+            cerrarTodo();
+        }
+
         function cerrarTodo() {
             document.getElementById("warningModal").style.display = "none";
             document.getElementById("downloadModal").style.display = "none";
+            document.getElementById("warningAndroidModal").style.display = "none";
         }
 
         window.onclick = function(event) {
             if (event.target == document.getElementById("warningModal")) cerrarTodo();
             if (event.target == document.getElementById("downloadModal")) cerrarTodo();
+            if (event.target == document.getElementById("warningAndroidModal")) cerrarTodo();
         }
     </script>
 
