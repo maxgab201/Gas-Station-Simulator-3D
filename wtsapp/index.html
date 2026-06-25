@@ -152,6 +152,18 @@
         .version-tag { font-size: 10px; background: #444; padding: 2px 6px; border-radius: 3px; margin-left: 8px; text-transform: uppercase; vertical-align: middle; }
         .version-note { font-size: 11px; color: #888; display: block; margin-top: 4px; font-weight: normal; }
 
+        /* RAM COMPARISON */
+        .ram-stat { display: flex; align-items: center; gap: 18px; margin: 25px 0 30px; flex-wrap: wrap; }
+        .ram-bad  { background: #2a1a1a; border: 1px solid #6b2a2a; color: #ff6b6b; padding: 10px 16px; border-radius: 6px; font-size: 14px; }
+        .ram-vs   { color: #555; font-weight: 900; font-size: 18px; letter-spacing: 2px; }
+        .ram-good { background: #1a2a1a; border: 1px solid #2a6b2a; color: #6bff6b; padding: 10px 16px; border-radius: 6px; font-size: 14px; }
+        .ram-good strong, .ram-bad strong { font-size: 17px; }
+
+        /* ANDROID BADGE */
+        .version-separator { text-align: center; color: #555; font-size: 11px; text-transform: uppercase; letter-spacing: 3px; margin: 15px 0 5px; border-top: 1px solid #333; padding-top: 15px; }
+        .tag-android { background: #3ddc84; color: black; }
+        .tag-pending { background: #555; color: #ccc; font-style: italic; }
+
         footer { padding: 40px; text-align: center; color: #555; font-size: 12px; background: #080808; }
 
         @media (max-width: 768px) {
@@ -175,10 +187,15 @@
             <img src="wtsapp.png" alt="WtsApp PC" class="hero-cover">
             <div class="hero-text">
                 <h1>WTSAPP PC</h1>
-                <div class="tagline">Desktop Messenger · v0.4.1 — Performance Patch</div>
+                <div class="tagline">Desktop & Android Messenger · v0.6.0 — Cross-Platform Update</div>
                 <p class="hero-desc">
-                    El cliente de mensajería ultraligero diseñado desde cero para PC. Chateá, mandá audios e imágenes, hacé llamadas de voz y videollamadas — todo con latencia mínima gracias a Supabase. Registro y agregar contactos en segundos.
+                    El cliente de mensajería ultraligero diseñado desde cero para PC y Android. Chateá, mandá audios e imágenes, hacé llamadas de voz y videollamadas — todo con latencia mínima gracias a Supabase. Registro y agregar contactos en segundos.
                 </p>
+                <div class="ram-stat">
+                    <span class="ram-bad">WhatsApp: <strong>1.5 GB</strong> de RAM</span>
+                    <span class="ram-vs">VS</span>
+                    <span class="ram-good">WtsApp: <strong>0.5 MB</strong> de RAM</span>
+                </div>
                 <button class="btn-download" onclick="abrirAdvertencia()">DESCARGA YA</button>
             </div>
         </div>
@@ -208,8 +225,23 @@
             <h2 style="margin-top:0; font-family:'Anton'; color:white; letter-spacing:1px;">ELEGÍ TU VERSIÓN</h2>
             <p style="color:#777; font-size:13px; margin-bottom:20px; text-transform:uppercase; letter-spacing:1px;">DESDE GITHUB</p>
 
-            <a href="https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.4.1/wtsapp-0.4.1-setup.exe" class="version-btn" style="border-color:#FFA500;">
-                VERSIÓN 0.4.1 <span class="version-tag" style="background:#FFA500; color:black;">PERFORMANCE PATCH (NUEVA)</span>
+            <p style="color:#777; font-size:11px; text-transform:uppercase; letter-spacing:2px; margin:0 0 12px;">🖥️ PC — Windows</p>
+
+            <a href="#PENDING" class="version-btn" style="border-color:#FFA500; opacity:0.7; cursor:not-allowed;">
+                VERSIÓN 0.6.0 <span class="version-tag" style="background:#FFA500; color:black;">CROSS-PLATFORM (NUEVA)</span>
+                <span class="version-note">Compatibilidad Android ↔ PC, menú hamburguesa y optimización general.</span>
+                <span class="version-note" style="color:#FFA500;">⏳ Link próximamente</span>
+            </a>
+            <a href="#PENDING" class="version-btn" style="opacity:0.7; cursor:not-allowed;">
+                VERSIÓN 0.5.1 <span class="version-tag tag-pending">LINK PRÓXIMAMENTE</span>
+                <span class="version-note">Fix del sistema de llamadas y auto-actualización integrada.</span>
+            </a>
+            <a href="#PENDING" class="version-btn" style="opacity:0.7; cursor:not-allowed;">
+                VERSIÓN 0.5.0 <span class="version-tag tag-pending">LINK PRÓXIMAMENTE</span>
+                <span class="version-note">Copiar y editar mensajes.</span>
+            </a>
+            <a href="https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.4.1/wtsapp-0.4.1-setup.exe" class="version-btn">
+                VERSIÓN 0.4.1 <span class="version-tag">PERFORMANCE PATCH</span>
                 <span class="version-note">Reducción de RAM, fix de scroll con imágenes y mejor estabilidad Supabase.</span>
             </a>
             <a href="https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.4.0/wtsapp-0.4.0-setup.exe" class="version-btn">
@@ -228,12 +260,68 @@
                 VERSIÓN 0.1.0 <span class="version-tag">ALPHA</span>
                 <span class="version-note">Primera versión. Chat de texto básico.</span>
             </a>
+
+            <div class="version-separator">📱 Android</div>
+            <a href="#PENDING" class="version-btn" style="border-color:#3ddc84; opacity:0.7; cursor:not-allowed;">
+                VERSIÓN 0.6.0a <span class="version-tag tag-android">ANDROID (NUEVA)</span>
+                <span class="version-note">Última versión para celular. Compatible con chats de la versión PC.</span>
+                <span class="version-note" style="color:#3ddc84;">⏳ Link próximamente</span>
+            </a>
         </div>
     </div>
 
     <!-- SECCIÓN: VERSIONES -->
     <section id="info">
         <div class="sec-title">HISTORIAL DE VERSIONES</div>
+
+        <div class="patch-box" style="border-left-color:#3ddc84;">
+            <div class="patch-header">
+                <span class="patch-title">v0.6.0a <span class="patch-tag tag-android">ANDROID</span></span>
+                <span class="patch-date">Próximamente</span>
+            </div>
+            <ul class="patch-list">
+                <li><strong>COMPATIBILIDAD TOTAL:</strong> Tus chats de PC y Android están sincronizados en tiempo real.</li>
+                <li><strong>APP NATIVA PARA CELULAR:</strong> Interfaz adaptada para pantallas táctiles, fluida y rápida.</li>
+            </ul>
+            <p style="color:#3ddc84; font-size:13px; margin:12px 0 0;">📱 Última versión para Android — link disponible próximamente.</p>
+        </div>
+
+        <div class="patch-box">
+            <div class="patch-header">
+                <span class="patch-title">v0.6.0 <span class="patch-tag tag-latest">CROSS-PLATFORM UPDATE</span></span>
+                <span class="patch-date">Próximamente</span>
+            </div>
+            <ul class="patch-list">
+                <li><strong>COMPATIBILIDAD ANDROID ↔ PC:</strong> Continuá tus conversaciones en cualquier dispositivo sin fricción.</li>
+                <li><strong>MENÚ HAMBURGUESA:</strong> Nueva navegación lateral más intuitiva y accesible.</li>
+                <li><strong>OPTIMIZACIÓN:</strong> Reducción adicional de consumo de CPU y memoria en segundo plano.</li>
+            </ul>
+            <p style="color:#888; font-size:13px; margin:12px 0 0;">⏳ Link de descarga disponible próximamente.</p>
+        </div>
+
+        <div class="patch-box">
+            <div class="patch-header">
+                <span class="patch-title">v0.5.1 <span class="patch-tag tag-stable">STABILITY PATCH</span></span>
+                <span class="patch-date">Próximamente</span>
+            </div>
+            <ul class="patch-list">
+                <li><strong>FIX DE LLAMADAS:</strong> Corrección de bugs en el sistema de llamadas de voz y videollamadas.</li>
+                <li><strong>AUTO-UPDATE:</strong> Sistema de actualización automática integrado — siempre en la última versión sin hacer nada.</li>
+            </ul>
+            <p style="color:#888; font-size:13px; margin:12px 0 0;">⏳ Link de descarga disponible próximamente.</p>
+        </div>
+
+        <div class="patch-box">
+            <div class="patch-header">
+                <span class="patch-title">v0.5.0 <span class="patch-tag tag-stable">MESSAGES UPDATE</span></span>
+                <span class="patch-date">Próximamente</span>
+            </div>
+            <ul class="patch-list">
+                <li><strong>COPIAR MENSAJES:</strong> Seleccioná y copiá cualquier mensaje con un clic.</li>
+                <li><strong>EDITAR MENSAJES:</strong> Editá lo que mandaste después de enviarlo, sin límite de tiempo.</li>
+            </ul>
+            <p style="color:#888; font-size:13px; margin:12px 0 0;">⏳ Link de descarga disponible próximamente.</p>
+        </div>
 
         <div class="patch-box">
             <div class="patch-header">
@@ -296,19 +384,46 @@
         </div>
 
         <div class="text-block" style="margin-top: 40px;">
-            <p>WtsApp PC es un cliente de mensajería construido con optimización extrema como prioridad. Sin publicidad, sin bloat, sin consumo innecesario de recursos — solo comunicación rápida y limpia.</p>
+            <p>WtsApp es un cliente de mensajería construido con optimización extrema como prioridad. Sin publicidad, sin bloat — solo comunicación rápida y limpia, en PC y Android.</p>
+
+            <div style="background:#111; border:1px solid #333; border-left:5px solid #6bff6b; padding:25px; margin:30px 0; max-width:700px;">
+                <div style="font-family:'Anton',sans-serif; font-size:22px; color:white; margin-bottom:18px; letter-spacing:1px;">⚡ EL DATO QUE IMPORTA</div>
+                <div style="display:flex; gap:30px; flex-wrap:wrap; align-items:center;">
+                    <div style="text-align:center;">
+                        <div style="font-size:36px; font-weight:900; color:#ff6b6b;">1.5 GB</div>
+                        <div style="color:#888; font-size:12px; text-transform:uppercase; letter-spacing:2px;">WhatsApp — RAM</div>
+                    </div>
+                    <div style="font-size:30px; color:#555; font-weight:900;">VS</div>
+                    <div style="text-align:center;">
+                        <div style="font-size:36px; font-weight:900; color:#6bff6b;">0.5 MB</div>
+                        <div style="color:#888; font-size:12px; text-transform:uppercase; letter-spacing:2px;">WtsApp — RAM</div>
+                    </div>
+                    <div style="color:#aaa; font-size:14px; line-height:1.5; max-width:280px;">
+                        WtsApp consume <strong style="color:white;">3000 veces menos RAM</strong> que WhatsApp. Tu PC ni lo va a notar.
+                    </div>
+                </div>
+            </div>
+
             <ul class="feature-list">
                 <li class="feature-item">
-                    <span class="feature-title">💬 Chat en Tiempo Real</span>
-                    Mensajes de texto, imágenes y notas de voz con latencia mínima.
+                    <span class="feature-title">💬 Chat Completo</span>
+                    Texto, imágenes, audios, copiar y editar mensajes. Todo lo que necesitás.
                 </li>
                 <li class="feature-item">
                     <span class="feature-title">📞 Llamadas y Video</span>
-                    Llamadas de voz y videollamadas integradas, optimizadas para PC.
+                    Llamadas de voz y videollamadas integradas, optimizadas para no matar el procesador.
+                </li>
+                <li class="feature-item">
+                    <span class="feature-title">📱 PC y Android</span>
+                    Continuá tus chats en cualquier dispositivo. Sincronización en tiempo real.
+                </li>
+                <li class="feature-item">
+                    <span class="feature-title">🔄 Auto-Update</span>
+                    Se actualiza solo. Siempre en la última versión sin hacer nada.
                 </li>
                 <li class="feature-item">
                     <span class="feature-title">⚡ Ultra Optimizado</span>
-                    Bajo consumo de RAM y CPU. Corre fluido hasta en PCs viejas.
+                    0.5 MB de RAM. Corre fluido hasta en PCs y celulares viejos.
                 </li>
                 <li class="feature-item">
                     <span class="feature-title">👥 Contactos Fáciles</span>
