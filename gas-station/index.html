@@ -73,6 +73,12 @@
         .version-btn:hover { background: #FFA500; color: black; border-color: #FFA500; }
         .version-tag { font-size: 10px; background: #444; padding: 2px 5px; border-radius: 3px; margin-left: 10px; text-transform: uppercase;}
 
+        /* DONATION MODAL */
+        .btn-donate { display: block; width: 100%; padding: 14px; background: #FFA500; color: black; border: none; font-weight: 900; font-size: 15px; cursor: pointer; text-transform: uppercase; border-radius: 6px; margin-bottom: 10px; transition: 0.3s; box-sizing: border-box; }
+        .btn-donate:hover { background: white; transform: scale(1.02); }
+        .btn-skip { display: block; width: 100%; padding: 12px; background: transparent; color: #888; border: 1px solid #444; font-weight: bold; font-size: 13px; cursor: pointer; text-transform: uppercase; border-radius: 6px; transition: 0.3s; box-sizing: border-box; }
+        .btn-skip:hover { border-color: #888; color: #ccc; }
+
         footer { padding: 40px; text-align: center; color: #555; font-size: 12px; background: #080808; }
 
         @media (max-width: 768px) { h1 { font-size: 50px; } .content { padding-left: 20px; } .navbar { padding: 20px; } .feature-item { width: 100%; } }
@@ -115,19 +121,34 @@
         </div>
     </div>
 
+    <div id="donationModal" class="modal">
+        <div class="modal-content" style="border: 2px solid #FFA500; max-width: 420px;">
+            <span class="close" onclick="cerrarTodo()">&times;</span>
+            <div style="font-size: 44px; margin-bottom: 12px;">☕</div>
+            <div style="font-family: 'Anton', sans-serif; font-size: 24px; color: #FFA500; margin-bottom: 10px; letter-spacing: 1px; line-height: 1.2;">¿QUERÉS APOYAR<br>EL PROYECTO?</div>
+            <p style="color: #aaa; font-size: 14px; line-height: 1.6; margin-bottom: 22px;">
+                Todo es 100% gratis y siempre lo será.<br>
+                Si te gusta el juego y querés que sigamos desarrollando, podés invitarnos un café. ¡Cada uno ayuda!
+            </p>
+            <button onclick="donarYDescargar()" class="btn-donate">☕ INVITAR UN CAFÉ</button>
+            <button onclick="descargarSinDonar()" class="btn-skip">NO, GRACIAS — DESCARGAR IGUAL</button>
+            <p style="color: #444; font-size: 11px; margin-top: 14px;">Tu descarga no depende de una donación.</p>
+        </div>
+    </div>
+
     <div id="downloadModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="cerrarTodo()">&times;</span>
             <h2 style="margin-top:0">ELIGE TU VERSIÓN</h2>
             <p style="color:#777; font-size:14px; margin-bottom:20px;">DESDE GITHUB:</p>
             
-            <a href="https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/v1.2/Gas.Station.Simulator.3D.exe" class="version-btn" style="border-color: #FFA500;">
+            <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/v1.2/Gas.Station.Simulator.3D.exe')" class="version-btn" style="border-color: #FFA500;">
                 VERSIÓN 1.2 <span class="version-tag" style="background:#FFA500; color:black;">PERFORMANCE (NUEVA)</span>
             </a>
-            <a href="https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/v1.1/Gas.Station.Simulator.3D.exe" class="version-btn">
+            <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/v1.1/Gas.Station.Simulator.3D.exe')" class="version-btn">
                 VERSIÓN 1.1 <span class="version-tag">STABLE</span>
             </a>
-            <a href="https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/v1.0/Gas.Station.Simulator.3D.exe" class="version-btn">
+            <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/v1.0/Gas.Station.Simulator.3D.exe')" class="version-btn">
                 VERSIÓN 1.0 <span class="version-tag">LEGACY</span>
             </a>
         </div>
@@ -192,21 +213,50 @@
 
     <footer>
         COPYRIGHT © 2025 MGGX GAMES. POWERED BY UNITY.
+        &nbsp;|&nbsp; <a href="../terminos/" style="color:#555; text-decoration:none;">Términos y Condiciones</a>
     </footer>
 
     <script>
+        var _pendingDownloadUrl = null;
+
         function abrirAdvertencia() { document.getElementById("warningModal").style.display = "flex"; }
         function pasarAVersiones() {
             document.getElementById("warningModal").style.display = "none";
             document.getElementById("downloadModal").style.display = "flex";
         }
+
+        function iniciarDescarga(url) {
+            _pendingDownloadUrl = url;
+            cerrarTodo();
+            document.getElementById("donationModal").style.display = "flex";
+        }
+
+        function donarYDescargar() {
+            window.open("https://ko-fi.com/mggxgames", "_blank");
+            ejecutarDescarga();
+        }
+
+        function descargarSinDonar() {
+            ejecutarDescarga();
+        }
+
+        function ejecutarDescarga() {
+            if (_pendingDownloadUrl) {
+                window.location.href = _pendingDownloadUrl;
+                _pendingDownloadUrl = null;
+            }
+            cerrarTodo();
+        }
+
         function cerrarTodo() {
             document.getElementById("warningModal").style.display = "none";
             document.getElementById("downloadModal").style.display = "none";
+            document.getElementById("donationModal").style.display = "none";
         }
         window.onclick = function(event) {
             if (event.target == document.getElementById("warningModal")) cerrarTodo();
             if (event.target == document.getElementById("downloadModal")) cerrarTodo();
+            if (event.target == document.getElementById("donationModal")) cerrarTodo();
         }
     </script>
 
