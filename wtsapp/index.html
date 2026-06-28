@@ -176,6 +176,16 @@
         .install-steps li { margin-bottom: 2px; }
         .install-steps .highlight { color: #3ddc84; font-weight: bold; }
 
+        /* DONATION MODAL */
+        .donation-icon { font-size: 44px; margin-bottom: 12px; }
+        .donation-title { font-family: 'Anton', sans-serif; font-size: 24px; color: #FFA500; margin-bottom: 10px; letter-spacing: 1px; line-height: 1.2; }
+        .donation-desc { color: #aaa; font-size: 14px; line-height: 1.6; margin-bottom: 22px; }
+        .btn-donate { display: block; width: 100%; padding: 14px; background: #FFA500; color: black; border: none; font-weight: 900; font-size: 15px; cursor: pointer; text-transform: uppercase; border-radius: 6px; margin-bottom: 10px; transition: 0.3s; box-sizing: border-box; }
+        .btn-donate:hover { background: white; transform: scale(1.02); }
+        .btn-skip { display: block; width: 100%; padding: 12px; background: transparent; color: #888; border: 1px solid #444; font-weight: bold; font-size: 13px; cursor: pointer; text-transform: uppercase; border-radius: 6px; transition: 0.3s; box-sizing: border-box; }
+        .btn-skip:hover { border-color: #888; color: #ccc; }
+        .donation-fine { color: #444; font-size: 11px; margin-top: 14px; }
+
         footer { padding: 40px; text-align: center; color: #555; font-size: 12px; background: #080808; }
 
         @media (max-width: 768px) {
@@ -242,39 +252,39 @@
 
             <p style="color:#777; font-size:11px; text-transform:uppercase; letter-spacing:2px; margin:0 0 12px;">🖥️ PC — Windows</p>
 
-            <a href="https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.7.0/wtsapp-setup-v0.7.0.exe" class="version-btn" style="border-color:#FFA500;">
+            <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.7.0/wtsapp-setup-v0.7.0.exe')" class="version-btn" style="border-color:#FFA500;">
                 VERSIÓN 0.7.0 <span class="version-tag" style="background:#FFA500; color:black;">DARK MODE UPDATE (NUEVA)</span>
                 <span class="version-note">Modo oscuro/claro, borrar chats y menú de mensajes (editar/borrar).</span>
             </a>
-            <a href="https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.6.0/v0.6.0.exe" class="version-btn" style="border-color:#FFA500;">
+            <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.6.0/v0.6.0.exe')" class="version-btn" style="border-color:#FFA500;">
                 VERSIÓN 0.6.0 <span class="version-tag" style="background:#FFA500; color:black;">CROSS-PLATFORM (NUEVA)</span>
                 <span class="version-note">Compatibilidad Android ↔ PC, menú hamburguesa y optimización general.</span>
             </a>
-            <a href="https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.5.1/v8.exe" class="version-btn">
+            <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.5.1/v8.exe')" class="version-btn">
                 VERSIÓN 0.5.1 <span class="version-tag">AUTO-UPDATER PATCH</span>
                 <span class="version-note">Fix del sistema de llamadas y auto-actualización integrada.</span>
             </a>
-            <a href="https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.5.0/wtsapp-0.5.0-setup.exe" class="version-btn">
+            <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.5.0/wtsapp-0.5.0-setup.exe')" class="version-btn">
                 VERSIÓN 0.5.0 <span class="version-tag">MESSAGES UPDATE</span>
                 <span class="version-note">Copiar y editar mensajes.</span>
             </a>
-            <a href="https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.4.1/wtsapp-0.4.1-setup.exe" class="version-btn">
+            <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.4.1/wtsapp-0.4.1-setup.exe')" class="version-btn">
                 VERSIÓN 0.4.1 <span class="version-tag">PERFORMANCE PATCH</span>
                 <span class="version-note">Reducción de RAM, fix de scroll con imágenes y mejor estabilidad Supabase.</span>
             </a>
-            <a href="https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.4.0/wtsapp-0.4.0-setup.exe" class="version-btn">
+            <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.4.0/wtsapp-0.4.0-setup.exe')" class="version-btn">
                 VERSIÓN 0.4.0 <span class="version-tag">THE CALLS UPDATE</span>
                 <span class="version-note">Llamadas de voz y videollamadas integradas.</span>
             </a>
-            <a href="https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.3.0/wtsapp-0.3.0-setup.exe" class="version-btn">
+            <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.3.0/wtsapp-0.3.0-setup.exe')" class="version-btn">
                 VERSIÓN 0.3.0 <span class="version-tag">SOCIAL UPDATE</span>
                 <span class="version-note">Nuevo sistema para agregar contactos y panel renovado.</span>
             </a>
-            <a href="https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.2.0/wtsapp-0.2.0-setup.exe" class="version-btn">
+            <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.2.0/wtsapp-0.2.0-setup.exe')" class="version-btn">
                 VERSIÓN 0.2.0 <span class="version-tag">MEDIA UPDATE</span>
                 <span class="version-note">Soporte de imágenes y notas de voz.</span>
             </a>
-            <a href="https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.1.0/wtsapp-0.1.0-setup.exe" class="version-btn">
+            <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.1.0/wtsapp-0.1.0-setup.exe')" class="version-btn">
                 VERSIÓN 0.1.0 <span class="version-tag">ALPHA</span>
                 <span class="version-note">Primera versión. Chat de texto básico.</span>
             </a>
@@ -309,18 +319,34 @@
             <h2 style="margin-top:0; font-family:'Anton'; color:#3ddc84; letter-spacing:1px;">ELEGÍ TU VERSIÓN</h2>
             <p style="color:#777; font-size:13px; margin-bottom:20px; text-transform:uppercase; letter-spacing:1px;">📱 ANDROID — APK</p>
 
-            <a href="https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.7.0a/wtsapp-v0.7.0a-signed.apk" class="version-btn" style="border-color:#3ddc84;">
+            <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.7.0a/wtsapp-v0.7.0a-signed.apk')" class="version-btn" style="border-color:#3ddc84;">
                 VERSIÓN 0.7.0a <span class="version-tag" style="background:#3ddc84; color:black;">RECOMENDADA</span>
                 <span class="version-note">Modo oscuro, borrar chats, menú de mensajes. Sesión persistente y fix de llamadas.</span>
             </a>
-            <a href="https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.6.1a/wtsapp-v0.6.1a-signed.apk" class="version-btn">
+            <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.6.1a/wtsapp-v0.6.1a-signed.apk')" class="version-btn">
                 VERSIÓN 0.6.1a <span class="version-tag">NATIVE PERMISSIONS</span>
                 <span class="version-note">Permisos nativos Android y guías para móvil.</span>
             </a>
-            <a href="https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.6.0a/wtsapp-v8-signed.apk" class="version-btn" style="border-color:#666; opacity:0.75;">
+            <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.6.0a/wtsapp-v8-signed.apk')" class="version-btn" style="border-color:#666; opacity:0.75;">
                 VERSIÓN 0.6.0a <span class="version-tag" style="background:#c0392b; color:white;">EXPERIMENTAL</span>
                 <span class="version-note" style="color:#e74c3c;">⚠️ Primera versión para Android. No recomendada — puede tener bugs.</span>
             </a>
+        </div>
+    </div>
+
+    <!-- MODAL: DONACIÓN -->
+    <div id="donationModal" class="modal">
+        <div class="modal-content" style="border: 2px solid #FFA500; max-width: 420px;">
+            <span class="close" onclick="cerrarTodo()">&times;</span>
+            <div class="donation-icon">☕</div>
+            <div class="donation-title">¿QUERÉS APOYAR<br>EL PROYECTO?</div>
+            <p class="donation-desc">
+                Todo es 100% gratis y siempre lo será.<br>
+                Si te gusta el proyecto y querés que sigamos creciendo, podés invitarnos un café. ¡Cada uno ayuda!
+            </p>
+            <button onclick="donarYDescargar()" class="btn-donate">☕ INVITAR UN CAFÉ</button>
+            <button onclick="descargarSinDonar()" class="btn-skip">NO, GRACIAS — DESCARGAR IGUAL</button>
+            <p class="donation-fine">Tu descarga no depende de una donación.</p>
         </div>
     </div>
 
@@ -532,9 +558,12 @@
 
     <footer>
         COPYRIGHT © 2025 MGGX GAMES. WTSAPP PC — POWERED BY SUPABASE.
+        &nbsp;|&nbsp; <a href="../terminos/" style="color:#555; text-decoration:none;">Términos y Condiciones</a>
     </footer>
 
     <script>
+        var _pendingDownloadUrl = null;
+
         function abrirAdvertencia() {
             document.getElementById("warningModal").style.display = "flex";
         }
@@ -553,11 +582,35 @@
             document.getElementById("downloadAndroidModal").style.display = "flex";
         }
 
+        function iniciarDescarga(url) {
+            _pendingDownloadUrl = url;
+            cerrarTodo();
+            document.getElementById("donationModal").style.display = "flex";
+        }
+
+        function donarYDescargar() {
+            window.open("https://ko-fi.com/mggxgames", "_blank");
+            ejecutarDescarga();
+        }
+
+        function descargarSinDonar() {
+            ejecutarDescarga();
+        }
+
+        function ejecutarDescarga() {
+            if (_pendingDownloadUrl) {
+                window.location.href = _pendingDownloadUrl;
+                _pendingDownloadUrl = null;
+            }
+            cerrarTodo();
+        }
+
         function cerrarTodo() {
             document.getElementById("warningModal").style.display = "none";
             document.getElementById("downloadModal").style.display = "none";
             document.getElementById("warningAndroidModal").style.display = "none";
             document.getElementById("downloadAndroidModal").style.display = "none";
+            document.getElementById("donationModal").style.display = "none";
         }
 
         window.onclick = function(event) {
@@ -565,6 +618,7 @@
             if (event.target == document.getElementById("downloadModal")) cerrarTodo();
             if (event.target == document.getElementById("warningAndroidModal")) cerrarTodo();
             if (event.target == document.getElementById("downloadAndroidModal")) cerrarTodo();
+            if (event.target == document.getElementById("donationModal")) cerrarTodo();
         }
     </script>
 

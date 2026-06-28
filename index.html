@@ -52,7 +52,14 @@
 
         footer { padding: 40px; text-align: center; color: #555; font-size: 12px; background: #000; border-top: 1px solid #222;}
 
-        @media (max-width: 768px) { .mggx-title { font-size: 60px; } .navbar { padding: 20px; } .menu { display: none; } }
+        /* AD BANNER */
+        .ad-banner { background: #0d0d0d; border-top: 1px solid #1e1e1e; border-bottom: 1px solid #1e1e1e; padding: 12px 50px; display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        .ad-label { font-size: 9px; color: #444; text-transform: uppercase; letter-spacing: 2px; border: 1px solid #2a2a2a; padding: 2px 6px; flex-shrink: 0; }
+        .ad-content { font-size: 13px; color: #555; }
+        .ad-content a { color: #FFA500; text-decoration: none; font-weight: bold; }
+        .ad-content a:hover { color: white; }
+
+        @media (max-width: 768px) { .mggx-title { font-size: 60px; } .navbar { padding: 20px; } .menu { display: none; } .ad-banner { padding: 12px 20px; } }
     </style>
 </head>
 <body>
@@ -119,6 +126,11 @@
         </div>
     </div>
 
+    <div class="ad-banner">
+        <span class="ad-label">Publicidad</span>
+        <span class="ad-content">¿Buscás un messenger ultraligero para PC o Android? Probá <a href="wtsapp/">WtsApp — Consume 3000x menos RAM que WhatsApp</a> →</span>
+    </div>
+
     <div id="contacto" class="contact-section">
         <div class="section-header">CONTACTO <span>OFICIAL</span></div>
         <div class="contact-box">
@@ -131,7 +143,7 @@
         </div>
     </div>
 
-    <footer>COPYRIGHT © 2025 MGGX GAMES.</footer>
+    <footer>COPYRIGHT © 2025 MGGX GAMES. &nbsp;|&nbsp; <a href="terminos/" style="color:#555; text-decoration:none;">Términos y Condiciones</a></footer>
 
 </body>
 </html>
