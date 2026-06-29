@@ -166,6 +166,8 @@
             .feature-item { width: 100%; }
             .hero-desc { font-size: 14px; }
         }
+        #hero-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+        .hero-inner { position: relative; z-index: 1; }
     </style>
 </head>
 <body>
@@ -176,6 +178,7 @@
     </nav>
 
     <div class="hero">
+        <canvas id="hero-canvas"></canvas>
         <div class="hero-inner">
             <img src="craft-book.png" alt="Craft Book PC" class="hero-cover">
             <div class="hero-text">
@@ -352,6 +355,11 @@
             if (event.target == document.getElementById("downloadModal")) cerrarTodo();
             if (event.target == document.getElementById("donationModal")) cerrarTodo();
         }
+    </script>
+
+    <script type="module">
+        import { initHeroParticles } from '../js/hero-particles.js';
+        initHeroParticles('hero-canvas');
     </script>
 
 </body>

@@ -169,11 +169,15 @@
         .btn-donate:hover { background: white; transform: scale(1.02); }
         .btn-skip { display: block; width: 100%; padding: 12px; background: transparent; color: #888; border: 1px solid #444; font-weight: bold; font-size: 13px; cursor: pointer; text-transform: uppercase; border-radius: 6px; transition: 0.3s; box-sizing: border-box; }
         .btn-skip:hover { border-color: #888; color: #ccc; }
+        #hero-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+        h1 { position: relative; z-index: 1; }
+        .tagline { position: relative; z-index: 1; }
     </style>
 </head>
 <body>
 
     <div class="hero">
+        <canvas id="hero-canvas"></canvas>
         <h1>MGGX AUTOCLICKER</h1>
         <div class="tagline">Utility Tool v1.0</div>
 
@@ -261,6 +265,11 @@
             if (event.target == document.getElementById("warningModal")) cerrarTodo();
             if (event.target == document.getElementById("donationModal")) cerrarTodo();
         }
+    </script>
+
+    <script type="module">
+        import { initHeroParticles } from '../js/hero-particles.js';
+        initHeroParticles('hero-canvas');
     </script>
 
 </body>
