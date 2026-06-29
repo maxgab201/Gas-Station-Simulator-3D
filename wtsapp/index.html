@@ -198,6 +198,8 @@
             .feature-item { width: 100%; }
             .modal-content { max-height: 85vh; overflow-y: auto; padding: 25px 18px; }
         }
+        #hero-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+        .hero-inner { position: relative; z-index: 1; }
     </style>
 </head>
 <body>
@@ -208,6 +210,7 @@
     </nav>
 
     <div class="hero">
+        <canvas id="hero-canvas"></canvas>
         <div class="hero-inner">
             <img src="wtsapp.png" alt="WtsApp PC" class="hero-cover">
             <div class="hero-text">
@@ -655,6 +658,11 @@
             if (event.target == document.getElementById("downloadAndroidModal")) cerrarTodo();
             if (event.target == document.getElementById("donationModal")) cerrarTodo();
         }
+    </script>
+
+    <script type="module">
+        import { initHeroParticles } from '../js/hero-particles.js';
+        initHeroParticles('hero-canvas');
     </script>
 
 </body>
