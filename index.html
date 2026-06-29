@@ -20,7 +20,9 @@
         .menu a:hover { color: #FFA500; }
 
         /* INTRO */
-        .intro-section { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: radial-gradient(circle, #1a1a1a 0%, #000000 100%); text-align: center; padding: 20px; }
+        .intro-section { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: radial-gradient(circle, #1a1a1a 0%, #000000 100%); text-align: center; padding: 20px; position: relative; }
+        #particle-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+        .intro-section > *:not(#particle-canvas) { position: relative; z-index: 1; }
         .mggx-title { font-family: 'Anton', sans-serif; font-size: 100px; margin: 0; background: linear-gradient(to right, #fff, #888); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 5px; }
         .mggx-subtitle { font-size: 20px; color: #FFA500; margin-top: 10px; letter-spacing: 3px; text-transform: uppercase; }
         .mggx-desc { max-width: 600px; margin-top: 30px; color: #aaa; line-height: 1.6; font-size: 16px; }
@@ -75,6 +77,7 @@
     </nav>
 
     <div id="inicio" class="intro-section">
+        <canvas id="particle-canvas"></canvas>
         <h1 class="mggx-title">MGGX GAMES</h1>
         <div class="mggx-subtitle">INDIE GAME DEVELOPMENT</div>
         <p class="mggx-desc">
@@ -146,5 +149,6 @@
 
     <footer>COPYRIGHT © 2025 MGGX GAMES. &nbsp;|&nbsp; <a href="terminos/" style="color:#555; text-decoration:none;">Términos y Condiciones</a></footer>
 
+    <script type="module" src="js/particles.js"></script>
 </body>
 </html>
