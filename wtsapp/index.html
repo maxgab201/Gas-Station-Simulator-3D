@@ -153,6 +153,15 @@
         .version-btn:hover { background: #FFA500; color: black; border-color: #FFA500; }
         .version-tag { font-size: 10px; background: #444; padding: 2px 6px; border-radius: 3px; margin-left: 8px; text-transform: uppercase; vertical-align: middle; }
         .version-note { font-size: 11px; color: #888; display: block; margin-top: 4px; font-weight: normal; }
+        .version-history { margin-top: 12px; border-top: 1px solid #333; padding-top: 12px; }
+        .version-history summary { color: #aaa; cursor: pointer; font-size: 12px; font-weight: bold; letter-spacing: 1px; list-style: none; padding: 12px; text-align: center; text-transform: uppercase; transition: 0.3s; }
+        .version-history summary::-webkit-details-marker { display: none; }
+        .version-history summary:hover { color: #FFA500; }
+        .version-history summary::after { content: " +"; color: #FFA500; }
+        .version-history[open] summary::after { content: " -"; }
+        .version-history-list { max-height: 320px; overflow-y: auto; padding-right: 6px; }
+        .version-history.android summary:hover,
+        .version-history.android summary::after { color: #3ddc84; }
 
         /* RAM COMPARISON */
         .ram-stat { display: flex; align-items: center; gap: 18px; margin: 25px 0 30px; flex-wrap: wrap; }
@@ -262,46 +271,51 @@
                 VERSIÓN 0.7.2 <span class="version-tag" style="background:#FFA500; color:black;">GAMING MODE (NUEVA)</span>
                 <span class="version-note">Optimización extrema de rendimiento, React.memo en chats y modo gaming ultra-ligero.</span>
             </a>
-            <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.7.1/wtsapp-setup-v0.7.1.exe')" class="version-btn" style="border-color:#FFA500;">
-                VERSIÓN 0.7.1 <span class="version-tag" style="background:#FFA500; color:black;">HOTFIX PATCH</span>
-                <span class="version-note">Modo oscuro pulido, borrado de chats instantáneo y fix de cuelgues con textos largos.</span>
-            </a>
-            <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.7.0/wtsapp-setup-v0.7.0.exe')" class="version-btn" style="border-color:#FFA500;">
-                VERSIÓN 0.7.0 <span class="version-tag" style="background:#FFA500; color:black;">DARK MODE UPDATE</span>
-                <span class="version-note">Modo oscuro/claro, borrar chats y menú de mensajes (editar/borrar).</span>
-            </a>
-            <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.6.0/v0.6.0.exe')" class="version-btn" style="border-color:#FFA500;">
-                VERSIÓN 0.6.0 <span class="version-tag" style="background:#FFA500; color:black;">CROSS-PLATFORM (NUEVA)</span>
-                <span class="version-note">Compatibilidad Android ↔ PC, menú hamburguesa y optimización general.</span>
-            </a>
-            <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.5.1/v8.exe')" class="version-btn">
-                VERSIÓN 0.5.1 <span class="version-tag">AUTO-UPDATER PATCH</span>
-                <span class="version-note">Fix del sistema de llamadas y auto-actualización integrada.</span>
-            </a>
-            <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.5.0/wtsapp-0.5.0-setup.exe')" class="version-btn">
-                VERSIÓN 0.5.0 <span class="version-tag">MESSAGES UPDATE</span>
-                <span class="version-note">Copiar y editar mensajes.</span>
-            </a>
-            <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.4.1/wtsapp-0.4.1-setup.exe')" class="version-btn">
-                VERSIÓN 0.4.1 <span class="version-tag">PERFORMANCE PATCH</span>
-                <span class="version-note">Reducción de RAM, fix de scroll con imágenes y mejor estabilidad Supabase.</span>
-            </a>
-            <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.4.0/wtsapp-0.4.0-setup.exe')" class="version-btn">
-                VERSIÓN 0.4.0 <span class="version-tag">THE CALLS UPDATE</span>
-                <span class="version-note">Llamadas de voz y videollamadas integradas.</span>
-            </a>
-            <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.3.0/wtsapp-0.3.0-setup.exe')" class="version-btn">
-                VERSIÓN 0.3.0 <span class="version-tag">SOCIAL UPDATE</span>
-                <span class="version-note">Nuevo sistema para agregar contactos y panel renovado.</span>
-            </a>
-            <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.2.0/wtsapp-0.2.0-setup.exe')" class="version-btn">
-                VERSIÓN 0.2.0 <span class="version-tag">MEDIA UPDATE</span>
-                <span class="version-note">Soporte de imágenes y notas de voz.</span>
-            </a>
-            <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.1.0/wtsapp-0.1.0-setup.exe')" class="version-btn">
-                VERSIÓN 0.1.0 <span class="version-tag">ALPHA</span>
-                <span class="version-note">Primera versión. Chat de texto básico.</span>
-            </a>
+            <details class="version-history">
+                <summary>Ver versiones anteriores de PC</summary>
+                <div class="version-history-list">
+                    <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.7.1/wtsapp-setup-v0.7.1.exe')" class="version-btn" style="border-color:#FFA500;">
+                        VERSIÓN 0.7.1 <span class="version-tag" style="background:#FFA500; color:black;">HOTFIX PATCH</span>
+                        <span class="version-note">Modo oscuro pulido, borrado de chats instantáneo y fix de cuelgues con textos largos.</span>
+                    </a>
+                    <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.7.0/wtsapp-setup-v0.7.0.exe')" class="version-btn" style="border-color:#FFA500;">
+                        VERSIÓN 0.7.0 <span class="version-tag" style="background:#FFA500; color:black;">DARK MODE UPDATE</span>
+                        <span class="version-note">Modo oscuro/claro, borrar chats y menú de mensajes (editar/borrar).</span>
+                    </a>
+                    <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.6.0/v0.6.0.exe')" class="version-btn" style="border-color:#FFA500;">
+                        VERSIÓN 0.6.0 <span class="version-tag" style="background:#FFA500; color:black;">CROSS-PLATFORM</span>
+                        <span class="version-note">Compatibilidad Android ↔ PC, menú hamburguesa y optimización general.</span>
+                    </a>
+                    <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.5.1/v8.exe')" class="version-btn">
+                        VERSIÓN 0.5.1 <span class="version-tag">AUTO-UPDATER PATCH</span>
+                        <span class="version-note">Fix del sistema de llamadas y auto-actualización integrada.</span>
+                    </a>
+                    <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.5.0/wtsapp-0.5.0-setup.exe')" class="version-btn">
+                        VERSIÓN 0.5.0 <span class="version-tag">MESSAGES UPDATE</span>
+                        <span class="version-note">Copiar y editar mensajes.</span>
+                    </a>
+                    <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.4.1/wtsapp-0.4.1-setup.exe')" class="version-btn">
+                        VERSIÓN 0.4.1 <span class="version-tag">PERFORMANCE PATCH</span>
+                        <span class="version-note">Reducción de RAM, fix de scroll con imágenes y mejor estabilidad Supabase.</span>
+                    </a>
+                    <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.4.0/wtsapp-0.4.0-setup.exe')" class="version-btn">
+                        VERSIÓN 0.4.0 <span class="version-tag">THE CALLS UPDATE</span>
+                        <span class="version-note">Llamadas de voz y videollamadas integradas.</span>
+                    </a>
+                    <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.3.0/wtsapp-0.3.0-setup.exe')" class="version-btn">
+                        VERSIÓN 0.3.0 <span class="version-tag">SOCIAL UPDATE</span>
+                        <span class="version-note">Nuevo sistema para agregar contactos y panel renovado.</span>
+                    </a>
+                    <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.2.0/wtsapp-0.2.0-setup.exe')" class="version-btn">
+                        VERSIÓN 0.2.0 <span class="version-tag">MEDIA UPDATE</span>
+                        <span class="version-note">Soporte de imágenes y notas de voz.</span>
+                    </a>
+                    <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.1.0/wtsapp-0.1.0-setup.exe')" class="version-btn">
+                        VERSIÓN 0.1.0 <span class="version-tag">ALPHA</span>
+                        <span class="version-note">Primera versión. Chat de texto básico.</span>
+                    </a>
+                </div>
+            </details>
         </div>
     </div>
 
@@ -337,22 +351,27 @@
                 VERSIÓN 0.7.2a <span class="version-tag" style="background:#3ddc84; color:black;">RECOMENDADA</span>
                 <span class="version-note">Optimización de rendimiento compartida, chats memoizados y Gaming Mode ultra-ligero.</span>
             </a>
-            <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.7.1a/wtsapp-v0.7.1a-signed.apk')" class="version-btn">
-                VERSIÓN 0.7.1a <span class="version-tag">HOTFIX PATCH</span>
-                <span class="version-note">Fix de auto log-out tras llamadas, stuttering al volver a chats y modo oscuro estable.</span>
-            </a>
-            <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.7.0a/wtsapp-v0.7.0a-signed.apk')" class="version-btn">
-                VERSIÓN 0.7.0a <span class="version-tag">DARK MODE UPDATE</span>
-                <span class="version-note">Modo oscuro, borrar chats, menú de mensajes. Sesión persistente y fix de llamadas.</span>
-            </a>
-            <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.6.1a/wtsapp-v0.6.1a-signed.apk')" class="version-btn">
-                VERSIÓN 0.6.1a <span class="version-tag">NATIVE PERMISSIONS</span>
-                <span class="version-note">Permisos nativos Android y guías para móvil.</span>
-            </a>
-            <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.6.0a/wtsapp-v8-signed.apk')" class="version-btn" style="border-color:#666; opacity:0.75;">
-                VERSIÓN 0.6.0a <span class="version-tag" style="background:#c0392b; color:white;">EXPERIMENTAL</span>
-                <span class="version-note" style="color:#e74c3c;">⚠️ Primera versión para Android. No recomendada — puede tener bugs.</span>
-            </a>
+            <details class="version-history android">
+                <summary>Ver versiones anteriores de Android</summary>
+                <div class="version-history-list">
+                    <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.7.1a/wtsapp-v0.7.1a-signed.apk')" class="version-btn">
+                        VERSIÓN 0.7.1a <span class="version-tag">HOTFIX PATCH</span>
+                        <span class="version-note">Fix de auto log-out tras llamadas, stuttering al volver a chats y modo oscuro estable.</span>
+                    </a>
+                    <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.7.0a/wtsapp-v0.7.0a-signed.apk')" class="version-btn">
+                        VERSIÓN 0.7.0a <span class="version-tag">DARK MODE UPDATE</span>
+                        <span class="version-note">Modo oscuro, borrar chats, menú de mensajes. Sesión persistente y fix de llamadas.</span>
+                    </a>
+                    <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.6.1a/wtsapp-v0.6.1a-signed.apk')" class="version-btn">
+                        VERSIÓN 0.6.1a <span class="version-tag">NATIVE PERMISSIONS</span>
+                        <span class="version-note">Permisos nativos Android y guías para móvil.</span>
+                    </a>
+                    <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.6.0a/wtsapp-v8-signed.apk')" class="version-btn" style="border-color:#666; opacity:0.75;">
+                        VERSIÓN 0.6.0a <span class="version-tag" style="background:#c0392b; color:white;">EXPERIMENTAL</span>
+                        <span class="version-note" style="color:#e74c3c;">⚠️ Primera versión para Android. No recomendada — puede tener bugs.</span>
+                    </a>
+                </div>
+            </details>
         </div>
     </div>
 
