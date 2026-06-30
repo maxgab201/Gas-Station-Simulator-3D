@@ -215,7 +215,7 @@
             <img src="wtsapp.png" alt="WtsApp PC" class="hero-cover">
             <div class="hero-text">
                 <h1>WTSAPP PC</h1>
-                <div class="tagline">Desktop & Android Messenger · v0.7.1a Android / v0.7.1 PC</div>
+                <div class="tagline">Desktop & Android Messenger · v0.7.2a Android / v0.7.2 PC</div>
                 <p class="hero-desc">
                     El cliente de mensajería ultraligero diseñado desde cero para PC y Android. Chateá, mandá audios e imágenes, hacé llamadas de voz y videollamadas — todo con latencia mínima gracias a Supabase. Registro y agregar contactos en segundos.
                 </p>
@@ -258,8 +258,12 @@
 
             <p style="color:#777; font-size:11px; text-transform:uppercase; letter-spacing:2px; margin:0 0 12px;">🖥️ PC — Windows</p>
 
+            <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.7.2/wtsapp-setup-v0.7.2.exe')" class="version-btn" style="border-color:#FFA500;">
+                VERSIÓN 0.7.2 <span class="version-tag" style="background:#FFA500; color:black;">GAMING MODE (NUEVA)</span>
+                <span class="version-note">Optimización extrema de rendimiento, React.memo en chats y modo gaming ultra-ligero.</span>
+            </a>
             <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.7.1/wtsapp-setup-v0.7.1.exe')" class="version-btn" style="border-color:#FFA500;">
-                VERSIÓN 0.7.1 <span class="version-tag" style="background:#FFA500; color:black;">HOTFIX PATCH (NUEVA)</span>
+                VERSIÓN 0.7.1 <span class="version-tag" style="background:#FFA500; color:black;">HOTFIX PATCH</span>
                 <span class="version-note">Modo oscuro pulido, borrado de chats instantáneo y fix de cuelgues con textos largos.</span>
             </a>
             <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.7.0/wtsapp-setup-v0.7.0.exe')" class="version-btn" style="border-color:#FFA500;">
@@ -329,8 +333,12 @@
             <h2 style="margin-top:0; font-family:'Anton'; color:#3ddc84; letter-spacing:1px;">ELEGÍ TU VERSIÓN</h2>
             <p style="color:#777; font-size:13px; margin-bottom:20px; text-transform:uppercase; letter-spacing:1px;">📱 ANDROID — APK</p>
 
-            <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.7.1a/wtsapp-v0.7.1a-signed.apk')" class="version-btn" style="border-color:#3ddc84;">
-                VERSIÓN 0.7.1a <span class="version-tag" style="background:#3ddc84; color:black;">RECOMENDADA</span>
+            <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.7.2a/wtsapp-v0.7.2a-signed.apk')" class="version-btn" style="border-color:#3ddc84;">
+                VERSIÓN 0.7.2a <span class="version-tag" style="background:#3ddc84; color:black;">RECOMENDADA</span>
+                <span class="version-note">Optimización de rendimiento compartida, chats memoizados y Gaming Mode ultra-ligero.</span>
+            </a>
+            <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.7.1a/wtsapp-v0.7.1a-signed.apk')" class="version-btn">
+                VERSIÓN 0.7.1a <span class="version-tag">HOTFIX PATCH</span>
                 <span class="version-note">Fix de auto log-out tras llamadas, stuttering al volver a chats y modo oscuro estable.</span>
             </a>
             <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.7.0a/wtsapp-v0.7.0a-signed.apk')" class="version-btn">
@@ -368,9 +376,35 @@
     <section id="info">
         <div class="sec-title">HISTORIAL DE VERSIONES</div>
 
+        <div class="patch-box">
+            <div class="patch-header">
+                <span class="patch-title">v0.7.2 <span class="patch-tag tag-latest">GAMING MODE (PC)</span></span>
+                <span class="patch-date">Junio 2026</span>
+            </div>
+            <ul class="patch-list">
+                <li><strong>RENDIMIENTO EXTREMO:</strong> Refactor del frontend para reducir repintados y mantener la app fluida mientras jugás en PC.</li>
+                <li><strong>CHATS MEMOIZADOS:</strong> MessageBubble y ConversationItem usan React.memo para dibujar solo los mensajes nuevos en conversaciones largas.</li>
+                <li><strong>GAMING MODE:</strong> Nuevo botón arriba de la lista de chats para apagar sombras, animaciones y blur con la clase .gaming-mode.</li>
+                <li><strong>TIPOGRAFÍA INTER:</strong> Ajuste visual compartido con Android para una interfaz más clara y liviana.</li>
+            </ul>
+        </div>
+
         <div class="patch-box" style="border-left-color:#3ddc84;">
             <div class="patch-header">
-                <span class="patch-title">v0.7.1a <span class="patch-tag tag-android">ANDROID (NUEVA)</span></span>
+                <span class="patch-title">v0.7.2a <span class="patch-tag tag-android">ANDROID (NUEVA)</span></span>
+                <span class="patch-date">Junio 2026</span>
+            </div>
+            <ul class="patch-list">
+                <li><strong>OPTIMIZACIÓN COMPARTIDA:</strong> La versión Android recibe el mismo refactor de rendimiento del frontend para evitar caídas de FPS.</li>
+                <li><strong>CHATS MÁS LIVIANOS:</strong> React.memo protege los componentes de mensajes y conversaciones para evitar renderizados innecesarios.</li>
+                <li><strong>GAMING MODE:</strong> Modo ultra-ligero disponible desde la lista de chats para reducir carga visual y uso de GPU.</li>
+                <li><strong>VERSIÓN 0.7.2:</strong> Paquetes actualizados para mantener PC y Android alineados.</li>
+            </ul>
+        </div>
+
+        <div class="patch-box" style="border-left-color:#3ddc84;">
+            <div class="patch-header">
+                <span class="patch-title">v0.7.1a <span class="patch-tag tag-android">ANDROID</span></span>
                 <span class="patch-date">Junio 2026</span>
             </div>
             <ul class="patch-list">
