@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Craft Book PC - MGGX Games</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23050505%22/><text x=%2250%22 y=%2272%22 font-size=%2264%22 font-family=%22Arial Black%22 font-weight=%22900%22 fill=%22%23FFA500%22 text-anchor=%22middle%22>M</text></svg>">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1616443796697385" crossorigin="anonymous"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Anton&family=Roboto:wght@300;400;700&display=swap');
@@ -169,6 +170,7 @@
         #hero-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
         .hero-inner { position: relative; z-index: 1; }
     </style>
+    <link rel="stylesheet" href="../css/site.css">
 </head>
 <body>
 
@@ -183,7 +185,7 @@
             <img src="craft-book.png" alt="Craft Book PC" class="hero-cover">
             <div class="hero-text">
                 <h1>CRAFT BOOK PC</h1>
-                <div class="tagline">Desktop Utility · v1.1.0 — Expanded Recipes</div>
+                <div class="tagline" id="hero-tagline">Desktop Utility · v1.1.0 — Expanded Recipes</div>
                 <p class="hero-desc">
                     La guía definitiva de crafteos de Minecraft, ahora en tu PC. Tenés todas las recetas a un clic de distancia mientras jugás, con soporte nativo para mouse y teclado y una interfaz pensada para pantallas grandes.
                 </p>
@@ -232,14 +234,7 @@
             <h2 style="margin-top:0; font-family:'Anton'; color: white; letter-spacing: 1px;">ELEGÍ TU VERSIÓN</h2>
             <p style="color:#777; font-size:13px; margin-bottom:20px; text-transform:uppercase; letter-spacing:1px;">DESDE GITHUB</p>
 
-            <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/1.1.0/CraftBook_Desktop_Setup_v1.1.0.exe')" class="version-btn" style="border-color: #FFA500;">
-                VERSIÓN 1.1.0 <span class="version-tag" style="background:#FFA500; color:black;">RECETAS EXPANDIDAS (NUEVA)</span>
-                <span class="version-note">Catálogo completo: Redstone, pociones, encantamientos y más.</span>
-            </a>
-            <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/1.0.0/CraftBook_Desktop_Setup_v1.0.0.exe')" class="version-btn">
-                VERSIÓN 1.0.0 <span class="version-tag">BETA</span>
-                <span class="version-note">Recetas esenciales. Catálogo en construcción.</span>
-            </a>
+            <div id="download-list"></div>
         </div>
     </div>
 
@@ -247,31 +242,7 @@
     <section id="info">
         <div class="sec-title">VERSIONES</div>
 
-        <div class="patch-box">
-            <div class="patch-header">
-                <span class="patch-title">v1.1.0 <span class="patch-tag">EXPANDED RECIPES</span></span>
-                <span class="patch-date">Junio 2026</span>
-            </div>
-            <ul class="patch-list">
-                <li><strong>CATÁLOGO EXPANDIDO:</strong> Cientos de crafteos nuevos. Mecánicas completas de Redstone, guías de pociones y encantamientos.</li>
-                <li><strong>BÚSQUEDA MÁS RÁPIDA:</strong> Motor de búsqueda optimizado para resultados instantáneos.</li>
-                <li><strong>FIXES:</strong> Corrección de bugs visuales de la versión Beta y mejoras de estabilidad.</li>
-                <li><strong>PREPARADO PARA EL FUTURO:</strong> Arquitectura interna mejorada para soporte de mods técnicos.</li>
-            </ul>
-        </div>
-
-        <div class="patch-box">
-            <div class="patch-header">
-                <span class="patch-title">v1.0.0 <span class="patch-tag beta">BETA</span></span>
-                <span class="patch-date">Junio 2026</span>
-            </div>
-            <ul class="patch-list">
-                <li><strong>BASE DE DATOS INICIAL:</strong> Recetas esenciales para sobrevivir: herramientas, armas, armaduras y bloques básicos.</li>
-                <li><strong>BUSCADOR RÁPIDO:</strong> Encontrá el crafteo que necesitás al instante.</li>
-                <li><strong>INTERFAZ DE ESCRITORIO:</strong> Diseño limpio y optimizado para pantallas grandes con soporte de mouse y teclado.</li>
-            </ul>
-            <p style="color:#888; font-size:13px; margin: 10px 0 0 0;">⚠️ Versión Beta — catálogo incompleto. Recomendamos la v1.1.0 para una experiencia completa.</p>
-        </div>
+        <div id="patch-history"></div>
 
         <div class="text-block" style="margin-top: 40px;">
             <p>Craft Book PC es la adaptación para escritorio de la clásica app de Android. Diseñada para tener la guía de crafteos siempre a mano en tu monitor mientras jugás, sin necesidad de abrir el navegador ni el celular.</p>
@@ -360,6 +331,13 @@
     <script type="module">
         import { initHeroParticles } from '../js/hero-particles.js';
         initHeroParticles('hero-canvas');
+    </script>
+    <script type="module" src="../js/motion.js"></script>
+    <script type="module">
+        import { renderDownloadList, renderPatchHistory, renderLatestTagline } from '../js/render-versions.js';
+        renderDownloadList('download-list', 'craft-book', 'pc', { onDownload: url => iniciarDescarga(url) });
+        renderPatchHistory('patch-history', 'craft-book');
+        renderLatestTagline('hero-tagline', 'craft-book', pc => pc ? `Desktop Utility · v${pc.version} — ${pc.title}` : 'Desktop Utility');
     </script>
 
 </body>

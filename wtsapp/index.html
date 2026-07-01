@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WtsApp PC - MGGX Games</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23050505%22/><text x=%2250%22 y=%2272%22 font-size=%2264%22 font-family=%22Arial Black%22 font-weight=%22900%22 fill=%22%23FFA500%22 text-anchor=%22middle%22>M</text></svg>">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1616443796697385" crossorigin="anonymous"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Anton&family=Roboto:wght@300;400;700&display=swap');
@@ -210,6 +211,7 @@
         #hero-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
         .hero-inner { position: relative; z-index: 1; }
     </style>
+    <link rel="stylesheet" href="../css/site.css">
 </head>
 <body>
 
@@ -224,7 +226,7 @@
             <img src="wtsapp.png" alt="WtsApp PC" class="hero-cover">
             <div class="hero-text">
                 <h1>WTSAPP PC</h1>
-                <div class="tagline">Desktop & Android Messenger · v0.7.2a Android / v0.7.2 PC</div>
+                <div class="tagline" id="hero-tagline">Desktop & Android Messenger · v0.7.2a Android / v0.7.2 PC</div>
                 <p class="hero-desc">
                     El cliente de mensajería ultraligero diseñado desde cero para PC y Android. Chateá, mandá audios e imágenes, hacé llamadas de voz y videollamadas — todo con latencia mínima gracias a Supabase. Registro y agregar contactos en segundos.
                 </p>
@@ -265,57 +267,7 @@
             <h2 style="margin-top:0; font-family:'Anton'; color:white; letter-spacing:1px;">ELEGÍ TU VERSIÓN</h2>
             <p style="color:#777; font-size:13px; margin-bottom:20px; text-transform:uppercase; letter-spacing:1px;">DESDE GITHUB</p>
 
-            <p style="color:#777; font-size:11px; text-transform:uppercase; letter-spacing:2px; margin:0 0 12px;">🖥️ PC — Windows</p>
-
-            <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.7.2/wtsapp-setup-v0.7.2.exe')" class="version-btn" style="border-color:#FFA500;">
-                VERSIÓN 0.7.2 <span class="version-tag" style="background:#FFA500; color:black;">GAMING MODE (NUEVA)</span>
-                <span class="version-note">Optimización extrema de rendimiento, React.memo en chats y modo gaming ultra-ligero.</span>
-            </a>
-            <details class="version-history">
-                <summary>Ver versiones anteriores de PC</summary>
-                <div class="version-history-list">
-                    <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.7.1/wtsapp-setup-v0.7.1.exe')" class="version-btn" style="border-color:#FFA500;">
-                        VERSIÓN 0.7.1 <span class="version-tag" style="background:#FFA500; color:black;">HOTFIX PATCH</span>
-                        <span class="version-note">Modo oscuro pulido, borrado de chats instantáneo y fix de cuelgues con textos largos.</span>
-                    </a>
-                    <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.7.0/wtsapp-setup-v0.7.0.exe')" class="version-btn" style="border-color:#FFA500;">
-                        VERSIÓN 0.7.0 <span class="version-tag" style="background:#FFA500; color:black;">DARK MODE UPDATE</span>
-                        <span class="version-note">Modo oscuro/claro, borrar chats y menú de mensajes (editar/borrar).</span>
-                    </a>
-                    <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.6.0/v0.6.0.exe')" class="version-btn" style="border-color:#FFA500;">
-                        VERSIÓN 0.6.0 <span class="version-tag" style="background:#FFA500; color:black;">CROSS-PLATFORM</span>
-                        <span class="version-note">Compatibilidad Android ↔ PC, menú hamburguesa y optimización general.</span>
-                    </a>
-                    <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.5.1/v8.exe')" class="version-btn">
-                        VERSIÓN 0.5.1 <span class="version-tag">AUTO-UPDATER PATCH</span>
-                        <span class="version-note">Fix del sistema de llamadas y auto-actualización integrada.</span>
-                    </a>
-                    <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.5.0/wtsapp-0.5.0-setup.exe')" class="version-btn">
-                        VERSIÓN 0.5.0 <span class="version-tag">MESSAGES UPDATE</span>
-                        <span class="version-note">Copiar y editar mensajes.</span>
-                    </a>
-                    <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.4.1/wtsapp-0.4.1-setup.exe')" class="version-btn">
-                        VERSIÓN 0.4.1 <span class="version-tag">PERFORMANCE PATCH</span>
-                        <span class="version-note">Reducción de RAM, fix de scroll con imágenes y mejor estabilidad Supabase.</span>
-                    </a>
-                    <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.4.0/wtsapp-0.4.0-setup.exe')" class="version-btn">
-                        VERSIÓN 0.4.0 <span class="version-tag">THE CALLS UPDATE</span>
-                        <span class="version-note">Llamadas de voz y videollamadas integradas.</span>
-                    </a>
-                    <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.3.0/wtsapp-0.3.0-setup.exe')" class="version-btn">
-                        VERSIÓN 0.3.0 <span class="version-tag">SOCIAL UPDATE</span>
-                        <span class="version-note">Nuevo sistema para agregar contactos y panel renovado.</span>
-                    </a>
-                    <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.2.0/wtsapp-0.2.0-setup.exe')" class="version-btn">
-                        VERSIÓN 0.2.0 <span class="version-tag">MEDIA UPDATE</span>
-                        <span class="version-note">Soporte de imágenes y notas de voz.</span>
-                    </a>
-                    <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.1.0/wtsapp-0.1.0-setup.exe')" class="version-btn">
-                        VERSIÓN 0.1.0 <span class="version-tag">ALPHA</span>
-                        <span class="version-note">Primera versión. Chat de texto básico.</span>
-                    </a>
-                </div>
-            </details>
+            <div id="download-list-pc"></div>
         </div>
     </div>
 
@@ -345,33 +297,7 @@
         <div class="modal-content" style="border:1px solid #3ddc84;">
             <span class="close" onclick="cerrarTodo()">&times;</span>
             <h2 style="margin-top:0; font-family:'Anton'; color:#3ddc84; letter-spacing:1px;">ELEGÍ TU VERSIÓN</h2>
-            <p style="color:#777; font-size:13px; margin-bottom:20px; text-transform:uppercase; letter-spacing:1px;">📱 ANDROID — APK</p>
-
-            <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.7.2a/wtsapp-v0.7.2a-signed.apk')" class="version-btn" style="border-color:#3ddc84;">
-                VERSIÓN 0.7.2a <span class="version-tag" style="background:#3ddc84; color:black;">RECOMENDADA</span>
-                <span class="version-note">Optimización de rendimiento compartida, chats memoizados y Gaming Mode ultra-ligero.</span>
-            </a>
-            <details class="version-history android">
-                <summary>Ver versiones anteriores de Android</summary>
-                <div class="version-history-list">
-                    <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.7.1a/wtsapp-v0.7.1a-signed.apk')" class="version-btn">
-                        VERSIÓN 0.7.1a <span class="version-tag">HOTFIX PATCH</span>
-                        <span class="version-note">Fix de auto log-out tras llamadas, stuttering al volver a chats y modo oscuro estable.</span>
-                    </a>
-                    <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.7.0a/wtsapp-v0.7.0a-signed.apk')" class="version-btn">
-                        VERSIÓN 0.7.0a <span class="version-tag">DARK MODE UPDATE</span>
-                        <span class="version-note">Modo oscuro, borrar chats, menú de mensajes. Sesión persistente y fix de llamadas.</span>
-                    </a>
-                    <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.6.1a/wtsapp-v0.6.1a-signed.apk')" class="version-btn">
-                        VERSIÓN 0.6.1a <span class="version-tag">NATIVE PERMISSIONS</span>
-                        <span class="version-note">Permisos nativos Android y guías para móvil.</span>
-                    </a>
-                    <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.6.0a/wtsapp-v8-signed.apk')" class="version-btn" style="border-color:#666; opacity:0.75;">
-                        VERSIÓN 0.6.0a <span class="version-tag" style="background:#c0392b; color:white;">EXPERIMENTAL</span>
-                        <span class="version-note" style="color:#e74c3c;">⚠️ Primera versión para Android. No recomendada — puede tener bugs.</span>
-                    </a>
-                </div>
-            </details>
+            <div id="download-list-android"></div>
         </div>
     </div>
 
@@ -395,199 +321,7 @@
     <section id="info">
         <div class="sec-title">HISTORIAL DE VERSIONES</div>
 
-        <div class="patch-box">
-            <div class="patch-header">
-                <span class="patch-title">v0.7.2 <span class="patch-tag tag-latest">GAMING MODE (PC)</span></span>
-                <span class="patch-date">Junio 2026</span>
-            </div>
-            <ul class="patch-list">
-                <li><strong>RENDIMIENTO EXTREMO:</strong> Refactor del frontend para reducir repintados y mantener la app fluida mientras jugás en PC.</li>
-                <li><strong>CHATS MEMOIZADOS:</strong> MessageBubble y ConversationItem usan React.memo para dibujar solo los mensajes nuevos en conversaciones largas.</li>
-                <li><strong>GAMING MODE:</strong> Nuevo botón arriba de la lista de chats para apagar sombras, animaciones y blur con la clase .gaming-mode.</li>
-                <li><strong>TIPOGRAFÍA INTER:</strong> Ajuste visual compartido con Android para una interfaz más clara y liviana.</li>
-            </ul>
-        </div>
-
-        <div class="patch-box" style="border-left-color:#3ddc84;">
-            <div class="patch-header">
-                <span class="patch-title">v0.7.2a <span class="patch-tag tag-android">ANDROID (NUEVA)</span></span>
-                <span class="patch-date">Junio 2026</span>
-            </div>
-            <ul class="patch-list">
-                <li><strong>OPTIMIZACIÓN COMPARTIDA:</strong> La versión Android recibe el mismo refactor de rendimiento del frontend para evitar caídas de FPS.</li>
-                <li><strong>CHATS MÁS LIVIANOS:</strong> React.memo protege los componentes de mensajes y conversaciones para evitar renderizados innecesarios.</li>
-                <li><strong>GAMING MODE:</strong> Modo ultra-ligero disponible desde la lista de chats para reducir carga visual y uso de GPU.</li>
-                <li><strong>VERSIÓN 0.7.2:</strong> Paquetes actualizados para mantener PC y Android alineados.</li>
-            </ul>
-        </div>
-
-        <div class="patch-box" style="border-left-color:#3ddc84;">
-            <div class="patch-header">
-                <span class="patch-title">v0.7.1a <span class="patch-tag tag-android">ANDROID</span></span>
-                <span class="patch-date">Junio 2026</span>
-            </div>
-            <ul class="patch-list">
-                <li><strong>FIX DE AUTO LOG-OUT:</strong> Eliminado el bug que cerraba la sesión automáticamente al terminar una llamada de voz o video. Tu sesión se mantiene iniciada pase lo que pase.</li>
-                <li><strong>LLAMADAS Y CHATS:</strong> Optimizada la sincronización con Supabase al colgar, evitando stuttering al volver a la lista de conversaciones.</li>
-                <li><strong>MODO OSCURO/CLARO ESTABLE:</strong> Ajustados contrastes y transiciones de color en pantallas nativas para un cambio de interfaz completamente limpio.</li>
-            </ul>
-        </div>
-
-        <div class="patch-box">
-            <div class="patch-header">
-                <span class="patch-title">v0.7.1 <span class="patch-tag tag-latest">HOTFIX PATCH (PC)</span></span>
-                <span class="patch-date">Junio 2026</span>
-            </div>
-            <ul class="patch-list">
-                <li><strong>MODO OSCURO PULIDO:</strong> Corregidos errores visuales donde algunos elementos no cambiaban de color correctamente al alternar los modos.</li>
-                <li><strong>BORRADO DE CHATS:</strong> Reparado el sistema de eliminación definitiva — al tocar la papelera roja, la conversación desaparece al instante sin residuos visuales.</li>
-                <li><strong>FIX DE CUELGUES:</strong> Solucionados pequeños cuelgues internos al procesar textos largos en segundo plano.</li>
-            </ul>
-        </div>
-
-        <div class="patch-box" style="border-left-color:#3ddc84;">
-            <div class="patch-header">
-                <span class="patch-title">v0.7.0a <span class="patch-tag tag-android">ANDROID</span></span>
-                <span class="patch-date">Junio 2026</span>
-            </div>
-            <ul class="patch-list">
-                <li><strong>SESIÓN PERSISTENTE:</strong> Al cerrar y reabrir la app, tu sesión sigue iniciada. No más usuario y contraseña cada vez.</li>
-                <li><strong>FIX DE LLAMADAS:</strong> Al cortar una llamada ya no te quedás atascado en esa pantalla — volvés automáticamente a la lista de chats.</li>
-                <li><strong>MODO OSCURO/CLARO:</strong> Switch en el panel de Perfil para cambiar la apariencia completa de la app.</li>
-                <li><strong>BORRAR CHATS:</strong> Botón rojo de papelera arriba a la derecha para eliminar una conversación entera.</li>
-                <li><strong>MENÚ DE MENSAJES:</strong> Cada mensaje tiene "tres puntitos" para editar o borrar al toque.</li>
-            </ul>
-        </div>
-
-        <div class="patch-box">
-            <div class="patch-header">
-                <span class="patch-title">v0.7.0 <span class="patch-tag tag-latest">DARK MODE UPDATE</span></span>
-                <span class="patch-date">Junio 2026</span>
-            </div>
-            <ul class="patch-list">
-                <li><strong>MODO OSCURO/CLARO:</strong> Interruptor en tu panel de Perfil para cambiar los colores de toda la interfaz al instante.</li>
-                <li><strong>BORRAR CHATS:</strong> Botón de papelera roja arriba a la derecha en cada chat para eliminar la conversación completa.</li>
-                <li><strong>MENÚ DE MENSAJES:</strong> "Tres puntitos" en cada mensaje enviado para desplegar las opciones de Editar o Borrar.</li>
-            </ul>
-        </div>
-
-        <div class="patch-box" style="border-left-color:#3ddc84;">
-            <div class="patch-header">
-                <span class="patch-title">v0.6.1a <span class="patch-tag tag-android">ANDROID</span></span>
-                <span class="patch-date">Junio 2026</span>
-            </div>
-            <ul class="patch-list">
-                <li><strong>PERMISOS NATIVOS ANDROID:</strong> Al usar el micrófono o la cámara por primera vez, el sistema te pide permiso con los carteles estándar de Android.</li>
-                <li><strong>GUÍAS PARA MÓVIL:</strong> Si bloqueás un permiso por error, las instrucciones ahora te llevan por los menús de configuración de tu celular (no de Windows).</li>
-                <li><strong>UX MEJORADA:</strong> Interacciones más fluidas y coherentes con lo esperado de una app móvil.</li>
-            </ul>
-        </div>
-
-        <div class="patch-box" style="border-left-color:#3ddc84;">
-            <div class="patch-header">
-                <span class="patch-title">v0.6.0a <span class="patch-tag tag-android">ANDROID</span></span>
-                <span class="patch-date">Junio 2026</span>
-            </div>
-            <ul class="patch-list">
-                <li><strong>COMPATIBILIDAD TOTAL:</strong> Tus chats de PC y Android están sincronizados en tiempo real.</li>
-                <li><strong>APP NATIVA PARA CELULAR:</strong> Interfaz adaptada para pantallas táctiles, fluida y rápida.</li>
-                <li><strong>BAJO CONSUMO:</strong> Mínimo gasto de batería, datos y memoria en celular.</li>
-            </ul>
-        </div>
-
-        <div class="patch-box">
-            <div class="patch-header">
-                <span class="patch-title">v0.6.0 <span class="patch-tag tag-latest">CROSS-PLATFORM UPDATE</span></span>
-                <span class="patch-date">Junio 2026</span>
-            </div>
-            <ul class="patch-list">
-                <li><strong>COMPATIBILIDAD ANDROID ↔ PC:</strong> Continuá tus conversaciones en cualquier dispositivo sin fricción.</li>
-                <li><strong>MENÚ HAMBURGUESA:</strong> Nueva navegación lateral más intuitiva y accesible.</li>
-                <li><strong>ULTRA OPTIMIZACIÓN:</strong> Refactorización del código para mayor velocidad en modo multiplataforma.</li>
-            </ul>
-        </div>
-
-        <div class="patch-box">
-            <div class="patch-header">
-                <span class="patch-title">v0.5.1 <span class="patch-tag tag-stable">AUTO-UPDATER PATCH</span></span>
-                <span class="patch-date">Junio 2026</span>
-            </div>
-            <ul class="patch-list">
-                <li><strong>FIX DE LLAMADAS:</strong> Eliminados los bugs de conexión y cuelgues inesperados en llamadas de voz y video.</li>
-                <li><strong>AUTO-UPDATE:</strong> Sistema de actualización automática integrado — la app se mantiene al día sola.</li>
-            </ul>
-        </div>
-
-        <div class="patch-box">
-            <div class="patch-header">
-                <span class="patch-title">v0.5.0 <span class="patch-tag tag-stable">MESSAGES UPDATE</span></span>
-                <span class="patch-date">Junio 2026</span>
-            </div>
-            <ul class="patch-list">
-                <li><strong>COPIAR MENSAJES:</strong> Seleccioná y copiá cualquier mensaje con un clic.</li>
-                <li><strong>EDITAR MENSAJES:</strong> Corregí errores de tipeo al instante, sin borrar y reenviar.</li>
-            </ul>
-        </div>
-
-        <div class="patch-box">
-            <div class="patch-header">
-                <span class="patch-title">v0.4.1 <span class="patch-tag tag-latest">PERFORMANCE PATCH</span></span>
-                <span class="patch-date">Junio 2026</span>
-            </div>
-            <ul class="patch-list">
-                <li><strong>USO DE RAM:</strong> Reducción drástica del consumo de memoria en segundo plano.</li>
-                <li><strong>CARGA DE IMÁGENES:</strong> Arreglado el stuttering al scrollear rápido en chats con muchas fotos.</li>
-                <li><strong>ESTABILIDAD:</strong> Mejoras en la conexión de Supabase para evitar desconexiones.</li>
-            </ul>
-        </div>
-
-        <div class="patch-box">
-            <div class="patch-header">
-                <span class="patch-title">v0.4.0 <span class="patch-tag tag-stable">THE CALLS UPDATE</span></span>
-                <span class="patch-date">Junio 2026</span>
-            </div>
-            <ul class="patch-list">
-                <li><strong>LLAMADAS DE AUDIO:</strong> Comunicación por voz de alta calidad con bajo consumo de ancho de banda.</li>
-                <li><strong>VIDEOLLAMADAS:</strong> Video en tiempo real optimizado para no saturar el procesador.</li>
-                <li><strong>INTEGRACIÓN COMPLETA:</strong> Pasá de chat a llamada sin cortes ni reinicios.</li>
-            </ul>
-        </div>
-
-        <div class="patch-box">
-            <div class="patch-header">
-                <span class="patch-title">v0.3.0 <span class="patch-tag tag-alpha">SOCIAL UPDATE</span></span>
-                <span class="patch-date">Junio 2026</span>
-            </div>
-            <ul class="patch-list">
-                <li><strong>AGREGAR PERSONAS:</strong> Nuevo sistema súper fácil para añadir contactos con un par de clics.</li>
-                <li><strong>LISTA DE CONTACTOS:</strong> Interfaz renovada, más limpia y fluida.</li>
-                <li><strong>RENDIMIENTO:</strong> Mejoras en las consultas a la base de datos de Supabase.</li>
-            </ul>
-        </div>
-
-        <div class="patch-box">
-            <div class="patch-header">
-                <span class="patch-title">v0.2.0 <span class="patch-tag tag-alpha">MEDIA UPDATE</span></span>
-                <span class="patch-date">Junio 2026</span>
-            </div>
-            <ul class="patch-list">
-                <li><strong>IMÁGENES:</strong> Soporte para enviar y recibir fotos al instante.</li>
-                <li><strong>NOTAS DE VOZ:</strong> Integración del sistema de audios nativo.</li>
-                <li><strong>OPTIMIZACIÓN UI:</strong> Mejoras en la carga del historial de chat para no saturar la memoria.</li>
-            </ul>
-        </div>
-
-        <div class="patch-box">
-            <div class="patch-header">
-                <span class="patch-title">v0.1.0 <span class="patch-tag tag-alpha">ALPHA CORE</span></span>
-                <span class="patch-date">Junio 2026</span>
-            </div>
-            <ul class="patch-list">
-                <li><strong>REGISTRO EXPRESS:</strong> Creación de cuenta súper fácil y sin vueltas.</li>
-                <li><strong>CHAT EN TIEMPO REAL:</strong> Mensajería de texto instantánea.</li>
-                <li><strong>POWERED BY SUPABASE:</strong> Backend moderno para garantizar latencia mínima.</li>
-            </ul>
-        </div>
+        <div id="patch-history"></div>
 
         <div class="text-block" style="margin-top: 40px;">
             <p>WtsApp es un cliente de mensajería construido con optimización extrema como prioridad. Sin publicidad, sin bloat — solo comunicación rápida y limpia, en PC y Android.</p>
@@ -716,6 +450,19 @@
     <script type="module">
         import { initHeroParticles } from '../js/hero-particles.js';
         initHeroParticles('hero-canvas');
+    </script>
+    <script type="module" src="../js/motion.js"></script>
+    <script type="module">
+        import { renderDownloadList, renderPatchHistory, renderLatestTagline } from '../js/render-versions.js';
+        renderDownloadList('download-list-pc', 'wtsapp', 'pc', { onDownload: url => iniciarDescarga(url) });
+        renderDownloadList('download-list-android', 'wtsapp', 'android', { onDownload: url => iniciarDescarga(url) });
+        renderPatchHistory('patch-history', 'wtsapp');
+        renderLatestTagline('hero-tagline', 'wtsapp', (pc, android) => {
+            const parts = ['Desktop & Android Messenger'];
+            if (android) parts.push(`v${android.version} Android`);
+            if (pc) parts.push(`v${pc.version} PC`);
+            return parts.join(' · ');
+        });
     </script>
 
 </body>

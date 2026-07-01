@@ -1,0 +1,491 @@
+/* ============================================================
+   MGGX GAMES — Capa visual premium compartida
+   Se carga después de los estilos de cada página y eleva la
+   calidad visual: tokens, motion, microinteracciones, admin.
+   Todas las animaciones usan transform/opacity (GPU) y
+   respetan prefers-reduced-motion.
+   ============================================================ */
+
+:root {
+    --accent: #FFA500;
+    --accent-rgb: 255, 165, 0;
+    --android: #3ddc84;
+    --android-rgb: 61, 220, 132;
+    --danger: #e74c3c;
+    --bg-0: #050505;
+    --bg-1: #0a0a0a;
+    --bg-2: #111111;
+    --bg-3: #151515;
+    --line: #2a2a2a;
+    --text-1: #ffffff;
+    --text-2: #aaaaaa;
+    --text-3: #666666;
+    --radius-s: 6px;
+    --radius-m: 12px;
+    --radius-l: 20px;
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --dur-1: 180ms;
+    --dur-2: 320ms;
+    --dur-3: 550ms;
+    --shadow-1: 0 4px 16px rgba(0, 0, 0, 0.45);
+    --shadow-2: 0 16px 48px rgba(0, 0, 0, 0.6);
+    --glow-accent: 0 0 32px rgba(var(--accent-rgb), 0.25);
+}
+
+::selection { background: rgba(var(--accent-rgb), 0.85); color: #000; }
+
+/* Scrollbar sobria */
+* { scrollbar-width: thin; scrollbar-color: #333 transparent; }
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-thumb { background: #2c2c2c; border-radius: 8px; border: 2px solid #0a0a0a; }
+*::-webkit-scrollbar-thumb:hover { background: #444; }
+
+/* Accesibilidad: focus visible consistente */
+:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
+html { scroll-padding-top: 100px; }
+
+/* ------------------------------------------------------------
+   NAVBAR — glass sutil
+   ------------------------------------------------------------ */
+.navbar {
+    background: rgba(5, 5, 5, 0.72) !important;
+    backdrop-filter: blur(14px) saturate(1.3);
+    -webkit-backdrop-filter: blur(14px) saturate(1.3);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07) !important;
+    transition: background var(--dur-2) var(--ease-out);
+}
+.menu a, .back-btn, .logo { transition: color var(--dur-1) var(--ease-out), border-color var(--dur-1) var(--ease-out), background var(--dur-1) var(--ease-out), transform var(--dur-1) var(--ease-out); }
+.menu a:hover, .back-btn:hover { transform: translateY(-1px); }
+.menu a { position: relative; }
+.menu a::after {
+    content: ""; position: absolute; left: 0; right: 100%; bottom: -6px; height: 2px;
+    background: var(--accent); transition: right var(--dur-2) var(--ease-out);
+}
+.menu a:hover::after { right: 0; }
+
+/* ------------------------------------------------------------
+   REVEAL ON SCROLL — controlado por js/motion.js
+   ------------------------------------------------------------ */
+[data-reveal] {
+    opacity: 0;
+    transform: translateY(26px);
+    transition:
+        opacity var(--dur-3) var(--ease-out),
+        transform var(--dur-3) var(--ease-out);
+    transition-delay: var(--reveal-delay, 0ms);
+    will-change: opacity, transform;
+}
+[data-reveal].is-visible {
+    opacity: 1;
+    transform: none;
+    will-change: auto;
+}
+
+/* ------------------------------------------------------------
+   CARDS / BOTONES / MICROINTERACCIONES
+   ------------------------------------------------------------ */
+.game-card {
+    border-radius: var(--radius-m);
+    overflow: hidden;
+    transition: transform var(--dur-2) var(--ease-spring), border-color var(--dur-2) var(--ease-out), box-shadow var(--dur-2) var(--ease-out) !important;
+}
+.game-card:hover {
+    transform: translateY(-10px) scale(1.015) !important;
+    box-shadow: var(--shadow-2), var(--glow-accent);
+}
+.card-img { transition: filter var(--dur-2) var(--ease-out), transform var(--dur-3) var(--ease-out) !important; }
+.game-card:hover .card-img { transform: scale(1.05); }
+
+.btn, .btn-card, .btn-download, .btn-android, .btn-warning, .btn-warning-android,
+.btn-donate, .btn-skip, .btn-confirm, .contact-btn, .version-btn {
+    border-radius: var(--radius-s);
+    transition:
+        transform var(--dur-1) var(--ease-out),
+        background var(--dur-1) var(--ease-out),
+        color var(--dur-1) var(--ease-out),
+        border-color var(--dur-1) var(--ease-out),
+        box-shadow var(--dur-2) var(--ease-out) !important;
+}
+.btn:active, .btn-card:active, .btn-download:active, .btn-android:active,
+.btn-warning:active, .btn-donate:active, .btn-confirm:active, .contact-btn:active,
+.version-btn:active {
+    transform: scale(0.97);
+    transition-duration: 80ms;
+}
+.version-btn { border-radius: var(--radius-s); }
+.version-btn:hover { transform: translateX(4px); }
+
+.feature-item {
+    border-radius: 0 var(--radius-s) var(--radius-s) 0;
+    transition: transform var(--dur-2) var(--ease-spring), box-shadow var(--dur-2) var(--ease-out), border-color var(--dur-2) var(--ease-out) !important;
+}
+.patch-box {
+    border-radius: 0 var(--radius-m) var(--radius-m) 0;
+    transition: transform var(--dur-2) var(--ease-out), box-shadow var(--dur-2) var(--ease-out) !important;
+}
+.patch-box:hover { transform: translateX(4px); }
+
+.gallery-img { border-radius: var(--radius-s); }
+
+img { content-visibility: auto; }
+
+/* ------------------------------------------------------------
+   MODALES — entrada/salida suave con @starting-style.
+   Las páginas alternan display:none/flex; esto lo anima.
+   ------------------------------------------------------------ */
+.modal, .modal-donation {
+    transition:
+        opacity var(--dur-2) var(--ease-out),
+        display var(--dur-2) allow-discrete,
+        overlay var(--dur-2) allow-discrete;
+    opacity: 1;
+}
+.modal .modal-content, .modal-donation .modal-content {
+    border-radius: var(--radius-l);
+    transition: transform var(--dur-2) var(--ease-spring);
+    transform: translateY(0) scale(1);
+}
+@starting-style {
+    .modal[style*="flex"], .modal-donation[style*="flex"] { opacity: 0; }
+    .modal[style*="flex"] .modal-content,
+    .modal-donation[style*="flex"] .modal-content { transform: translateY(24px) scale(0.96); }
+}
+
+.dl-platform-label { color: #777; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 12px; }
+.empty-state { color: var(--text-3); font-size: 14px; padding: 20px; text-align: center; border: 1px dashed #333; border-radius: var(--radius-s); }
+
+/* ------------------------------------------------------------
+   ADMIN — burbuja flotante
+   ------------------------------------------------------------ */
+.admin-fab {
+    position: fixed;
+    left: 18px;
+    bottom: 18px;
+    z-index: 3000;
+    height: 40px;
+    min-width: 40px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    background: rgba(17, 17, 17, 0.85);
+    color: #888;
+    border: 1px solid #2e2e2e;
+    border-radius: 999px;
+    font: 700 14px 'Roboto', sans-serif;
+    letter-spacing: 1px;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    overflow: hidden;
+    transition:
+        min-width var(--dur-2) var(--ease-spring),
+        color var(--dur-1) var(--ease-out),
+        border-color var(--dur-1) var(--ease-out),
+        box-shadow var(--dur-2) var(--ease-out),
+        transform var(--dur-1) var(--ease-out);
+}
+.admin-fab .fab-a { font-family: 'Anton', sans-serif; font-size: 16px; }
+.admin-fab .fab-label {
+    max-width: 0;
+    opacity: 0;
+    white-space: nowrap;
+    text-transform: uppercase;
+    font-size: 11px;
+    transition: max-width var(--dur-2) var(--ease-out), opacity var(--dur-2) var(--ease-out), margin var(--dur-2) var(--ease-out);
+}
+.admin-fab:hover, .admin-fab:focus-visible {
+    min-width: 96px;
+    color: var(--accent);
+    border-color: rgba(var(--accent-rgb), 0.6);
+    box-shadow: var(--glow-accent);
+}
+.admin-fab:hover .fab-label, .admin-fab:focus-visible .fab-label {
+    max-width: 70px;
+    opacity: 1;
+    margin-left: 7px;
+}
+.admin-fab:active { transform: scale(0.92); }
+
+/* ------------------------------------------------------------
+   ADMIN — panel
+   ------------------------------------------------------------ */
+.admin-overlay {
+    position: fixed; inset: 0; z-index: 3100;
+    display: none;
+    align-items: center; justify-content: center;
+    background: rgba(0, 0, 0, 0.82);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 20px;
+    transition: opacity var(--dur-2) var(--ease-out), display var(--dur-2) allow-discrete;
+    opacity: 1;
+}
+.admin-overlay.open { display: flex; }
+@starting-style { .admin-overlay.open { opacity: 0; } }
+
+.admin-panel {
+    width: 560px; max-width: 96vw;
+    max-height: 88vh;
+    overflow-y: auto;
+    background: linear-gradient(180deg, #121212, #0b0b0b);
+    border: 1px solid #2a2a2a;
+    border-radius: var(--radius-l);
+    padding: 34px 34px 28px;
+    box-shadow: var(--shadow-2);
+    transition: transform var(--dur-2) var(--ease-spring);
+    transform: translateY(0) scale(1);
+}
+@starting-style { .admin-overlay.open .admin-panel { transform: translateY(26px) scale(0.97); } }
+
+.admin-title {
+    font-family: 'Anton', sans-serif;
+    font-size: 26px; color: white;
+    letter-spacing: 1.5px; margin: 0 0 4px;
+    text-transform: uppercase;
+}
+.admin-title span { color: var(--accent); }
+.admin-sub { color: var(--text-3); font-size: 12px; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 24px; }
+
+/* Pasos: animación de entrada escalonada */
+.admin-step { animation: admin-step-in var(--dur-2) var(--ease-out) both; }
+@keyframes admin-step-in {
+    from { opacity: 0; transform: translateX(14px); }
+    to { opacity: 1; transform: none; }
+}
+.admin-step > * { animation: admin-item-in var(--dur-3) var(--ease-out) backwards; }
+.admin-step > *:nth-child(2) { animation-delay: 40ms; }
+.admin-step > *:nth-child(3) { animation-delay: 80ms; }
+.admin-step > *:nth-child(4) { animation-delay: 120ms; }
+.admin-step > *:nth-child(5) { animation-delay: 160ms; }
+@keyframes admin-item-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: none; }
+}
+
+.admin-option {
+    display: flex; align-items: center; justify-content: space-between;
+    width: 100%; box-sizing: border-box;
+    padding: 15px 18px; margin: 8px 0;
+    background: #1a1a1a; color: white;
+    border: 1px solid #333; border-radius: var(--radius-s);
+    font: 700 14px 'Roboto', sans-serif;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    cursor: pointer; text-align: left;
+    transition: transform var(--dur-1) var(--ease-out), border-color var(--dur-1) var(--ease-out), background var(--dur-1) var(--ease-out), box-shadow var(--dur-2) var(--ease-out);
+}
+.admin-option small { display: block; color: var(--text-3); font-weight: 400; text-transform: none; letter-spacing: 0; margin-top: 3px; }
+.admin-option:hover {
+    border-color: rgba(var(--accent-rgb), 0.7);
+    background: #201a10;
+    transform: translateX(4px);
+    box-shadow: var(--glow-accent);
+}
+.admin-option .arrow { color: var(--accent); transition: transform var(--dur-1) var(--ease-out); }
+.admin-option:hover .arrow { transform: translateX(4px); }
+.admin-option.android:hover { border-color: rgba(var(--android-rgb), 0.7); background: #10201a; box-shadow: 0 0 32px rgba(var(--android-rgb), 0.2); }
+.admin-option.android .arrow { color: var(--android); }
+
+/* Formulario */
+.admin-field { margin-bottom: 16px; }
+.admin-field label {
+    display: block; color: #999; font-size: 11px;
+    text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 7px;
+}
+.admin-field input[type="text"], .admin-field input[type="url"],
+.admin-field input[type="password"], .admin-field textarea {
+    width: 100%; box-sizing: border-box;
+    background: #161616; color: white;
+    border: 1px solid #333; border-radius: var(--radius-s);
+    padding: 13px 14px;
+    font: 400 14px 'Roboto', sans-serif;
+    transition: border-color var(--dur-1) var(--ease-out), box-shadow var(--dur-2) var(--ease-out), background var(--dur-1) var(--ease-out);
+}
+.admin-field input:focus, .admin-field textarea:focus {
+    outline: none;
+    border-color: rgba(var(--accent-rgb), 0.8);
+    box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.15);
+    background: #191919;
+}
+.admin-field textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
+.admin-field .hint { color: #555; font-size: 11px; margin-top: 5px; line-height: 1.4; }
+
+/* Toggle Activo */
+.admin-toggle { display: flex; align-items: center; gap: 12px; cursor: pointer; user-select: none; }
+.admin-toggle input { position: absolute; opacity: 0; pointer-events: none; }
+.admin-toggle .track {
+    width: 46px; height: 26px; border-radius: 999px;
+    background: #2a2a2a; border: 1px solid #3a3a3a;
+    position: relative; flex-shrink: 0;
+    transition: background var(--dur-2) var(--ease-out), border-color var(--dur-2) var(--ease-out);
+}
+.admin-toggle .track::after {
+    content: ""; position: absolute; top: 2px; left: 2px;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: #777;
+    transition: transform var(--dur-2) var(--ease-spring), background var(--dur-2) var(--ease-out);
+}
+.admin-toggle input:checked + .track { background: rgba(var(--accent-rgb), 0.25); border-color: var(--accent); }
+.admin-toggle input:checked + .track::after { transform: translateX(20px); background: var(--accent); }
+.admin-toggle input:focus-visible + .track { outline: 2px solid var(--accent); outline-offset: 2px; }
+.admin-toggle .toggle-text { font-size: 13px; color: #ccc; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+
+/* Botonera */
+.admin-actions { display: flex; gap: 10px; margin-top: 22px; flex-wrap: wrap; }
+.admin-btn {
+    flex: 1; min-width: 130px;
+    padding: 14px 18px;
+    border: none; border-radius: var(--radius-s);
+    font: 900 13px 'Roboto', sans-serif;
+    text-transform: uppercase; letter-spacing: 1px;
+    cursor: pointer;
+    transition: transform var(--dur-1) var(--ease-out), background var(--dur-1) var(--ease-out), color var(--dur-1) var(--ease-out), box-shadow var(--dur-2) var(--ease-out), border-color var(--dur-1) var(--ease-out);
+}
+.admin-btn:active { transform: scale(0.97); }
+.admin-btn.primary { background: var(--accent); color: black; }
+.admin-btn.primary:hover { background: white; box-shadow: var(--glow-accent); }
+.admin-btn.ghost { background: transparent; color: #999; border: 1px solid #3a3a3a; }
+.admin-btn.ghost:hover { color: white; border-color: #666; }
+.admin-btn.danger { background: transparent; color: var(--danger); border: 1px solid rgba(231, 76, 60, 0.5); }
+.admin-btn.danger:hover { background: var(--danger); color: white; }
+.admin-btn.ai {
+    background: linear-gradient(100deg, #76b900, #4f8f00);
+    color: black;
+}
+.admin-btn.ai:hover { filter: brightness(1.2); box-shadow: 0 0 28px rgba(118, 185, 0, 0.35); }
+.admin-btn[disabled] { opacity: 0.5; cursor: wait; }
+
+/* Lista de versiones existentes */
+.admin-version-row {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 14px; margin: 7px 0;
+    background: #161616; border: 1px solid #2c2c2c; border-radius: var(--radius-s);
+    transition: border-color var(--dur-1) var(--ease-out), transform var(--dur-1) var(--ease-out);
+}
+.admin-version-row:hover { border-color: #444; transform: translateX(3px); }
+.admin-version-row .v-info { flex: 1; min-width: 0; }
+.admin-version-row .v-num { color: white; font-weight: 700; font-size: 14px; }
+.admin-version-row .v-num .v-badge {
+    font-size: 9px; padding: 2px 6px; border-radius: 3px;
+    margin-left: 6px; text-transform: uppercase; font-weight: 700; vertical-align: middle;
+}
+.admin-version-row .v-note { color: #777; font-size: 11px; margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.admin-version-row .v-actions { display: flex; gap: 6px; flex-shrink: 0; }
+.admin-icon-btn {
+    width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center;
+    background: #222; border: 1px solid #383838; border-radius: 7px;
+    color: #bbb; font-size: 13px; cursor: pointer;
+    transition: transform var(--dur-1) var(--ease-out), border-color var(--dur-1) var(--ease-out), background var(--dur-1) var(--ease-out), color var(--dur-1) var(--ease-out);
+}
+.admin-icon-btn:hover { transform: translateY(-2px); border-color: var(--accent); color: var(--accent); }
+.admin-icon-btn.delete:hover { border-color: var(--danger); color: var(--danger); background: rgba(231, 76, 60, 0.08); }
+
+.admin-list-scroll { max-height: 300px; overflow-y: auto; padding-right: 4px; }
+
+/* Zona IA */
+.admin-ai-box {
+    border: 1px solid rgba(118, 185, 0, 0.35);
+    background: rgba(118, 185, 0, 0.05);
+    border-radius: var(--radius-m);
+    padding: 16px;
+    margin-bottom: 18px;
+}
+.admin-ai-box .ai-title {
+    color: #9fd600; font-size: 12px; font-weight: 900;
+    text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px;
+    display: flex; align-items: center; gap: 8px;
+}
+.admin-error { color: var(--danger); font-size: 12.5px; margin-top: 10px; line-height: 1.4; display: none; }
+.admin-error.show { display: block; animation: admin-shake 350ms var(--ease-out); }
+@keyframes admin-shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-3px); }
+}
+
+/* Spinner IA */
+.admin-spinner {
+    width: 15px; height: 15px; border-radius: 50%;
+    border: 2px solid rgba(0, 0, 0, 0.35); border-top-color: black;
+    display: inline-block; vertical-align: -3px; margin-right: 7px;
+    animation: admin-spin 700ms linear infinite;
+}
+@keyframes admin-spin { to { transform: rotate(360deg); } }
+
+/* Pantalla de éxito */
+.admin-success { text-align: center; padding: 18px 0 6px; }
+.admin-success .check {
+    width: 68px; height: 68px; margin: 0 auto 18px;
+    border-radius: 50%;
+    background: rgba(var(--accent-rgb), 0.12);
+    border: 2px solid var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 30px; color: var(--accent);
+    animation: admin-pop var(--dur-3) var(--ease-spring) both;
+}
+@keyframes admin-pop {
+    from { transform: scale(0.4); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+.admin-success h3 { color: white; font-family: 'Anton', sans-serif; letter-spacing: 1px; font-size: 22px; margin: 0 0 8px; text-transform: uppercase; }
+.admin-success p { color: var(--text-2); font-size: 14px; line-height: 1.6; margin: 0 0 8px; }
+
+/* Toast global */
+.mggx-toast {
+    position: fixed; left: 50%; bottom: 26px; z-index: 4000;
+    transform: translate(-50%, 20px);
+    background: #161616; color: white;
+    border: 1px solid rgba(var(--accent-rgb), 0.5);
+    border-radius: 999px;
+    padding: 12px 24px;
+    font: 700 13px 'Roboto', sans-serif;
+    letter-spacing: 0.5px;
+    box-shadow: var(--shadow-2), var(--glow-accent);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-spring);
+}
+.mggx-toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+/* ------------------------------------------------------------
+   RESPONSIVE FINO
+   ------------------------------------------------------------ */
+@media (max-width: 600px) {
+    .admin-panel { padding: 24px 18px 20px; max-height: 92vh; border-radius: var(--radius-m); }
+    .admin-actions { flex-direction: column; }
+    .admin-btn { min-width: 0; }
+    .admin-fab { left: 12px; bottom: 12px; }
+}
+@media (min-width: 2000px) {
+    body { font-size: 17px; }
+    .games-grid { gap: 56px; }
+    .game-card { width: 400px !important; }
+}
+
+/* Touch: targets cómodos */
+@media (pointer: coarse) {
+    .admin-icon-btn { width: 40px; height: 40px; }
+    .menu a { padding: 8px 0; }
+}
+
+/* ------------------------------------------------------------
+   REDUCED MOTION — apaga todo lo no esencial
+   ------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    [data-reveal] { opacity: 1; transform: none; }
+    html { scroll-behavior: auto; }
+}

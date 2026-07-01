@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gas Station Simulator 3D - MGGX Games</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23050505%22/><text x=%2250%22 y=%2272%22 font-size=%2264%22 font-family=%22Arial Black%22 font-weight=%22900%22 fill=%22%23FFA500%22 text-anchor=%22middle%22>M</text></svg>">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1616443796697385" crossorigin="anonymous"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Anton&family=Roboto:wght@300;400;700&display=swap');
@@ -85,6 +86,7 @@
 
         @media (max-width: 768px) { h1 { font-size: 50px; } .content { padding-left: 20px; } .navbar { padding: 20px; } .feature-item { width: 100%; } }
     </style>
+    <link rel="stylesheet" href="../css/site.css">
 </head>
 <body>
 
@@ -98,7 +100,7 @@
         <div class="overlay"></div>
         <div class="content">
             <h1>Gas Station<br>Simulator 3D</h1>
-            <h2>v1.2 - THE PERFORMANCE UPDATE</h2>
+            <h2 id="hero-version">v1.2 - THE PERFORMANCE UPDATE</h2>
             <p class="description">
                 El simulador que redefine el género. Ahora con tiempos de carga instantáneos, iluminación realista y bugs corregidos.
                 <br>Desarrollado con pasión en Unity.
@@ -143,33 +145,14 @@
             <span class="close" onclick="cerrarTodo()">&times;</span>
             <h2 style="margin-top:0">ELIGE TU VERSIÓN</h2>
             <p style="color:#777; font-size:14px; margin-bottom:20px;">DESDE GITHUB:</p>
-            
-            <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/v1.2/Gas.Station.Simulator.3D.exe')" class="version-btn" style="border-color: #FFA500;">
-                VERSIÓN 1.2 <span class="version-tag" style="background:#FFA500; color:black;">PERFORMANCE (NUEVA)</span>
-            </a>
-            <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/v1.1/Gas.Station.Simulator.3D.exe')" class="version-btn">
-                VERSIÓN 1.1 <span class="version-tag">STABLE</span>
-            </a>
-            <a href="javascript:void(0)" onclick="iniciarDescarga('https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/v1.0/Gas.Station.Simulator.3D.exe')" class="version-btn">
-                VERSIÓN 1.0 <span class="version-tag">LEGACY</span>
-            </a>
+            <div id="download-list"></div>
         </div>
     </div>
 
     <section id="info">
         <div class="sec-title">SOBRE EL JUEGO</div>
         
-        <div class="patch-box">
-            <div class="patch-header">
-                <span class="patch-title">QUÉ HAY DE NUEVO EN LA <span style="color:#FFA500">v1.2</span></span>
-                <span class="patch-date">Diciembre 2025</span>
-            </div>
-            <ul class="patch-list">
-                <li><strong>CARGAS INSTANTÁNEAS:</strong> Sistema optimizado. El juego inicia en menos de 2 segundos.</li>
-                <li><strong>ILUMINACIÓN REALISTA:</strong> Reconstrucción total de luces (GPU Lightmapping) para eliminar manchas negras.</li>
-                <li><strong>FIXES:</strong> Solucionado el bug que impedía usar el botón "Salir" y mejoras en el menú de pausa.</li>
-            </ul>
-        </div>
+        <div id="patch-history"></div>
         <div class="text-block">
             <p>Gas Station Simulator 3D no es el típico juego "Idle". Aquí tienes el control total de tu personaje en tercera persona. Camina por la estación, interactúa físicamente con las mangueras de combustible y gestiona cada aspecto de tu negocio.</p>
             <p>El objetivo es simple pero desafiante: comenzar con una estación abandonada y convertirla en el punto de carga más lujoso de la ciudad, desbloqueando mejoras, surtidores modernos y atrayendo autos deportivos de alta gama.</p>
@@ -263,5 +246,12 @@
     </script>
 
     <script type="module" src="js/three-scene.js"></script>
+    <script type="module" src="../js/motion.js"></script>
+    <script type="module">
+        import { renderDownloadList, renderPatchHistory, renderLatestTagline } from '../js/render-versions.js';
+        renderDownloadList('download-list', 'gas-station', 'pc', { onDownload: url => iniciarDescarga(url) });
+        renderPatchHistory('patch-history', 'gas-station');
+        renderLatestTagline('hero-version', 'gas-station', pc => pc ? `v${pc.version} - ${pc.title}` : '');
+    </script>
 </body>
 </html>
