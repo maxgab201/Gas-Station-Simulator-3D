@@ -1,31 +1,40 @@
 // ============================================================
-//  MGGX GAMES — Version Store
-//  Combina el catálogo base (versions-data.js) con un overlay
-//  persistido en localStorage (altas / ediciones / bajas del
-//  panel Admin). Toda la web lee versiones desde acá.
+//  MGGX GAMES — Version Store (cliente)
+//  Carga el catálogo desde /api/versions (fuente: data/versions.json
+//  commiteado en GitHub). Fallback: el JSON estático del deploy.
+//  Las mutaciones del panel Admin van a POST /api/versions con el
+//  token de sesión y actualizan la copia en memoria al confirmar.
 // ============================================================
 
-import { PROJECTS, PLATFORM_META } from './versions-data.js';
+export const PLATFORM_META = {
+    pc:      { label: 'PC — Windows', icon: '🖥️', color: '#FFA500', colorRgb: '255, 165, 0' },
+    android: { label: 'Android — APK', icon: '📱', color: '#3ddc84', colorRgb: '61, 220, 132' },
+};
 
-const STORAGE_KEY = 'mggx_versions_overlay_v1';
+let PROJECTS = [];
 
-function loadOverlay() {
+async function fetchCatalog() {
+    // 1) API (siempre fresco: lee directo del repo)
     try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        const data = raw ? JSON.parse(raw) : null;
-        return {
-            added: Array.isArray(data?.added) ? data.added : [],
-            edited: data?.edited && typeof data.edited === 'object' ? data.edited : {},
-            deleted: Array.isArray(data?.deleted) ? data.deleted : [],
-        };
-    } catch {
-        return { added: [], edited: {}, deleted: [] };
-    }
+        const res = await fetch('/api/versions', { cache: 'no-store' });
+        if (res.ok) {
+            const data = await res.json();
+            if (Array.isArray(data.projects)) return data.projects;
+        }
+    } catch { /* sin API (dev estático) → fallback */ }
+    // 2) JSON estático incluido en el deploy
+    try {
+        const res = await fetch('/data/versions.json', { cache: 'no-store' });
+        if (res.ok) {
+            const data = await res.json();
+            if (Array.isArray(data.projects)) return data.projects;
+        }
+    } catch { /* sin datos */ }
+    return [];
 }
 
-function saveOverlay(overlay) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(overlay));
-}
+/** Promesa que resuelve cuando el catálogo está en memoria. */
+export const ready = fetchCatalog().then(projects => { PROJECTS = projects; });
 
 // --- Orden semántico de versiones ("0.7.2a" > "0.7.1") -----
 function versionKey(v) {
@@ -47,9 +56,7 @@ export function compareVersions(a, b) {
     return 0;
 }
 
-// --- API pública --------------------------------------------
-export { PLATFORM_META };
-
+// --- Lectura (sincrónica, sobre la copia en memoria) ---------
 export function getProjects() {
     return PROJECTS.map(p => ({ ...p, versions: getVersions(p.id) }));
 }
@@ -64,18 +71,7 @@ export function getProject(projectId) {
 export function getVersions(projectId, platform = null) {
     const base = PROJECTS.find(p => p.id === projectId);
     if (!base) return [];
-    const overlay = loadOverlay();
-
-    let list = base.versions
-        .filter(v => !overlay.deleted.includes(v.id))
-        .map(v => overlay.edited[v.id] ? { ...v, ...overlay.edited[v.id] } : v);
-
-    list = list.concat(
-        overlay.added
-            .filter(v => v.projectId === projectId && !overlay.deleted.includes(v.id))
-            .map(v => overlay.edited[v.id] ? { ...v, ...overlay.edited[v.id] } : v)
-    );
-
+    let list = base.versions.slice();
     if (platform) list = list.filter(v => v.platform === platform);
     return list.sort(compareVersions);
 }
@@ -109,56 +105,35 @@ export function platformColor(platform) {
     return PLATFORM_META[platform]?.color || '#FFA500';
 }
 
-// --- Mutaciones (panel Admin) -------------------------------
-export function addVersion(projectId, data) {
-    const overlay = loadOverlay();
-    const version = {
-        id: `${projectId}-${data.platform}-${data.version}-${Date.now().toString(36)}`,
-        projectId,
-        platform: data.platform || 'pc',
-        version: String(data.version || '').trim(),
-        title: String(data.title || '').trim().toUpperCase(),
-        note: String(data.note || '').trim(),
-        url: String(data.url || '').trim(),
-        date: data.date || defaultDate(),
-        active: !!data.active,
-        experimental: !!data.experimental,
-        details: Array.isArray(data.details) ? data.details : [],
-    };
-    overlay.added.push(version);
-    saveOverlay(overlay);
-    return version;
-}
-
-export function updateVersion(projectId, versionId, patch) {
-    const overlay = loadOverlay();
-    const idx = overlay.added.findIndex(v => v.id === versionId);
-    if (idx >= 0) {
-        overlay.added[idx] = { ...overlay.added[idx], ...patch };
-    } else {
-        overlay.edited[versionId] = { ...(overlay.edited[versionId] || {}), ...patch };
+// --- Mutaciones (panel Admin, requieren token de sesión) ------
+async function mutate(body, token) {
+    let res;
+    try {
+        res = await fetch('/api/versions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify(body),
+        });
+    } catch {
+        throw new Error('No se pudo contactar al servidor. ¿Estás offline?');
     }
-    saveOverlay(overlay);
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.error || `Error HTTP ${res.status}`);
+    if (Array.isArray(data.projects)) PROJECTS = data.projects;
+    return data;
 }
 
-export function deleteVersion(projectId, versionId) {
-    const overlay = loadOverlay();
-    const idx = overlay.added.findIndex(v => v.id === versionId);
-    if (idx >= 0) {
-        overlay.added.splice(idx, 1);
-    } else {
-        if (!overlay.deleted.includes(versionId)) overlay.deleted.push(versionId);
-        delete overlay.edited[versionId];
-    }
-    saveOverlay(overlay);
+export function addVersion(projectId, version, token) {
+    return mutate({ action: 'add', projectId, version, platform: version.platform }, token);
 }
 
-export function resetOverlay() {
-    localStorage.removeItem(STORAGE_KEY);
+export function updateVersion(projectId, versionId, patch, token) {
+    return mutate({ action: 'edit', projectId, versionId, patch }, token);
 }
 
-function defaultDate() {
-    const meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-    const now = new Date();
-    return `${meses[now.getMonth()]} ${now.getFullYear()}`;
+export function deleteVersion(projectId, versionId, token) {
+    return mutate({ action: 'delete', projectId, versionId }, token);
 }

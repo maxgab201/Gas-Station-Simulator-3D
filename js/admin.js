@@ -1,20 +1,20 @@
 // ============================================================
 //  MGGX GAMES — Panel Admin
-//  Burbuja flotante "A" → contraseña → wizard:
-//  proyecto → plataforma (si aplica) → gestionar versiones
-//  (agregar / editar / eliminar) con generación por IA (NVIDIA
-//  NIM). Cada paso tiene Cancelar/Volver. La sesión NO se
-//  guarda: al cerrar, vuelve a pedir contraseña.
+//  Burbuja flotante "A" → contraseña (validada en /api/login
+//  contra la variable de entorno ADMIN_PASSWORD de Vercel) →
+//  wizard: proyecto → plataforma (si aplica) → gestionar
+//  versiones (agregar / editar / eliminar, commiteadas a GitHub
+//  vía /api/versions) con generación por IA (/api/generate).
+//  Cada paso tiene Cancelar/Volver. El token de sesión vive solo
+//  en memoria: al cerrar, vuelve a pedir contraseña.
 // ============================================================
 
-import { getProjects, getProject, getVersions, addVersion, updateVersion, deleteVersion, getBadges, platformColor, PLATFORM_META } from './version-store.js';
+import { ready, getProjects, getProject, getVersions, addVersion, updateVersion, deleteVersion, getBadges, platformColor, PLATFORM_META } from './version-store.js';
 import { generateVersionCopy } from './nim.js';
 import { toast } from './motion.js';
 
-const PASSWORD = '13245';
-
 const state = {
-    unlocked: false,
+    token: null,       // token de sesión emitido por /api/login
     projectId: null,
     platform: null,
     editingId: null,   // id de versión en edición (null = alta)
@@ -53,7 +53,7 @@ function mount() {
 }
 
 function open() {
-    state.unlocked = false;
+    state.token = null;
     state.projectId = null;
     state.platform = null;
     state.editingId = null;
@@ -64,7 +64,7 @@ function open() {
 
 function close() {
     overlay.classList.remove('open');
-    state.unlocked = false; // siempre vuelve a pedir contraseña
+    state.token = null; // siempre vuelve a pedir contraseña
 }
 
 function setStep(html) {
@@ -103,19 +103,36 @@ function renderPassword() {
         </div>
     `);
     const input = panel.querySelector('#admin-pass');
+    const enterBtn = panel.querySelector('[data-act="enter"]');
     setTimeout(() => input.focus(), 80);
 
-    const tryEnter = () => {
-        if (input.value === PASSWORD) {
-            state.unlocked = true;
+    const tryEnter = async () => {
+        if (!input.value) return;
+        enterBtn.disabled = true;
+        enterBtn.innerHTML = '<span class="admin-spinner"></span>Verificando...';
+        try {
+            const res = await fetch('/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ password: input.value }),
+            });
+            const data = await res.json().catch(() => ({}));
+            if (!res.ok) throw new Error(data.error || `Error HTTP ${res.status}`);
+            state.token = data.token;
+            await ready; // catálogo cargado antes de listar proyectos
             renderProjects();
-        } else {
+        } catch (err) {
             input.value = '';
-            showError('Contraseña incorrecta.');
+            enterBtn.disabled = false;
+            enterBtn.textContent = 'Entrar';
+            showError(err.message === 'Failed to fetch'
+                ? 'No se pudo contactar al servidor. ¿Estás offline?'
+                : err.message);
+            input.focus();
         }
     };
     input.addEventListener('keydown', e => { if (e.key === 'Enter') tryEnter(); });
-    panel.querySelector('[data-act="enter"]').addEventListener('click', tryEnter);
+    enterBtn.addEventListener('click', tryEnter);
     panel.querySelector('[data-act="cancel"]').addEventListener('click', close);
 }
 
@@ -236,13 +253,20 @@ function renderManage() {
         });
     });
     panel.querySelectorAll('[data-delete]').forEach(btn => {
-        btn.addEventListener('click', () => {
+        btn.addEventListener('click', async () => {
             const v = versions.find(x => x.id === btn.dataset.delete);
             if (!v) return;
-            if (confirm(`¿Eliminar la versión v${v.version} de ${project.name}? Esta acción no se puede deshacer.`)) {
-                deleteVersion(state.projectId, v.id);
+            if (!confirm(`¿Eliminar la versión v${v.version} de ${project.name}? Esta acción no se puede deshacer.`)) return;
+            btn.disabled = true;
+            btn.textContent = '…';
+            try {
+                await deleteVersion(state.projectId, v.id, state.token);
                 toast(`Versión v${v.version} eliminada`);
                 renderManage();
+            } catch (err) {
+                btn.disabled = false;
+                btn.textContent = '🗑️';
+                showError(err.message);
             }
         });
     });
@@ -352,7 +376,7 @@ function renderForm() {
                 versionNumber: panel.querySelector('#f-version').value.trim(),
                 changesText: changes,
                 examples,
-            });
+            }, state.token);
             panel.querySelector('#f-title').value = result.title;
             panel.querySelector('#f-note').value = result.note;
             panel.querySelector('#f-details').value = detailsToText(result.details);
@@ -367,7 +391,8 @@ function renderForm() {
     });
 
     // --- Guardar ---
-    panel.querySelector('[data-act="save"]').addEventListener('click', () => {
+    const saveBtn = panel.querySelector('[data-act="save"]');
+    saveBtn.addEventListener('click', async () => {
         const data = {
             platform: state.platform,
             version: panel.querySelector('#f-version').value.trim(),
@@ -386,12 +411,21 @@ function renderForm() {
             showError('El link a la release debe empezar con http:// o https://');
             return;
         }
-        if (editing) {
-            updateVersion(state.projectId, editing.id, data);
-            renderSuccess(`v${data.version} actualizada`, data);
-        } else {
-            addVersion(state.projectId, data);
-            renderSuccess(`v${data.version} publicada`, data);
+        const label = saveBtn.textContent;
+        saveBtn.disabled = true;
+        saveBtn.innerHTML = '<span class="admin-spinner"></span>Guardando en GitHub...';
+        try {
+            if (editing) {
+                await updateVersion(state.projectId, editing.id, data, state.token);
+                renderSuccess(`v${data.version} actualizada`, data);
+            } else {
+                await addVersion(state.projectId, data, state.token);
+                renderSuccess(`v${data.version} publicada`, data);
+            }
+        } catch (err) {
+            saveBtn.disabled = false;
+            saveBtn.textContent = label;
+            showError(err.message);
         }
     });
 
@@ -410,8 +444,8 @@ function renderSuccess(titleText, data) {
             <h3>${esc(titleText)}</h3>
             <p><strong style="color:white;">${esc(project.name)}</strong> · ${PLATFORM_META[state.platform].icon} ${esc(PLATFORM_META[state.platform].label)}</p>
             <p>${data.active
-                ? 'La versión ya está visible en la página del proyecto con sus etiquetas y colores automáticos.'
-                : 'La versión quedó guardada como <strong style="color:#ccc;">desactivada</strong>: no se muestra al público hasta que la actives.'}</p>
+                ? 'El cambio quedó commiteado en GitHub y ya es visible para todos los visitantes, con sus etiquetas y colores automáticos.'
+                : 'La versión quedó guardada en GitHub como <strong style="color:#ccc;">desactivada</strong>: no se muestra al público hasta que la actives.'}</p>
         </div>
         <div class="admin-actions">
             <button class="admin-btn ghost" data-act="more">Cargar otra</button>
