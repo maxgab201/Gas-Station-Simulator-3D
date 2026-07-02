@@ -578,6 +578,27 @@
               "d": "Backend moderno para garantizar latencia mínima."
             }
           ]
+        },
+        {
+          "id": "wtsapp-pc-0.8.0-mr3cyht0",
+          "platform": "pc",
+          "version": "0.8.0",
+          "title": "LLAMADAS MULTINACIONALES",
+          "note": "Versión que agrega llamadas multinacionales.",
+          "url": "https://google.com",
+          "date": "Julio 2026",
+          "active": true,
+          "experimental": false,
+          "details": [
+            {
+              "t": "LLAMADAS MULTINACIONALES",
+              "d": "Agregada la capacidad de realizar llamadas a números de países diferentes."
+            },
+            {
+              "t": "MEJORA DE RENDIMIENTO",
+              "d": "Optimización de código para mejorar la estabilidad y rendimiento de la aplicación."
+            }
+          ]
         }
       ]
     }
