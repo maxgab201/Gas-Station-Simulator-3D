@@ -4,7 +4,7 @@
 //  patch notes leyendo del version-store (base + Admin).
 // ============================================================
 
-import { getActiveVersions, getLatest, getBadges, platformColor, PLATFORM_META } from './version-store.js';
+import { ready, getActiveVersions, getLatest, getBadges, platformColor, PLATFORM_META } from './version-store.js';
 
 function esc(s) {
     return String(s ?? '').replace(/[&<>"']/g, c => ({
@@ -39,9 +39,10 @@ function versionButton(projectId, v, { highlight = false } = {}) {
  * Lista de descargas de un modal: última release destacada +
  * historial plegable con las anteriores.
  */
-export function renderDownloadList(container, projectId, platform, { onDownload } = {}) {
+export async function renderDownloadList(container, projectId, platform, { onDownload } = {}) {
     const el = typeof container === 'string' ? document.getElementById(container) : container;
     if (!el) return;
+    await ready;
 
     const versions = getActiveVersions(projectId, platform);
     const meta = PLATFORM_META[platform];
@@ -75,11 +76,11 @@ export function renderDownloadList(container, projectId, platform, { onDownload 
  * Historial completo de patch notes (todas las plataformas
  * mezcladas, ordenadas de más nueva a más vieja).
  */
-export function renderPatchHistory(container, projectId) {
+export async function renderPatchHistory(container, projectId) {
     const el = typeof container === 'string' ? document.getElementById(container) : container;
     if (!el) return;
+    await ready;
 
-    const project = { versions: [] };
     const platforms = Object.keys(PLATFORM_META);
     let all = [];
     for (const p of platforms) all = all.concat(getActiveVersions(projectId, p));
@@ -118,9 +119,10 @@ export function renderPatchHistory(container, projectId) {
 }
 
 /** Actualiza taglines tipo "v1.2 — TÍTULO" con la última release. */
-export function renderLatestTagline(container, projectId, template) {
+export async function renderLatestTagline(container, projectId, template) {
     const el = typeof container === 'string' ? document.getElementById(container) : container;
     if (!el) return;
+    await ready;
     const pc = getLatest(projectId, 'pc');
     const android = getLatest(projectId, 'android');
     el.textContent = template(pc, android);

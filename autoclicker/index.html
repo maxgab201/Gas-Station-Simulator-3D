@@ -275,7 +275,8 @@
     </script>
     <script type="module" src="../js/motion.js"></script>
     <script type="module">
-        import { getLatest } from '../js/version-store.js';
+        import { ready, getLatest } from '../js/version-store.js';
+        await ready;
         const latest = getLatest('autoclicker', 'pc');
         if (latest) {
             window._downloadUrl = latest.url;

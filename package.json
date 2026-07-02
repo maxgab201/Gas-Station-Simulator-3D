@@ -1,0 +1,6 @@
+{
+  "name": "mggx-games",
+  "private": true,
+  "type": "module",
+  "description": "Sitio estático de MGGX Games + funciones serverless de Vercel (/api) para el panel Admin."
+}
