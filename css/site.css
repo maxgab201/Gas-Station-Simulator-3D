@@ -220,11 +220,18 @@ img { content-visibility: auto; }
 .admin-overlay {
     position: fixed; inset: 0; z-index: 3100;
     display: none;
-    align-items: center; justify-content: center;
+    /* align-items:flex-start (no "center") + overflow-y:auto aquí, con
+       margin:auto en .admin-panel, es el patrón de centrado "seguro":
+       si el contenido no entra, se puede scrollear hasta el principio.
+       align-items:center por sí solo recorta el sobrante de arriba y
+       lo vuelve inalcanzable (bug clásico de flexbox + overflow). */
+    align-items: flex-start; justify-content: center;
     background: rgba(0, 0, 0, 0.82);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     padding: 20px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     transition: opacity var(--dur-2) var(--ease-out), display var(--dur-2) allow-discrete;
     opacity: 1;
 }
@@ -233,8 +240,9 @@ img { content-visibility: auto; }
 
 .admin-panel {
     width: 560px; max-width: 96vw;
-    max-height: 88vh;
-    overflow-y: auto;
+    /* Centrado vertical cuando entra; si no entra, se desborda de forma
+       scrolleable en vez de recortarse (ver comentario en .admin-overlay). */
+    margin: auto 0;
     background: linear-gradient(180deg, #121212, #0b0b0b);
     border: 1px solid #2a2a2a;
     border-radius: var(--radius-l);
@@ -295,7 +303,13 @@ img { content-visibility: auto; }
 
 /* Formulario */
 .admin-field { margin-bottom: 16px; }
-.admin-field label {
+/* :not(.admin-toggle) evita que esta regla genérica (para labels de
+   texto tipo "Versión", "Título") le gane por especificidad a
+   .admin-toggle { display:flex } cuando el toggle vive dentro de un
+   .admin-field — si eso pasa, el toggle colapsa a bloque y el track
+   (un <span>, inline) ignora su width/height, quedando el círculo
+   superpuesto sobre el texto. */
+.admin-field label:not(.admin-toggle) {
     display: block; color: #999; font-size: 11px;
     text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 7px;
 }
@@ -318,8 +332,12 @@ img { content-visibility: auto; }
 .admin-field .hint { color: #555; font-size: 11px; margin-top: 5px; line-height: 1.4; }
 
 /* Toggle Activo */
-.admin-toggle { display: flex; align-items: center; gap: 12px; cursor: pointer; user-select: none; }
-.admin-toggle input { position: absolute; opacity: 0; pointer-events: none; }
+/* position:relative es necesario: sin un ancestro posicionado, el
+   input absolute (abajo) se ancla al .admin-panel entero (que tiene
+   transform, y por lo tanto es containing block) en vez de a este
+   label, y termina superpuesto con el texto. */
+.admin-toggle { position: relative; display: flex; align-items: center; gap: 12px; cursor: pointer; user-select: none; }
+.admin-toggle input { position: absolute; top: 0; left: 0; opacity: 0; pointer-events: none; }
 .admin-toggle .track {
     width: 46px; height: 26px; border-radius: 999px;
     background: #2a2a2a; border: 1px solid #3a3a3a;
@@ -460,7 +478,7 @@ img { content-visibility: auto; }
    RESPONSIVE FINO
    ------------------------------------------------------------ */
 @media (max-width: 600px) {
-    .admin-panel { padding: 24px 18px 20px; max-height: 92vh; border-radius: var(--radius-m); }
+    .admin-panel { padding: 24px 18px 20px; border-radius: var(--radius-m); }
     .admin-actions { flex-direction: column; }
     .admin-btn { min-width: 0; }
     .admin-fab { left: 12px; bottom: 12px; }
