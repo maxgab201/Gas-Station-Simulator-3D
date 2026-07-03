@@ -152,6 +152,10 @@
 
         .btn-confirm:hover { background: white; }
 
+        /* position/z-index: igual que h1/.tagline/.app-card, garantiza
+           que estos links queden por encima del canvas 3D absoluto del
+           hero en el orden de apilamiento, pase lo que pase con el
+           pointer-events del canvas. */
         .back-link {
             margin-top: 40px;
             display: inline-block;
@@ -160,7 +164,10 @@
             text-transform: uppercase;
             font-size: 12px;
             letter-spacing: 2px;
+            position: relative;
+            z-index: 1;
         }
+        .terms-link { position: relative; z-index: 1; }
 
         .back-link:hover { color: #FFA500; }
 
@@ -200,7 +207,7 @@
 
         <a href="../" class="back-link">← VOLVER AL ESTUDIO</a>
         <br>
-        <a href="../terminos/" style="color:#333; text-decoration:none; font-size:11px; text-transform:uppercase; letter-spacing:2px; margin-top:10px; display:inline-block;">Términos y Condiciones</a>
+        <a href="../terminos/" class="terms-link" style="color:#333; text-decoration:none; font-size:11px; text-transform:uppercase; letter-spacing:2px; margin-top:10px; display:inline-block;">Términos y Condiciones</a>
     </div>
 
     <div id="donationModal" class="modal-donation">
