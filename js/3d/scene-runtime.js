@@ -55,7 +55,22 @@ export function pointToNDC(canvas, clientX, clientY, out = new THREE.Vector2()) 
 export function createScene(canvas, { setup, onFrame, cameraFov = 50, near = 0.1, far = 100, alpha = true, background = null, baseAspect = 1440 / 900 } = {}) {
     if (!canvas) return null;
 
-    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha, powerPreference: 'low-power' });
+    // WebGLRenderer tira una excepción (no devuelve null) si el navegador
+    // no puede darle un contexto WebGL — GPU deshabilitada, sandbox de un
+    // servicio de testing remoto, política corporativa, etc. Sin este
+    // try/catch esa excepción quedaba sin capturar en el módulo, así que
+    // TODO lo que venía después (partículas, ícono, pistola) nunca se
+    // ejecutaba y el canvas quedaba completamente vacío y en silencio —
+    // ni un error visible para quien no tuviera la consola abierta, ni
+    // ninguna forma de saber que el problema era el WebGL del navegador y
+    // no el código de la escena.
+    let renderer;
+    try {
+        renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha, powerPreference: 'low-power' });
+    } catch (err) {
+        console.warn('[3D] WebGL no disponible en este navegador, se omite la escena:', err);
+        return null;
+    }
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     renderer.shadowMap.enabled = false; // sombras dinámicas desactivadas: prioriza 60fps en gama baja
 
