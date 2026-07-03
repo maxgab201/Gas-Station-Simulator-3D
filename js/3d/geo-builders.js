@@ -44,13 +44,13 @@ export function buildGasPump({ accent = 0xffa500 } = {}) {
     const group = new THREE.Group();
     group.name = 'gas-pump';
 
-    const bodyMat = stdMat(0x1c1c1c, { roughness: 0.4, metalness: 0.6 });
-    const accentMat = stdMat(accent, { roughness: 0.3, metalness: 0.2, emissive: accent, emissiveIntensity: 0.35 });
-    const screenMat = stdMat(0x0a0a0a, { roughness: 0.2, metalness: 0.1, emissive: accent, emissiveIntensity: 0.9 });
-    const metalMat = stdMat(0x888888, { roughness: 0.25, metalness: 0.9 });
+    const bodyMat = stdMat(0x2e2e2e, { roughness: 0.32, metalness: 0.55 });
+    const accentMat = stdMat(accent, { roughness: 0.28, metalness: 0.2, emissive: accent, emissiveIntensity: 0.5 });
+    const screenMat = stdMat(0x0a0a0a, { roughness: 0.2, metalness: 0.1, emissive: accent, emissiveIntensity: 1.1 });
+    const metalMat = stdMat(0x9a9a9a, { roughness: 0.22, metalness: 0.85 });
 
     // Base
-    const base = mesh(new THREE.BoxGeometry(1.3, 0.15, 0.8), stdMat(0x2a2a2a, { roughness: 0.6 }), { y: 0.075 });
+    const base = mesh(new THREE.BoxGeometry(1.3, 0.15, 0.8), stdMat(0x3a3a3a, { roughness: 0.55 }), { y: 0.075 });
     group.add(base);
 
     // Cuerpo principal
@@ -193,19 +193,44 @@ export function buildBook({ color = 0xffa500 } = {}) {
     return group;
 }
 
-export function buildLightningBolt({ color = 0xffa500 } = {}) {
+export function buildMousePointer({ color = 0xffa500 } = {}) {
     const shape = new THREE.Shape();
-    shape.moveTo(0.15, 1.0);
-    shape.lineTo(-0.25, 0.1);
-    shape.lineTo(0.02, 0.1);
-    shape.lineTo(-0.15, -1.0);
-    shape.lineTo(0.3, -0.05);
-    shape.lineTo(0.02, -0.05);
-    shape.lineTo(0.15, 1.0);
-    const geo = new THREE.ExtrudeGeometry(shape, { depth: 0.14, bevelEnabled: true, bevelThickness: 0.02, bevelSize: 0.02, bevelSegments: 2 });
-    geo.center();
-    const mat = stdMat(color, { roughness: 0.2, metalness: 0.4, emissive: color, emissiveIntensity: 0.6 });
-    return mesh(geo, mat);
+    shape.moveTo(0, 0);
+    shape.lineTo(0, -1.62);
+    shape.lineTo(0.40, -1.28);
+    shape.lineTo(0.70, -2.02);
+    shape.lineTo(1.00, -1.90);
+    shape.lineTo(0.70, -1.16);
+    shape.lineTo(1.16, -1.16);
+    shape.closePath();
+
+    const group = new THREE.Group();
+
+    const bodyGeo = new THREE.ExtrudeGeometry(shape, {
+        depth: 0.26,
+        bevelEnabled: true,
+        bevelThickness: 0.04,
+        bevelSize: 0.04,
+        bevelSegments: 3,
+    });
+    bodyGeo.center();
+    const bodyMat = stdMat(color, { roughness: 0.22, metalness: 0.45, emissive: color, emissiveIntensity: 0.45 });
+    group.add(mesh(bodyGeo, bodyMat));
+
+    const outlineGeo = new THREE.ExtrudeGeometry(shape, { depth: 0.06, bevelEnabled: false });
+    outlineGeo.center();
+    const outlineMat = stdMat(0x111111, { roughness: 0.6, metalness: 0.2 });
+    const outline = mesh(outlineGeo, outlineMat, { z: -0.14 });
+    outline.scale.set(1.14, 1.12, 1);
+    group.add(outline);
+
+    const ringMat = new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.22, side: THREE.DoubleSide });
+    const ring = mesh(new THREE.RingGeometry(0.5, 0.56, 40), ringMat, { x: -0.58, y: 0.95, z: 0.05 });
+    group.add(ring);
+    const ring2 = mesh(new THREE.RingGeometry(0.72, 0.76, 40), ringMat, { x: -0.58, y: 0.95, z: 0.05 });
+    group.add(ring2);
+
+    return group;
 }
 
 /** Nube de partículas tipo "combustible flotando" — puntos con leve deriva. */
