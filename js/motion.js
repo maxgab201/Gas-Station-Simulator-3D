@@ -83,32 +83,45 @@ function wireA11yForActions() {
 
 /**
  * Tilt 3D sutil por puntero en .game-card (y cualquier [data-tilt]):
- * rota la card en perspectiva siguiendo la posición del mouse,
- * puramente con transform (GPU, sin reflow) y se desactiva del todo
- * con prefers-reduced-motion o en dispositivos táctiles (pointer:
- * coarse), donde no tiene sentido.
+ * rota la card en perspectiva siguiendo la posición del cursor o del
+ * dedo, puramente con transform (GPU, sin reflow). Los Pointer
+ * Events (pointermove/pointerup/pointercancel) ya unifican mouse,
+ * touch y stylus en un solo modelo de eventos — no hace falta (ni
+ * conviene) escribir un camino aparte para touch: el mismo
+ * pointermove dispara igual arrastrando el dedo sobre la card,
+ * mientras el gesto de scroll de la página sigue funcionando normal
+ * porque nunca se llama preventDefault(). El único ajuste por tipo
+ * de puntero es CUÁNDO soltar la inclinación: en mouse alcanza con
+ * "el cursor salió de la card" (pointerleave); en touch no existe
+ * ese concepto — hay que esperar a que el dedo se levante o el
+ * gesto se cancele (pointerup/pointercancel), así el tilt no queda
+ * "pegado" en la última posición tocada.
  */
 function initTilt() {
-    if (reduceMotion || window.matchMedia('(pointer: coarse)').matches) return;
+    if (reduceMotion) return;
     const targets = document.querySelectorAll('.game-card, [data-tilt]');
     targets.forEach(card => {
         card.classList.add('tilt-active');
         card.style.transformStyle = 'preserve-3d';
         card.style.willChange = 'transform';
         let raf = null;
-        card.addEventListener('pointermove', e => {
+        const applyTilt = (clientX, clientY) => {
             const rect = card.getBoundingClientRect();
-            const px = (e.clientX - rect.left) / rect.width - 0.5;
-            const py = (e.clientY - rect.top) / rect.height - 0.5;
+            const px = (clientX - rect.left) / rect.width - 0.5;
+            const py = (clientY - rect.top) / rect.height - 0.5;
             if (raf) cancelAnimationFrame(raf);
             raf = requestAnimationFrame(() => {
                 card.style.transform = `perspective(900px) rotateX(${(-py * 9).toFixed(2)}deg) rotateY(${(px * 11).toFixed(2)}deg) translateY(-10px) scale(1.015)`;
             });
-        });
-        card.addEventListener('pointerleave', () => {
+        };
+        const resetTilt = () => {
             if (raf) cancelAnimationFrame(raf);
             card.style.transform = '';
-        });
+        };
+        card.addEventListener('pointermove', e => applyTilt(e.clientX, e.clientY));
+        card.addEventListener('pointerleave', e => { if (e.pointerType !== 'touch') resetTilt(); });
+        card.addEventListener('pointerup', e => { if (e.pointerType === 'touch') resetTilt(); });
+        card.addEventListener('pointercancel', resetTilt);
     });
 }
 

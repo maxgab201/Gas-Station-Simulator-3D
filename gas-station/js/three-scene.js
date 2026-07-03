@@ -6,15 +6,20 @@
 //  en una versión anterior) por un surtidor de nafta construido
 //  100% por geometría procedural en código — ver
 //  js/3d/geo-builders.js — más autos animados cruzando el fondo y
-//  una interacción real: click en la pistola dispara la animación
-//  de "carga" y una ráfaga de partículas de dinero, igual que la
-//  mecánica económica descripta en el propio juego.
+//  una interacción real: click/tap en la pistola dispara la
+//  animación de "carga" y una ráfaga de partículas de dinero, igual
+//  que la mecánica económica descripta en el propio juego. La
+//  cámara se recalibra sola según el aspect ratio del viewport
+//  (ver responsiveScale en scene-runtime.js) para que el surtidor
+//  se vea igual de proporcionado en un monitor ancho que en un
+//  celular en vertical.
 // ============================================================
 
-import { THREE, createScene, REDUCE_MOTION } from '../../js/3d/scene-runtime.js';
+import { THREE, createScene, REDUCE_MOTION, pointToNDC } from '../../js/3d/scene-runtime.js';
 import { buildGasPump, buildCar, buildFloatingParticles } from '../../js/3d/geo-builders.js';
 
 const ACCENT = 0xffa500;
+const CAMERA_TARGET = { x: 0, y: 1, z: 0 };
 
 function buildGround() {
     const geo = new THREE.PlaneGeometry(60, 60, 1, 1);
@@ -85,7 +90,7 @@ export function initGasStationScene(containerId = 'three-container') {
         setup(ctx) {
             ctx.scene.fog = new THREE.FogExp2(0x000000, 0.045);
             ctx.camera.position.set(2.6, 1.7, 4.4);
-            ctx.camera.lookAt(0, 1, 0);
+            ctx.camera.lookAt(CAMERA_TARGET.x, CAMERA_TARGET.y, CAMERA_TARGET.z);
 
             ctx.scene.add(buildGround());
             ctx.scene.add(buildLaneMarkings());
@@ -93,8 +98,12 @@ export function initGasStationScene(containerId = 'three-container') {
             pump = buildGasPump({ accent: ACCENT });
             ctx.scene.add(pump);
 
+            // Radio de impacto de la pistola más generoso que su tamaño
+            // visual real: en touch el dedo cubre un área mucho más ancha
+            // que la punta de un cursor de mouse, así que el blanco táctil
+            // tiene que ser más grande para sentirse "tocable" de verdad.
             nozzleHit = new THREE.Mesh(
-                new THREE.SphereGeometry(0.32, 8, 8),
+                new THREE.SphereGeometry(0.5, 8, 8),
                 new THREE.MeshBasicMaterial({ visible: false }),
             );
             const nozzleWorldPos = new THREE.Vector3();
@@ -131,30 +140,72 @@ export function initGasStationScene(containerId = 'three-container') {
 
             canvas.style.pointerEvents = 'auto';
             canvas.style.cursor = 'default';
+            // Deja que el navegador siga scrolleando verticalmente con el
+            // dedo aunque arranque sobre el canvas; solo interceptamos el
+            // toque puntual (touchend) para la interacción de la pistola.
+            canvas.style.touchAction = 'pan-y';
 
-            function ndcFromEvent(e) {
-                const rect = canvas.getBoundingClientRect();
-                return new THREE.Vector2(
-                    ((e.clientX - rect.left) / rect.width) * 2 - 1,
-                    -((e.clientY - rect.top) / rect.height) * 2 + 1,
-                );
+            const ndc = new THREE.Vector2();
+            function hitTestNozzle(clientX, clientY) {
+                pointToNDC(canvas, clientX, clientY, ndc);
+                raycaster.setFromCamera(ndc, ctx.camera);
+                return raycaster.intersectObject(nozzleHit).length > 0;
+            }
+
+            function triggerSqueeze() {
+                ctx.squeezeT = 1;
+                const worldPos = new THREE.Vector3();
+                pump.userData.nozzle.getWorldPosition(worldPos);
+                bursts.push(spawnMoneyBurst(ctx.scene, worldPos));
             }
 
             canvas.addEventListener('click', e => {
-                raycaster.setFromCamera(ndcFromEvent(e), ctx.camera);
-                if (raycaster.intersectObject(nozzleHit).length) {
-                    ctx.squeezeT = 1;
-                    const worldPos = new THREE.Vector3();
-                    pump.userData.nozzle.getWorldPosition(worldPos);
-                    bursts.push(spawnMoneyBurst(ctx.scene, worldPos));
-                }
+                if (hitTestNozzle(e.clientX, e.clientY)) triggerSqueeze();
             });
 
             canvas.addEventListener('mousemove', e => {
-                raycaster.setFromCamera(ndcFromEvent(e), ctx.camera);
-                hoveringNozzle = raycaster.intersectObject(nozzleHit).length > 0;
+                hoveringNozzle = hitTestNozzle(e.clientX, e.clientY);
                 canvas.style.cursor = hoveringNozzle ? 'pointer' : 'default';
             });
+
+            // Equivalente táctil: el brillo de "hover" se activa mientras
+            // el dedo está apoyado sobre la pistola (touchstart/touchmove),
+            // y el toque cuenta como interacción recién al levantar el
+            // dedo (touchend) — así arrastrar el dedo para scrollear la
+            // página no dispara la animación por accidente, igual que en
+            // mouse un click solo cuenta si soltás el botón sobre el
+            // elemento.
+            let touchDidMove = false;
+            let touchStartXY = null;
+            canvas.addEventListener('touchstart', e => {
+                const t = e.touches[0];
+                if (!t) return;
+                touchDidMove = false;
+                touchStartXY = { x: t.clientX, y: t.clientY };
+                hoveringNozzle = hitTestNozzle(t.clientX, t.clientY);
+            }, { passive: true });
+
+            canvas.addEventListener('touchmove', e => {
+                const t = e.touches[0];
+                if (!t) return;
+                if (touchStartXY) {
+                    const dx = t.clientX - touchStartXY.x, dy = t.clientY - touchStartXY.y;
+                    if (Math.hypot(dx, dy) > 10) touchDidMove = true; // gesto de scroll, no un tap
+                }
+                hoveringNozzle = hitTestNozzle(t.clientX, t.clientY);
+            }, { passive: true });
+
+            canvas.addEventListener('touchend', e => {
+                const t = e.changedTouches[0];
+                if (t && !touchDidMove && hitTestNozzle(t.clientX, t.clientY)) triggerSqueeze();
+                hoveringNozzle = false;
+                touchStartXY = null;
+            }, { passive: true });
+
+            canvas.addEventListener('touchcancel', () => {
+                hoveringNozzle = false;
+                touchStartXY = null;
+            }, { passive: true });
 
             let scrollFrac = 0;
             function onScroll() {
@@ -221,11 +272,25 @@ export function initGasStationScene(containerId = 'three-container') {
                 return true;
             });
 
-            const baseX = 2.6 - ctx.pointer.x * 0.7 - ctx.scrollT * 1.4;
-            const baseY = 1.7 + ctx.pointer.y * 0.35 + ctx.scrollT * 0.6;
-            ctx.camera.position.x += (baseX - ctx.camera.position.x) * 0.05;
-            ctx.camera.position.y += (baseY - ctx.camera.position.y) * 0.05;
-            ctx.camera.lookAt(0, 1, 0);
+            // Offset "crudo" de la cámara respecto del punto que mira,
+            // calibrado a mano mirando un monitor ancho. Se multiplica por
+            // responsiveScale (>1 en celulares en vertical) para alejar la
+            // cámara en la misma proporción en los tres ejes — encoge y
+            // recentra el surtidor completo sin tocar ni una posición del
+            // modelo. Sin esto, en un celular angosto la cámara quedaba
+            // demasiado cerca para el frustum tan estrecho y el surtidor
+            // terminaba llenando toda la pantalla, tapando el título.
+            const scale = ctx.responsiveScale;
+            const rawOffsetX = 2.6 - ctx.pointer.x * 0.7 - ctx.scrollT * 1.4;
+            const rawOffsetY = (1.7 + ctx.pointer.y * 0.35 + ctx.scrollT * 0.6) - CAMERA_TARGET.y;
+            const rawOffsetZ = 4.4;
+            const targetX = CAMERA_TARGET.x + rawOffsetX * scale;
+            const targetY = CAMERA_TARGET.y + rawOffsetY * scale;
+            const targetZ = CAMERA_TARGET.z + rawOffsetZ * scale;
+            ctx.camera.position.x += (targetX - ctx.camera.position.x) * 0.05;
+            ctx.camera.position.y += (targetY - ctx.camera.position.y) * 0.05;
+            ctx.camera.position.z += (targetZ - ctx.camera.position.z) * 0.05;
+            ctx.camera.lookAt(CAMERA_TARGET.x, CAMERA_TARGET.y, CAMERA_TARGET.z);
         },
     });
 
