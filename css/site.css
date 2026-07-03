@@ -6,6 +6,16 @@
    respetan prefers-reduced-motion.
    ============================================================ */
 
+/* Reset universal de box-sizing: sin esto, cualquier elemento con
+   width:100% + padding (ej. .app-card en autoclicker) suma el
+   padding POR FUERA del 100%, desborda el viewport horizontalmente
+   y genera scroll lateral en mobile. Especificidad (0,0,0): no
+   pisa nada, solo establece un default sano donde falte uno
+   explícito. */
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body { max-width: 100%; overflow-x: hidden; }
+
 :root {
     --accent: #FFA500;
     --accent-rgb: 255, 165, 0;
@@ -95,13 +105,14 @@ html { scroll-padding-top: 100px; }
     overflow: hidden;
     transition: transform var(--dur-2) var(--ease-spring), border-color var(--dur-2) var(--ease-out), box-shadow var(--dur-2) var(--ease-out) !important;
 }
-/* :not(.tilt-active) — cuando js/motion.js engancha el tilt 3D por
-   puntero (desktop, sin reduced-motion) agrega esa clase y toma
+/* :not(.tilt-active) — js/motion.js engancha el tilt 3D con Pointer
+   Events (mouse, touch y stylus por igual) salvo con
+   prefers-reduced-motion, y en ese caso agrega esta clase y toma
    control total del transform vía JS; esta regla queda como
-   fallback CSS puro para touch / prefers-reduced-motion, donde
-   initTilt() nunca se activa. Sin !important a propósito: si
-   llevara !important, ganaría siempre y el tilt por JS (transform
-   inline sin !important) jamás se vería. */
+   fallback CSS puro solo para reduced-motion, donde initTilt()
+   nunca se activa. Sin !important a propósito: si llevara
+   !important, ganaría siempre y el tilt por JS (transform inline
+   sin !important) jamás se vería. */
 .game-card:hover:not(.tilt-active) {
     transform: translateY(-10px) scale(1.015);
     box-shadow: var(--shadow-2), var(--glow-accent);

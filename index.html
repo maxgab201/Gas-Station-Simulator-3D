@@ -26,7 +26,11 @@
         .intro-section { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: radial-gradient(circle, #1a1a1a 0%, #000000 100%); text-align: center; padding: 20px; position: relative; }
         #particle-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
         .intro-section > *:not(#particle-canvas) { position: relative; z-index: 1; }
-        .mggx-title { font-family: 'Anton', sans-serif; font-size: 100px; margin: 0; background: linear-gradient(to right, #fff, #888); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 5px; }
+        /* clamp() en vez de un único breakpoint: escala de forma continua
+           con el ancho real del viewport en vez de saltar en un solo
+           punto fijo (768px), cubriendo también celulares muy angostos
+           que antes no tenían ningún ajuste propio. */
+        .mggx-title { font-family: 'Anton', sans-serif; font-size: clamp(40px, 12vw, 100px); margin: 0; background: linear-gradient(to right, #fff, #888); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: clamp(1px, 0.6vw, 5px); overflow-wrap: break-word; }
         .mggx-subtitle { font-size: 20px; color: #FFA500; margin-top: 10px; letter-spacing: 3px; text-transform: uppercase; }
         .mggx-desc { max-width: 600px; margin-top: 30px; color: #aaa; line-height: 1.6; font-size: 16px; }
         .scroll-down { margin-top: 60px; font-size: 30px; animation: bounce 2s infinite; color: #555; cursor: pointer; text-decoration: none; display: inline-block; }
@@ -34,7 +38,12 @@
 
         /* CATALOGO */
         .games-list-section { padding: 100px 50px; background-color: #0a0a0a; min-height: 60vh; border-bottom: 1px solid #222; }
-        .section-header { font-family: 'Anton'; font-size: 50px; color: white; margin-bottom: 50px; text-align: center; }
+        /* "PROYECTOS" es una sola palabra sin espacios: a font-size fijo
+           no tenía forma de encogerse en un celular angosto y desbordaba
+           el ancho de la pantalla (el navegador no puede partir una
+           palabra a la mitad salvo que se lo pidas explícitamente).
+           clamp() la mantiene siempre dentro del viewport. */
+        .section-header { font-family: 'Anton'; font-size: clamp(28px, 8vw, 50px); color: white; margin-bottom: 50px; text-align: center; overflow-wrap: break-word; }
         .section-header span { color: #FFA500; }
         
         .games-grid { display: flex; justify-content: center; flex-wrap: wrap; gap: 40px; }
@@ -65,7 +74,12 @@
         .ad-content a { color: #FFA500; text-decoration: none; font-weight: bold; }
         .ad-content a:hover { color: white; }
 
-        @media (max-width: 768px) { .mggx-title { font-size: 60px; } .navbar { padding: 20px; } .menu { display: none; } .ad-banner { padding: 12px 20px; } }
+        @media (max-width: 768px) { .navbar { padding: 20px; } .menu { display: none; } .ad-banner { padding: 12px 20px; } }
+        @media (max-width: 480px) {
+            .games-list-section { padding: 70px 20px; }
+            .games-grid { gap: 24px; }
+            .game-card { width: 100%; max-width: 400px; }
+        }
     </style>
     <link rel="stylesheet" href="css/site.css">
 </head>
