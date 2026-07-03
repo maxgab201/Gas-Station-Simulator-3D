@@ -167,16 +167,11 @@
 
     <footer>COPYRIGHT © 2025 MGGX GAMES. &nbsp;|&nbsp; <a href="terminos/" style="color:#555; text-decoration:none;">Términos y Condiciones</a></footer>
 
-    <script type="module">
-        import { initHeroScene } from './js/3d/hero-scene.js';
-        import { buildOrb } from './js/3d/geo-builders.js';
-        initHeroScene('particle-canvas', {
-            color: 0xffa500,
-            particleCount: 1600,
-            iconBuilder: buildOrb,
-            iconScale: 1.15,
-        });
-    </script>
+    <!-- Todo el JS de la página vive en archivos externos: la CSP de
+         producción (script-src 'self', sin 'unsafe-inline') bloquea
+         cualquier <script> embebido en el HTML, así que un bloque inline
+         acá jamás se ejecuta en el sitio publicado. -->
+    <script type="module" src="js/home-init.js"></script>
     <script type="module" src="js/motion.js"></script>
     <script type="module" src="js/admin.js"></script>
 </body>
