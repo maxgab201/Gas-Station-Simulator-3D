@@ -23,7 +23,7 @@ const CAMERA_TARGET = { x: 0, y: 1, z: 0 };
 
 function buildGround() {
     const geo = new THREE.PlaneGeometry(60, 60, 1, 1);
-    const mat = new THREE.MeshStandardMaterial({ color: 0x0a0a0a, roughness: 0.95, metalness: 0.05 });
+    const mat = new THREE.MeshStandardMaterial({ color: 0x161616, roughness: 0.85, metalness: 0.1 });
     const ground = new THREE.Mesh(geo, mat);
     ground.rotation.x = -Math.PI / 2;
     ground.position.y = 0;
@@ -88,7 +88,7 @@ export function initGasStationScene(containerId = 'three-container') {
         cameraFov: 45,
         far: 80,
         setup(ctx) {
-            ctx.scene.fog = new THREE.FogExp2(0x000000, 0.045);
+            ctx.scene.fog = new THREE.FogExp2(0x000000, 0.026);
             ctx.camera.position.set(2.6, 1.7, 4.4);
             ctx.camera.lookAt(CAMERA_TARGET.x, CAMERA_TARGET.y, CAMERA_TARGET.z);
 
@@ -127,16 +127,20 @@ export function initGasStationScene(containerId = 'three-container') {
             ctx.scene.add(particles);
             ctx.ambientParticles = particles;
 
-            ctx.scene.add(new THREE.AmbientLight(0xffffff, 0.55));
-            const key = new THREE.DirectionalLight(0xffffff, 1.6);
-            key.position.set(6, 8, 4);
+            ctx.scene.add(new THREE.AmbientLight(0xffffff, 1.0));
+            ctx.scene.add(new THREE.HemisphereLight(0x8899bb, 0x221a10, 0.6));
+            const key = new THREE.DirectionalLight(0xfff2df, 2.8);
+            key.position.set(4, 9, 7);
             ctx.scene.add(key);
-            const fill = new THREE.PointLight(ACCENT, 3, 10);
-            fill.position.set(-2, 2.5, 2);
+            const fill = new THREE.PointLight(ACCENT, 5, 14);
+            fill.position.set(-2.5, 2.8, 3);
             ctx.scene.add(fill);
-            const rim = new THREE.PointLight(0x4488ff, 1.2, 12);
-            rim.position.set(3, 3, -4);
+            const rim = new THREE.PointLight(0x4488ff, 2.2, 16);
+            rim.position.set(3.5, 3.5, -4);
             ctx.scene.add(rim);
+            const front = new THREE.PointLight(0xffffff, 2.4, 11);
+            front.position.set(2.2, 1.8, 3.8);
+            ctx.scene.add(front);
 
             canvas.style.pointerEvents = 'auto';
             canvas.style.cursor = 'default';

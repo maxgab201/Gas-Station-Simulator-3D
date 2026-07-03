@@ -1,6 +1,4 @@
-// Arranque de la escena 3D del hero (partículas + libro flotante).
-// Externo por la CSP de producción: script-src 'self' sin
-// 'unsafe-inline' — un bloque inline no se ejecuta nunca publicado.
+// Externo por la CSP de producción: script-src 'self' sin 'unsafe-inline'.
 import { initHeroScene } from '../../js/3d/hero-scene.js';
 import { buildBook } from '../../js/3d/geo-builders.js';
 
@@ -9,6 +7,5 @@ initHeroScene('hero-canvas', {
     particleCount: 1200,
     iconBuilder: buildBook,
     iconScale: 0.9,
-    // Mismo layout de dos columnas que WtsApp: icono a la izquierda.
-    iconOffset: { x: -3.1, y: 0.6, z: -1.2 },
+    iconOffset: { x: -4.9, y: 2.8, z: 0.2 },
 });
