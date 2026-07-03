@@ -280,73 +280,15 @@
         &nbsp;|&nbsp; <a href="../terminos/" style="color:#555; text-decoration:none;">Términos y Condiciones</a>
     </footer>
 
-    <script>
-        var _pendingDownloadUrl = null;
+    <!-- Lógica de página en archivo externo: la CSP de producción
+         (script-src 'self', sin 'unsafe-inline') bloquea los <script>
+         inline — era la razón por la que ni las partículas 3D ni los
+         botones de descarga funcionaban en el sitio publicado. -->
+    <script src="js/page.js"></script>
 
-        function abrirAdvertencia() {
-            document.getElementById("warningModal").style.display = "flex";
-        }
-
-        function pasarAVersiones() {
-            document.getElementById("warningModal").style.display = "none";
-            document.getElementById("downloadModal").style.display = "flex";
-        }
-
-        function iniciarDescarga(url) {
-            _pendingDownloadUrl = url;
-            cerrarTodo();
-            document.getElementById("donationModal").style.display = "flex";
-        }
-
-        function donarYDescargar() {
-            window.open("https://ko-fi.com/mggxgames", "_blank");
-            ejecutarDescarga();
-        }
-
-        function descargarSinDonar() {
-            ejecutarDescarga();
-        }
-
-        function ejecutarDescarga() {
-            if (_pendingDownloadUrl) {
-                window.location.href = _pendingDownloadUrl;
-                _pendingDownloadUrl = null;
-            }
-            cerrarTodo();
-        }
-
-        function cerrarTodo() {
-            document.getElementById("warningModal").style.display = "none";
-            document.getElementById("downloadModal").style.display = "none";
-            document.getElementById("donationModal").style.display = "none";
-        }
-
-        window.onclick = function(event) {
-            if (event.target == document.getElementById("warningModal")) cerrarTodo();
-            if (event.target == document.getElementById("downloadModal")) cerrarTodo();
-            if (event.target == document.getElementById("donationModal")) cerrarTodo();
-        }
-    </script>
-
-    <script type="module">
-        import { initHeroScene } from '../js/3d/hero-scene.js';
-        import { buildBook } from '../js/3d/geo-builders.js';
-        initHeroScene('hero-canvas', {
-            color: 0xffa500,
-            particleCount: 1200,
-            iconBuilder: buildBook,
-            iconScale: 0.9,
-            // Mismo layout de dos columnas que WtsApp: icono a la izquierda.
-            iconOffset: { x: -3.1, y: 0.6, z: -1.2 },
-        });
-    </script>
+    <script type="module" src="js/hero-init.js"></script>
     <script type="module" src="../js/motion.js"></script>
-    <script type="module">
-        import { renderDownloadList, renderPatchHistory, renderLatestTagline } from '../js/render-versions.js';
-        renderDownloadList('download-list', 'craft-book', 'pc', { onDownload: url => iniciarDescarga(url) });
-        renderPatchHistory('patch-history', 'craft-book');
-        renderLatestTagline('hero-tagline', 'craft-book', pc => pc ? `Desktop Utility · v${pc.version} — ${pc.title}` : 'Desktop Utility');
-    </script>
+    <script type="module" src="js/versions-init.js"></script>
 
 </body>
 </html>
