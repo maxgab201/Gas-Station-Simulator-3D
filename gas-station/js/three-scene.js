@@ -245,7 +245,12 @@ export function initGasStationScene(containerId = 'three-container') {
 
             for (const c of ctx.cars || []) {
                 c.mesh.position.x += dt * c.speed * c.dir;
-                c.mesh.children.forEach((child, i) => { if (i >= 2 && i <= 5) child.rotation.x += dt * c.speed * 2.2; });
+                // Euler 'XYZ': Ry se aplica antes que el rx:π/2 del semieje y es
+                // la única componente que deja el eje del cilindro invariante —
+                // girar rotation.y hace RODAR la rueda sobre su semieje;
+                // rotation.x la hacía girar de costado (alrededor del avance) y
+                // rotation.z movería el propio eje (bamboleo), no la rodadura.
+                c.mesh.children.forEach((child, i) => { if (i >= 2 && i <= 5) child.rotation.y += dt * c.speed * 2.2 * c.dir; });
                 if ((c.dir > 0 && c.mesh.position.x > c.endX) || (c.dir < 0 && c.mesh.position.x < c.endX)) {
                     c.mesh.position.x = c.resetX;
                 }

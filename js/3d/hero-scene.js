@@ -112,12 +112,16 @@ export function initHeroScene(canvasId, opts = {}) {
             // caen sobre el texto o la imagen, y el hit-test contra la
             // esfera invisible del ícono sigue siendo el único filtro
             // real de si el pulso debe dispararse o no.
-            canvas.style.pointerEvents = iconBuilder ? 'auto' : 'none';
-            // touch-action: pan-y evita que el navegador intente
-            // interpretar gestos propios del canvas (zoom, etc.) en vez
-            // de dejar pasar el scroll vertical de la página cuando el
-            // dedo arranca sobre el canvas.
-            if (iconBuilder) canvas.style.touchAction = 'pan-y';
+            // pointer-events SIEMPRE en none: los listeners de click/tap
+            // viven en el contenedor padre (ver hitTarget más abajo), así
+            // que el canvas no necesita recibir eventos él mismo. Con
+            // 'auto', este estilo inline pisaba el pointer-events:none del
+            // CSS de la página y el canvas — absoluto, cubriendo todo el
+            // hero y pintado por encima del contenido estático — se
+            // tragaba los clicks de cualquier elemento sin z-index
+            // propio (los links "Volver al estudio" y "Términos" del
+            // Autoclicker quedaban inclickeables).
+            canvas.style.pointerEvents = 'none';
 
             function tryPulse(clientX, clientY) {
                 if (!iconHit) return;

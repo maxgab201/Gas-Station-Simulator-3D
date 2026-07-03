@@ -217,17 +217,18 @@ export function buildMousePointer({ color = 0xffa500 } = {}) {
     const bodyMat = stdMat(color, { roughness: 0.22, metalness: 0.45, emissive: color, emissiveIntensity: 0.45 });
     group.add(mesh(bodyGeo, bodyMat));
 
-    const outlineGeo = new THREE.ExtrudeGeometry(shape, { depth: 0.06, bevelEnabled: false });
-    outlineGeo.center();
-    const outlineMat = stdMat(0x111111, { roughness: 0.6, metalness: 0.2 });
-    const outline = mesh(outlineGeo, outlineMat, { z: -0.14 });
-    outline.scale.set(1.14, 1.12, 1);
-    group.add(outline);
+    // Sin malla de contorno: la versión anterior extruía una segunda
+    // silueta negra un 14% más grande detrás del cuerpo, incrustada en
+    // su mitad trasera (z-fighting) y que además, al rotar el ícono
+    // 180°, tapaba por completo al cuerpo — el puntero se veía negro de
+    // atrás y naranja de frente, o sea el "parpadeo" reportado. El bisel
+    // y el emisivo del propio cuerpo ya dan la definición necesaria
+    // sobre el fondo oscuro, desde cualquier ángulo de rotación.
 
     const ringMat = new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.22, side: THREE.DoubleSide });
-    const ring = mesh(new THREE.RingGeometry(0.5, 0.56, 40), ringMat, { x: -0.58, y: 0.95, z: 0.05 });
+    const ring = mesh(new THREE.RingGeometry(0.5, 0.56, 40), ringMat, { x: -0.58, y: 0.95, z: 0.3 });
     group.add(ring);
-    const ring2 = mesh(new THREE.RingGeometry(0.72, 0.76, 40), ringMat, { x: -0.58, y: 0.95, z: 0.05 });
+    const ring2 = mesh(new THREE.RingGeometry(0.72, 0.76, 40), ringMat, { x: -0.58, y: 0.95, z: 0.3 });
     group.add(ring2);
 
     return group;
