@@ -28,11 +28,14 @@ function versionButton(projectId, v, { highlight = false } = {}) {
         .map(b => `<span class="version-tag" style="${badgeStyle(b, color)}">${esc(b.text)}</span>`)
         .join(' ');
     const style = highlight ? `border-color:${color};` : (v.experimental ? 'border-color:#663333; opacity:0.8;' : '');
+    // <button> en vez de <a href="javascript:void(0)">: mismo click-to-download
+    // vía data-download-url (delegado más abajo con addEventListener), sin
+    // depender de un URI javascript: en el href.
     return `
-        <a href="javascript:void(0)" data-download-url="${esc(v.url)}" class="version-btn" style="${style}">
+        <button type="button" data-download-url="${esc(v.url)}" class="version-btn" style="font:inherit; text-align:left; cursor:pointer; ${style}">
             VERSIÓN ${esc(v.version)} ${badges}
             <span class="version-note"${v.experimental ? ' style="color:#e74c3c;"' : ''}>${esc(v.note)}</span>
-        </a>`;
+        </button>`;
 }
 
 /**

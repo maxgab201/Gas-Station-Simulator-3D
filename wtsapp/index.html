@@ -236,8 +236,8 @@
                     <span class="ram-good">WtsApp: <strong>0.5 MB</strong> de RAM</span>
                 </div>
                 <div class="hero-btns">
-                    <button class="btn-download" onclick="abrirAdvertencia()">🖥️ DESCARGAR PC</button>
-                    <button class="btn-android" onclick="abrirAdvertenciaAndroid()">📱 DESCARGAR ANDROID</button>
+                    <button class="btn-download" data-page-act="abrirAdvertencia">🖥️ DESCARGAR PC</button>
+                    <button class="btn-android" data-page-act="abrirAdvertenciaAndroid">📱 DESCARGAR ANDROID</button>
                 </div>
             </div>
         </div>
@@ -246,7 +246,7 @@
     <!-- MODAL: ADVERTENCIA -->
     <div id="warningModal" class="modal">
         <div class="modal-content warning-box">
-            <span class="close" onclick="cerrarTodo()">&times;</span>
+            <span class="close" data-page-act="cerrarTodo">&times;</span>
             <div class="warning-title">⚠️ ATENCIÓN ⚠️</div>
             <div class="warning-text">
                 <p><strong>La aplicación es 100% SEGURA y GRATUITA.</strong></p>
@@ -256,14 +256,14 @@
                     <li>Clic en <strong>"Ejecutar de todas formas"</strong>.</li>
                 </ul>
             </div>
-            <button class="btn-warning" onclick="pasarAVersiones()">¡ENTENDIDO!</button>
+            <button class="btn-warning" data-page-act="pasarAVersiones">¡ENTENDIDO!</button>
         </div>
     </div>
 
     <!-- MODAL: ELEGIR VERSIÓN -->
     <div id="downloadModal" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="cerrarTodo()">&times;</span>
+            <span class="close" data-page-act="cerrarTodo">&times;</span>
             <h2 style="margin-top:0; font-family:'Anton'; color:white; letter-spacing:1px;">ELEGÍ TU VERSIÓN</h2>
             <p style="color:#777; font-size:13px; margin-bottom:20px; text-transform:uppercase; letter-spacing:1px;">DESDE GITHUB</p>
 
@@ -274,7 +274,7 @@
     <!-- MODAL: ADVERTENCIA ANDROID -->
     <div id="warningAndroidModal" class="modal">
         <div class="modal-content warning-android">
-            <span class="close" onclick="cerrarTodo()">&times;</span>
+            <span class="close" data-page-act="cerrarTodo">&times;</span>
             <div class="warning-title-android">📱 INSTALACIÓN ANDROID</div>
             <div class="warning-text">
                 <p><strong>La app es 100% SEGURA y GRATUITA.</strong> Al ser un APK fuera de Google Play, Android requiere unos pasos extra la primera vez:</p>
@@ -288,14 +288,14 @@
                     <li>✅ ¡Listo! La app se instala normalmente.</li>
                 </ol>
             </div>
-            <button class="btn-warning-android" onclick="descargarAndroid()">¡ENTENDIDO, DESCARGAR APK!</button>
+            <button class="btn-warning-android" data-page-act="descargarAndroid">¡ENTENDIDO, DESCARGAR APK!</button>
         </div>
     </div>
 
     <!-- MODAL: ELEGIR VERSIÓN ANDROID -->
     <div id="downloadAndroidModal" class="modal">
         <div class="modal-content" style="border:1px solid #3ddc84;">
-            <span class="close" onclick="cerrarTodo()">&times;</span>
+            <span class="close" data-page-act="cerrarTodo">&times;</span>
             <h2 style="margin-top:0; font-family:'Anton'; color:#3ddc84; letter-spacing:1px;">ELEGÍ TU VERSIÓN</h2>
             <div id="download-list-android"></div>
         </div>
@@ -304,15 +304,15 @@
     <!-- MODAL: DONACIÓN -->
     <div id="donationModal" class="modal">
         <div class="modal-content" style="border: 2px solid #FFA500; max-width: 420px;">
-            <span class="close" onclick="cerrarTodo()">&times;</span>
+            <span class="close" data-page-act="cerrarTodo">&times;</span>
             <div class="donation-icon">☕</div>
             <div class="donation-title">¿QUERÉS APOYAR<br>EL PROYECTO?</div>
             <p class="donation-desc">
                 Todo es 100% gratis y siempre lo será.<br>
                 Si te gusta el proyecto y querés que sigamos creciendo, podés invitarnos un café. ¡Cada uno ayuda!
             </p>
-            <button onclick="donarYDescargar()" class="btn-donate">☕ INVITAR UN CAFÉ</button>
-            <button onclick="descargarSinDonar()" class="btn-skip">NO, GRACIAS — DESCARGAR IGUAL</button>
+            <button data-page-act="donarYDescargar" class="btn-donate">☕ INVITAR UN CAFÉ</button>
+            <button data-page-act="descargarSinDonar" class="btn-skip">NO, GRACIAS — DESCARGAR IGUAL</button>
             <p class="donation-fine">Tu descarga no depende de una donación.</p>
         </div>
     </div>
@@ -448,8 +448,18 @@
     </script>
 
     <script type="module">
-        import { initHeroParticles } from '../js/hero-particles.js';
-        initHeroParticles('hero-canvas');
+        import { initHeroScene } from '../js/3d/hero-scene.js';
+        import { buildChatBubble } from '../js/3d/geo-builders.js';
+        initHeroScene('hero-canvas', {
+            color: 0x3ddc84,
+            particleCount: 1200,
+            iconBuilder: buildChatBubble,
+            iconScale: 0.85,
+            // Hero de dos columnas (foto a la izquierda, texto a la derecha):
+            // el icono va a la izquierda, detrás de la portada, para no
+            // taparle el párrafo de descripción.
+            iconOffset: { x: -3.1, y: 0.6, z: -1.2 },
+        });
     </script>
     <script type="module" src="../js/motion.js"></script>
     <script type="module">

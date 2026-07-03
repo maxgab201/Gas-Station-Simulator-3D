@@ -29,7 +29,7 @@
         .mggx-title { font-family: 'Anton', sans-serif; font-size: 100px; margin: 0; background: linear-gradient(to right, #fff, #888); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 5px; }
         .mggx-subtitle { font-size: 20px; color: #FFA500; margin-top: 10px; letter-spacing: 3px; text-transform: uppercase; }
         .mggx-desc { max-width: 600px; margin-top: 30px; color: #aaa; line-height: 1.6; font-size: 16px; }
-        .scroll-down { margin-top: 60px; font-size: 30px; animation: bounce 2s infinite; color: #555; cursor: pointer; }
+        .scroll-down { margin-top: 60px; font-size: 30px; animation: bounce 2s infinite; color: #555; cursor: pointer; text-decoration: none; display: inline-block; }
         @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-10px);} 60% {transform: translateY(-5px);} }
 
         /* CATALOGO */
@@ -88,7 +88,7 @@
             Estudio independiente creado por Maximo.<br>
             Desarrollando experiencias inmersivas, mecánicas únicas y mundos abiertos en Unity.
         </p>
-        <div class="scroll-down" onclick="location.href='#juegos'">&#x2193;</div>
+        <a href="#juegos" class="scroll-down" aria-label="Ir a la sección de proyectos">&#x2193;</a>
     </div>
 
     <div id="juegos" class="games-list-section">
@@ -153,7 +153,16 @@
 
     <footer>COPYRIGHT © 2025 MGGX GAMES. &nbsp;|&nbsp; <a href="terminos/" style="color:#555; text-decoration:none;">Términos y Condiciones</a></footer>
 
-    <script type="module" src="js/particles.js"></script>
+    <script type="module">
+        import { initHeroScene } from './js/3d/hero-scene.js';
+        import { buildOrb } from './js/3d/geo-builders.js';
+        initHeroScene('particle-canvas', {
+            color: 0xffa500,
+            particleCount: 1600,
+            iconBuilder: buildOrb,
+            iconScale: 1.15,
+        });
+    </script>
     <script type="module" src="js/motion.js"></script>
     <script type="module" src="js/admin.js"></script>
 </body>

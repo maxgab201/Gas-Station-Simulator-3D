@@ -39,6 +39,79 @@ export function observe(root = document) {
     });
 }
 
+/**
+ * Delegación de clicks para reemplazar los onclick="fn()" inline.
+ * Cada elemento marcado con data-page-act="nombreDeFuncion" dispara
+ * window[nombreDeFuncion]() al clickearlo. Esto permite eliminar
+ * TODOS los atributos onclick del HTML (necesario para poder poner
+ * script-src sin 'unsafe-inline' en el CSP — ver vercel.json) sin
+ * tocar la lógica de cada página, que sigue definiendo sus
+ * funciones (abrirAdvertencia, cerrarTodo, etc.) como siempre.
+ * Usa un atributo distinto de data-act (el que usa js/admin.js
+ * dentro del panel) para que ambos sistemas de delegación convivan
+ * sin pisarse ni colisionar entre sí.
+ */
+function wirePageActions() {
+    document.addEventListener('click', (event) => {
+        const el = event.target.closest('[data-page-act]');
+        if (!el) return;
+        const fn = window[el.dataset.pageAct];
+        if (typeof fn === 'function') fn(el);
+    });
+    // Los elementos no nativamente interactivos (ej. <span class="close">)
+    // reciben role="button" + tabindex="0" más abajo (ver wireA11yForActions);
+    // acá completamos el soporte de teclado para que Enter/Espacio también
+    // disparen la acción, igual que un click.
+    document.addEventListener('keydown', (event) => {
+        if (event.key !== 'Enter' && event.key !== ' ') return;
+        const el = event.target.closest('[data-page-act]');
+        if (!el || el.tagName === 'BUTTON' || el.tagName === 'A' || el.tagName === 'INPUT') return;
+        event.preventDefault();
+        const fn = window[el.dataset.pageAct];
+        if (typeof fn === 'function') fn(el);
+    });
+}
+
+/** Da semántica de botón + foco por teclado a elementos no nativos con data-page-act. */
+function wireA11yForActions() {
+    document.querySelectorAll('[data-page-act]').forEach(el => {
+        if (el.tagName === 'BUTTON' || el.tagName === 'A' || el.tagName === 'INPUT') return;
+        if (!el.hasAttribute('role')) el.setAttribute('role', 'button');
+        if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '0');
+    });
+}
+
+/**
+ * Tilt 3D sutil por puntero en .game-card (y cualquier [data-tilt]):
+ * rota la card en perspectiva siguiendo la posición del mouse,
+ * puramente con transform (GPU, sin reflow) y se desactiva del todo
+ * con prefers-reduced-motion o en dispositivos táctiles (pointer:
+ * coarse), donde no tiene sentido.
+ */
+function initTilt() {
+    if (reduceMotion || window.matchMedia('(pointer: coarse)').matches) return;
+    const targets = document.querySelectorAll('.game-card, [data-tilt]');
+    targets.forEach(card => {
+        card.classList.add('tilt-active');
+        card.style.transformStyle = 'preserve-3d';
+        card.style.willChange = 'transform';
+        let raf = null;
+        card.addEventListener('pointermove', e => {
+            const rect = card.getBoundingClientRect();
+            const px = (e.clientX - rect.left) / rect.width - 0.5;
+            const py = (e.clientY - rect.top) / rect.height - 0.5;
+            if (raf) cancelAnimationFrame(raf);
+            raf = requestAnimationFrame(() => {
+                card.style.transform = `perspective(900px) rotateX(${(-py * 9).toFixed(2)}deg) rotateY(${(px * 11).toFixed(2)}deg) translateY(-10px) scale(1.015)`;
+            });
+        });
+        card.addEventListener('pointerleave', () => {
+            if (raf) cancelAnimationFrame(raf);
+            card.style.transform = '';
+        });
+    });
+}
+
 /** Marca automáticamente los bloques principales de la página. */
 export function autoTag() {
     const selectors = [
@@ -69,6 +142,9 @@ export function toast(message, ms = 2800) {
 export function init() {
     autoTag();
     observe();
+    wirePageActions();
+    wireA11yForActions();
+    initTilt();
 }
 
 window.mggxMotion = { observe, toast, init };

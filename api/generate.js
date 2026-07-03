@@ -3,29 +3,48 @@
 // La key vive en la variable de entorno NVIDIA_API_KEY (Vercel).
 // Al correr server-side no hay problema de CORS con integrate.api.nvidia.com.
 
-import { json, requireAuth } from './_lib.js';
+import { json, safeError, requireAuth, enforceSameOrigin, enforceRateLimit, parseJsonBody } from './_lib.js';
 
 const NIM_ENDPOINT = 'https://integrate.api.nvidia.com/v1/chat/completions';
 const NIM_MODEL = 'meta/llama-3.1-8b-instruct';
+const VALID_PLATFORMS = new Set(['pc', 'android']);
 
 export default async function handler(req, res) {
     if (req.method !== 'POST') return json(res, 405, { error: 'Método no permitido' });
+    if (!enforceSameOrigin(req, res)) return;
     if (!requireAuth(req, res)) return;
+    // Límite más estricto que el resto de la API: cada llamada consume
+    // cuota real de NVIDIA NIM, así que se cuida más que el resto.
+    if (!enforceRateLimit(req, res, 'generate', { limit: 10, windowMs: 60_000 })) return;
 
     if (!process.env.NVIDIA_API_KEY) {
         return json(res, 503, { error: 'La IA no está configurada: falta NVIDIA_API_KEY en las variables de entorno de Vercel.' });
     }
 
-    const body = typeof req.body === 'string' ? safeParse(req.body) : (req.body || {});
-    const { projectName, platform, versionNumber, changesText, examples } = body;
-    if (!changesText || !String(changesText).trim()) {
+    let body;
+    try {
+        body = parseJsonBody(req);
+    } catch (err) {
+        return safeError(res, 400, 'generate:parse', err, 'Solicitud inválida.');
+    }
+
+    const changesText = String(body.changesText || '').trim();
+    if (!changesText) {
         return json(res, 400, { error: 'Falta el texto con los cambios de la versión.' });
     }
+    if (changesText.length > 2000) {
+        return json(res, 400, { error: 'El texto de cambios es demasiado largo (máx. 2000 caracteres).' });
+    }
+
+    const projectName = String(body.projectName || '').slice(0, 80);
+    const platform = VALID_PLATFORMS.has(body.platform) ? body.platform : 'pc';
+    const versionNumber = String(body.versionNumber || '').slice(0, 40);
+    const examples = Array.isArray(body.examples) ? body.examples.slice(0, 3) : [];
 
     try {
         const raw = await callNim(buildMessages({ projectName, platform, versionNumber, changesText, examples }));
         const parsed = extractJson(raw);
-        if (!parsed.title || !parsed.note) throw new Error('Respuesta de IA incompleta.');
+        if (!parsed.title || !parsed.note) throw new Error('Respuesta de IA incompleta o mal formada.');
         return json(res, 200, {
             title: String(parsed.title).toUpperCase().slice(0, 40),
             note: String(parsed.note).slice(0, 160),
@@ -37,8 +56,7 @@ export default async function handler(req, res) {
                 : [],
         });
     } catch (err) {
-        console.error('[api/generate]', err);
-        return json(res, 502, { error: `La IA no pudo generar el contenido: ${err.message}` });
+        return safeError(res, 502, 'generate', err, 'La IA no pudo generar el contenido. Probá de nuevo o completá los campos a mano.');
     }
 }
 
@@ -158,8 +176,4 @@ function extractJson(text) {
     const end = candidate.lastIndexOf('}');
     if (start === -1 || end === -1) throw new Error('la IA no devolvió JSON válido.');
     return JSON.parse(candidate.slice(start, end + 1));
-}
-
-function safeParse(s) {
-    try { return JSON.parse(s); } catch { return {}; }
 }

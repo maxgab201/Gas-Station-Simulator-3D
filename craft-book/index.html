@@ -189,7 +189,7 @@
                 <p class="hero-desc">
                     La guía definitiva de crafteos de Minecraft, ahora en tu PC. Tenés todas las recetas a un clic de distancia mientras jugás, con soporte nativo para mouse y teclado y una interfaz pensada para pantallas grandes.
                 </p>
-                <button class="btn-download" onclick="abrirAdvertencia()">DESCARGA YA</button>
+                <button class="btn-download" data-page-act="abrirAdvertencia">DESCARGA YA</button>
             </div>
         </div>
     </div>
@@ -197,7 +197,7 @@
     <!-- MODAL: ADVERTENCIA -->
     <div id="warningModal" class="modal">
         <div class="modal-content warning-box">
-            <span class="close" onclick="cerrarTodo()">&times;</span>
+            <span class="close" data-page-act="cerrarTodo">&times;</span>
             <div class="warning-title">⚠️ ATENCIÓN ⚠️</div>
             <div class="warning-text">
                 <p><strong>La aplicación es 100% SEGURA y GRATUITA.</strong></p>
@@ -207,22 +207,22 @@
                     <li>Clic en <strong>"Ejecutar de todas formas"</strong>.</li>
                 </ul>
             </div>
-            <button class="btn-warning" onclick="pasarAVersiones()">¡ENTENDIDO!</button>
+            <button class="btn-warning" data-page-act="pasarAVersiones">¡ENTENDIDO!</button>
         </div>
     </div>
 
     <!-- MODAL: DONACIÓN -->
     <div id="donationModal" class="modal">
         <div class="modal-content" style="border: 2px solid #FFA500; max-width: 420px;">
-            <span class="close" onclick="cerrarTodo()">&times;</span>
+            <span class="close" data-page-act="cerrarTodo">&times;</span>
             <div style="font-size: 44px; margin-bottom: 12px;">☕</div>
             <div style="font-family: 'Anton', sans-serif; font-size: 24px; color: #FFA500; margin-bottom: 10px; letter-spacing: 1px; line-height: 1.2;">¿QUERÉS APOYAR<br>EL PROYECTO?</div>
             <p style="color: #aaa; font-size: 14px; line-height: 1.6; margin-bottom: 22px;">
                 Todo es 100% gratis y siempre lo será.<br>
                 Si te gusta el proyecto y querés que sigamos creciendo, podés invitarnos un café. ¡Cada uno ayuda!
             </p>
-            <button onclick="donarYDescargar()" class="btn-donate">☕ INVITAR UN CAFÉ</button>
-            <button onclick="descargarSinDonar()" class="btn-skip">NO, GRACIAS — DESCARGAR IGUAL</button>
+            <button data-page-act="donarYDescargar" class="btn-donate">☕ INVITAR UN CAFÉ</button>
+            <button data-page-act="descargarSinDonar" class="btn-skip">NO, GRACIAS — DESCARGAR IGUAL</button>
             <p style="color: #444; font-size: 11px; margin-top: 14px;">Tu descarga no depende de una donación.</p>
         </div>
     </div>
@@ -230,7 +230,7 @@
     <!-- MODAL: ELEGIR VERSIÓN -->
     <div id="downloadModal" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="cerrarTodo()">&times;</span>
+            <span class="close" data-page-act="cerrarTodo">&times;</span>
             <h2 style="margin-top:0; font-family:'Anton'; color: white; letter-spacing: 1px;">ELEGÍ TU VERSIÓN</h2>
             <p style="color:#777; font-size:13px; margin-bottom:20px; text-transform:uppercase; letter-spacing:1px;">DESDE GITHUB</p>
 
@@ -329,8 +329,16 @@
     </script>
 
     <script type="module">
-        import { initHeroParticles } from '../js/hero-particles.js';
-        initHeroParticles('hero-canvas');
+        import { initHeroScene } from '../js/3d/hero-scene.js';
+        import { buildBook } from '../js/3d/geo-builders.js';
+        initHeroScene('hero-canvas', {
+            color: 0xffa500,
+            particleCount: 1200,
+            iconBuilder: buildBook,
+            iconScale: 0.9,
+            // Mismo layout de dos columnas que WtsApp: icono a la izquierda.
+            iconOffset: { x: -3.1, y: 0.6, z: -1.2 },
+        });
     </script>
     <script type="module" src="../js/motion.js"></script>
     <script type="module">

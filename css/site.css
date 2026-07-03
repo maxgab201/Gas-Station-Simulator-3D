@@ -95,8 +95,18 @@ html { scroll-padding-top: 100px; }
     overflow: hidden;
     transition: transform var(--dur-2) var(--ease-spring), border-color var(--dur-2) var(--ease-out), box-shadow var(--dur-2) var(--ease-out) !important;
 }
-.game-card:hover {
-    transform: translateY(-10px) scale(1.015) !important;
+/* :not(.tilt-active) — cuando js/motion.js engancha el tilt 3D por
+   puntero (desktop, sin reduced-motion) agrega esa clase y toma
+   control total del transform vía JS; esta regla queda como
+   fallback CSS puro para touch / prefers-reduced-motion, donde
+   initTilt() nunca se activa. Sin !important a propósito: si
+   llevara !important, ganaría siempre y el tilt por JS (transform
+   inline sin !important) jamás se vería. */
+.game-card:hover:not(.tilt-active) {
+    transform: translateY(-10px) scale(1.015);
+    box-shadow: var(--shadow-2), var(--glow-accent);
+}
+.game-card.tilt-active:hover {
     box-shadow: var(--shadow-2), var(--glow-accent);
 }
 .card-img { transition: filter var(--dur-2) var(--ease-out), transform var(--dur-3) var(--ease-out) !important; }
