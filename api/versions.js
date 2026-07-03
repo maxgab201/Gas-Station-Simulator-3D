@@ -4,28 +4,59 @@
 //     edit:   { projectId, versionId, patch: {...} }
 //     delete: { projectId, versionId }
 // Cada mutación se commitea a data/versions.json en el repo de GitHub.
+//
+// Validación: todo identificador (projectId, versionId, platform,
+// action) se valida contra un allowlist estricto ANTES de tocar el
+// catálogo o de armar la URL de la API de GitHub — así un valor
+// malicioso nunca llega a formar parte de un path, de un mensaje de
+// commit, ni del JSON persistido sin pasar por sanitizeVersion().
 
-import { json, requireAuth, readCatalog, writeCatalog } from './_lib.js';
+import { json, safeError, requireAuth, enforceSameOrigin, enforceRateLimit, parseJsonBody, readCatalog, writeCatalog } from './_lib.js';
 
 const EDITABLE_FIELDS = ['version', 'title', 'note', 'url', 'date', 'active', 'experimental', 'details', 'platform'];
+const VALID_ACTIONS = new Set(['add', 'edit', 'delete']);
+const ID_PATTERN = /^[a-z0-9][a-z0-9._-]{0,63}$/i;
 
 export default async function handler(req, res) {
-    try {
-        if (req.method === 'GET') {
+    if (req.method === 'GET') {
+        if (!enforceRateLimit(req, res, 'versions-read', { limit: 120, windowMs: 60_000 })) return;
+        try {
             const { catalog, storage } = await readCatalog();
             return json(res, 200, { projects: catalog.projects, storage });
+        } catch (err) {
+            return safeError(res, 502, 'versions:get', err, 'No se pudo leer el catálogo de versiones.');
         }
-        if (req.method !== 'POST') return json(res, 405, { error: 'Método no permitido' });
-        if (!requireAuth(req, res)) return;
+    }
 
-        const body = typeof req.body === 'string' ? JSON.parse(req.body) : (req.body || {});
-        const { action, projectId } = body;
+    if (req.method !== 'POST') return json(res, 405, { error: 'Método no permitido' });
+    if (!enforceSameOrigin(req, res)) return;
+    if (!requireAuth(req, res)) return;
+    if (!enforceRateLimit(req, res, 'versions-write', { limit: 30, windowMs: 60_000 })) return;
 
+    let body;
+    try {
+        body = parseJsonBody(req);
+    } catch (err) {
+        return safeError(res, 400, 'versions:parse', err, 'Solicitud inválida.');
+    }
+
+    const { action, projectId, versionId } = body;
+    if (!VALID_ACTIONS.has(action)) {
+        return json(res, 400, { error: `Acción desconocida: ${String(action).slice(0, 40)}` });
+    }
+    if (typeof projectId !== 'string' || !ID_PATTERN.test(projectId)) {
+        return json(res, 400, { error: 'Identificador de proyecto inválido.' });
+    }
+    if ((action === 'edit' || action === 'delete') && (typeof versionId !== 'string' || !ID_PATTERN.test(versionId))) {
+        return json(res, 400, { error: 'Identificador de versión inválido.' });
+    }
+
+    try {
         // Reintenta una vez si el sha quedó viejo (commit concurrente).
         for (let attempt = 0; attempt < 2; attempt++) {
             const { catalog, sha } = await readCatalog();
             const project = catalog.projects.find(p => p.id === projectId);
-            if (!project) return json(res, 400, { error: `Proyecto desconocido: ${projectId}` });
+            if (!project) return json(res, 400, { error: 'Proyecto desconocido.' });
 
             let message;
             if (action === 'add') {
@@ -34,20 +65,18 @@ export default async function handler(req, res) {
                 project.versions.push(v.version);
                 message = `Admin: agrega ${project.name} v${v.version.version}`;
             } else if (action === 'edit') {
-                const target = project.versions.find(x => x.id === body.versionId);
+                const target = project.versions.find(x => x.id === versionId);
                 if (!target) return json(res, 404, { error: 'Versión no encontrada.' });
                 const patch = pick(body.patch || {}, EDITABLE_FIELDS);
                 const merged = sanitizeVersion({ ...target, ...patch }, project, target.id);
                 if (merged.error) return json(res, 400, { error: merged.error });
                 Object.assign(target, merged.version);
                 message = `Admin: edita ${project.name} v${target.version}`;
-            } else if (action === 'delete') {
-                const idx = project.versions.findIndex(x => x.id === body.versionId);
+            } else {
+                const idx = project.versions.findIndex(x => x.id === versionId);
                 if (idx === -1) return json(res, 404, { error: 'Versión no encontrada.' });
                 const [removed] = project.versions.splice(idx, 1);
                 message = `Admin: elimina ${project.name} v${removed.version}`;
-            } else {
-                return json(res, 400, { error: `Acción desconocida: ${action}` });
             }
 
             try {
@@ -60,8 +89,7 @@ export default async function handler(req, res) {
             }
         }
     } catch (err) {
-        console.error('[api/versions]', err);
-        return json(res, 502, { error: `No se pudo guardar en GitHub: ${err.message}` });
+        return safeError(res, 502, 'versions:write', err, 'No se pudo guardar el cambio. Intentá de nuevo en un momento.');
     }
 }
 
@@ -73,16 +101,20 @@ function pick(obj, keys) {
 
 function sanitizeVersion(raw, project, keepId = null) {
     if (!raw || typeof raw !== 'object') return { error: 'Datos de versión inválidos.' };
-    const platform = project.platforms.includes(raw.platform) ? raw.platform : project.platforms[0];
-    const version = String(raw.version || '').trim();
+    const platform = project.platforms.includes(raw.platform) ? raw.platform : null;
+    if (!platform) return { error: 'Plataforma inválida para este proyecto.' };
+    const version = String(raw.version || '').trim().slice(0, 40);
     const title = String(raw.title || '').trim().toUpperCase().slice(0, 60);
     const note = String(raw.note || '').trim().slice(0, 200);
-    const url = String(raw.url || '').trim();
+    const url = String(raw.url || '').trim().slice(0, 500);
     if (!version || !title || !note || !url) {
         return { error: 'Faltan campos obligatorios: versión, título, mini descripción y link.' };
     }
-    if (!/^https?:\/\//i.test(url)) {
-        return { error: 'El link a la release debe empezar con http:// o https://' };
+    if (!/^[a-z0-9][a-z0-9.\-]{0,39}$/i.test(version)) {
+        return { error: 'El número de versión solo puede tener letras, números, puntos y guiones.' };
+    }
+    if (!isSafeDownloadUrl(url)) {
+        return { error: 'El link a la release debe ser una URL https:// válida.' };
     }
     const details = Array.isArray(raw.details)
         ? raw.details
@@ -104,6 +136,16 @@ function sanitizeVersion(raw, project, keepId = null) {
             details,
         },
     };
+}
+
+/** Solo https:// con un host bien formado — descarta javascript:, data:, etc. */
+function isSafeDownloadUrl(url) {
+    try {
+        const parsed = new URL(url);
+        return parsed.protocol === 'https:' && parsed.hostname.length > 0;
+    } catch {
+        return false;
+    }
 }
 
 function defaultDate() {

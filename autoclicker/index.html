@@ -195,7 +195,7 @@
                 <div class="feature-item"><span>🛡️</span> 100% Safe</div>
             </div>
 
-            <button class="btn-download" onclick="abrirAdvertencia()">DESCARGA YA</button>
+            <button class="btn-download" data-page-act="abrirAdvertencia">DESCARGA YA</button>
         </div>
 
         <a href="../" class="back-link">← VOLVER AL ESTUDIO</a>
@@ -211,8 +211,8 @@
                 Todo es 100% gratis y siempre lo será.<br>
                 Si te gusta el proyecto y querés que sigamos creciendo, podés invitarnos un café. ¡Cada uno ayuda!
             </p>
-            <button onclick="donarYDescargar()" class="btn-donate">☕ INVITAR UN CAFÉ</button>
-            <button onclick="descargarSinDonar()" class="btn-skip">NO, GRACIAS — DESCARGAR IGUAL</button>
+            <button data-page-act="donarYDescargar" class="btn-donate">☕ INVITAR UN CAFÉ</button>
+            <button data-page-act="descargarSinDonar" class="btn-skip">NO, GRACIAS — DESCARGAR IGUAL</button>
             <p style="color: #444; font-size: 11px; margin-top: 14px;">Tu descarga no depende de una donación.</p>
         </div>
     </div>
@@ -227,8 +227,8 @@
                 1. Click en <u>"Más información"</u>.<br>
                 2. Click en <strong>"Ejecutar de todas formas"</strong>.</p>
             </div>
-            <button class="btn-confirm" onclick="descargarAhora()">¡ENTENDIDO, DESCARGAR!</button>
-            <p onclick="cerrarTodo()" style="color: #555; cursor: pointer; margin-top: 15px; font-size: 12px;">CANCELAR</p>
+            <button class="btn-confirm" data-page-act="descargarAhora">¡ENTENDIDO, DESCARGAR!</button>
+            <p data-page-act="cerrarTodo" style="color: #555; cursor: pointer; margin-top: 15px; font-size: 12px;">CANCELAR</p>
         </div>
     </div>
 
@@ -270,8 +270,19 @@
     </script>
 
     <script type="module">
-        import { initHeroParticles } from '../js/hero-particles.js';
-        initHeroParticles('hero-canvas');
+        import { initHeroScene } from '../js/3d/hero-scene.js';
+        import { buildLightningBolt } from '../js/3d/geo-builders.js';
+        initHeroScene('hero-canvas', {
+            color: 0xffa500,
+            particleCount: 1200,
+            iconBuilder: buildLightningBolt,
+            iconScale: 0.7,
+            // Hero de una sola columna centrada (título + card apilados):
+            // no hay hueco lateral, así que el icono va bien arriba del
+            // título y bien atrás (z muy negativo, se ve chico) para leer
+            // como ambiente, no como algo que compite con el texto/card.
+            iconOffset: { x: 0, y: 4.2, z: -5 },
+        });
     </script>
     <script type="module" src="../js/motion.js"></script>
     <script type="module">

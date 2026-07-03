@@ -105,13 +105,13 @@
                 El simulador que redefine el género. Ahora con tiempos de carga instantáneos, iluminación realista y bugs corregidos.
                 <br>Desarrollado con pasión en Unity.
             </p>
-            <button class="btn" onclick="abrirAdvertencia()">DESCARGAR AHORA</button>
+            <button class="btn" data-page-act="abrirAdvertencia">DESCARGAR AHORA</button>
         </div>
     </section>
 
     <div id="warningModal" class="modal">
         <div class="modal-content warning-box">
-            <span class="close" onclick="cerrarTodo()">&times;</span>
+            <span class="close" data-page-act="cerrarTodo">&times;</span>
             <div class="warning-title">⚠️ IMPORTANTE ⚠️</div>
             <div class="warning-text">
                 <p><strong>El juego es 100% SEGURO y GRATIS.</strong></p>
@@ -121,28 +121,28 @@
                     <li>Clic en <strong>"Ejecutar de todas formas"</strong>.</li>
                 </ul>
             </div>
-            <button class="btn-warning" onclick="pasarAVersiones()">¡ENTENDIDO!</button>
+            <button class="btn-warning" data-page-act="pasarAVersiones">¡ENTENDIDO!</button>
         </div>
     </div>
 
     <div id="donationModal" class="modal">
         <div class="modal-content" style="border: 2px solid #FFA500; max-width: 420px;">
-            <span class="close" onclick="cerrarTodo()">&times;</span>
+            <span class="close" data-page-act="cerrarTodo">&times;</span>
             <div style="font-size: 44px; margin-bottom: 12px;">☕</div>
             <div style="font-family: 'Anton', sans-serif; font-size: 24px; color: #FFA500; margin-bottom: 10px; letter-spacing: 1px; line-height: 1.2;">¿QUERÉS APOYAR<br>EL PROYECTO?</div>
             <p style="color: #aaa; font-size: 14px; line-height: 1.6; margin-bottom: 22px;">
                 Todo es 100% gratis y siempre lo será.<br>
                 Si te gusta el juego y querés que sigamos desarrollando, podés invitarnos un café. ¡Cada uno ayuda!
             </p>
-            <button onclick="donarYDescargar()" class="btn-donate">☕ INVITAR UN CAFÉ</button>
-            <button onclick="descargarSinDonar()" class="btn-skip">NO, GRACIAS — DESCARGAR IGUAL</button>
+            <button data-page-act="donarYDescargar" class="btn-donate">☕ INVITAR UN CAFÉ</button>
+            <button data-page-act="descargarSinDonar" class="btn-skip">NO, GRACIAS — DESCARGAR IGUAL</button>
             <p style="color: #444; font-size: 11px; margin-top: 14px;">Tu descarga no depende de una donación.</p>
         </div>
     </div>
 
     <div id="downloadModal" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="cerrarTodo()">&times;</span>
+            <span class="close" data-page-act="cerrarTodo">&times;</span>
             <h2 style="margin-top:0">ELIGE TU VERSIÓN</h2>
             <p style="color:#777; font-size:14px; margin-bottom:20px;">DESDE GITHUB:</p>
             <div id="download-list"></div>
