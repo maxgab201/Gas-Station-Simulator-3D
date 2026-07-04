@@ -9,33 +9,44 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Anton&family=Roboto:wght@300;400;700&display=swap');
 
-        body, html { 
-            margin: 0; padding: 0; 
-            font-family: 'Roboto', sans-serif; 
-            background-color: #050505; 
-            color: white; 
+        body, html {
+            margin: 0; padding: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #050505;
+            color: white;
             overflow-x: hidden;
             scroll-behavior: smooth;
         }
 
-        .hero { 
-            height: 100vh; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-            background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%); 
-            padding: 20px; 
+        /* NAVBAR */
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 20px 50px; background: rgba(0, 0, 0, 0.9); position: fixed; width: 100%; top: 0; z-index: 1000; border-bottom: 2px solid #333; box-sizing: border-box; }
+        .logo { font-family: 'Anton', sans-serif; font-size: 28px; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; text-decoration: none; color: white; }
+        .logo span { color: #FFA500; }
+        .back-btn { color: #aaa; text-decoration: none; font-weight: bold; text-transform: uppercase; font-size: 14px; border: 1px solid #555; padding: 8px 15px; transition: 0.3s; }
+        .back-btn:hover { border-color: #FFA500; color: #FFA500; background: rgba(255, 165, 0, 0.1); }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
+            padding: 120px 20px 60px;
             position: relative;
+            box-sizing: border-box;
         }
 
-        h1 { 
-            font-family: 'Anton', sans-serif; 
-            font-size: clamp(40px, 8vw, 80px); 
-            color: #FFA500; 
-            margin: 0; 
+        h1 {
+            font-family: 'Anton', sans-serif;
+            font-size: clamp(40px, 8vw, 80px);
+            color: #FFA500;
+            margin: 0;
             text-shadow: 0 0 20px rgba(255, 165, 0, 0.5);
             letter-spacing: 2px;
+            position: relative;
+            z-index: 1;
         }
 
         .tagline {
@@ -45,6 +56,8 @@
             font-weight: bold;
             margin-bottom: 40px;
             font-size: 14px;
+            position: relative;
+            z-index: 1;
         }
 
         .app-card {
@@ -68,27 +81,31 @@
             gap: 15px;
         }
 
-        .feature-item {
+        .features .feature-item {
             display: flex;
             align-items: center;
             font-size: 14px;
             color: #ccc;
+            width: auto;
+            background: none;
+            padding: 0;
+            border-left: none;
         }
 
-        .feature-item span {
+        .features .feature-item span {
             color: #FFA500;
             margin-right: 10px;
         }
 
-        .btn-download { 
-            display: block; 
-            padding: 20px; 
-            background: #FFA500; 
-            color: black; 
-            font-weight: 900; 
-            text-decoration: none; 
-            text-transform: uppercase; 
-            transition: 0.4s; 
+        .btn-download {
+            display: block;
+            padding: 20px;
+            background: #FFA500;
+            color: black;
+            font-weight: 900;
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: 0.4s;
             border-radius: 8px;
             font-size: 20px;
             cursor: pointer;
@@ -96,94 +113,77 @@
             width: 100%;
         }
 
-        .btn-download:hover { 
-            background: white; 
+        .btn-download:hover {
+            background: white;
             transform: translateY(-5px);
         }
 
-        /* ESTILOS DEL MODAL (Advertencia) */
-        .modal { 
-            display: none; 
-            position: fixed; 
-            z-index: 2000; 
-            left: 0; top: 0; 
-            width: 100%; height: 100%; 
-            background-color: rgba(0,0,0,0.9); 
-            backdrop-filter: blur(8px); 
-            align-items: center; 
-            justify-content: center; 
-        }
+        /* SECCIONES */
+        section { padding: 80px 50px; border-bottom: 1px solid #222; background-color: #0a0a0a; }
+        .sec-title { font-family: 'Anton'; font-size: 40px; color: #FFA500; margin-bottom: 30px; }
+        .text-block { color: #aaa; line-height: 1.8; max-width: 900px; font-size: 16px; }
 
-        .modal-content { 
-            background-color: #111; 
-            border: 3px solid #FFD700; 
-            padding: 40px; 
-            width: 450px; 
-            text-align: center; 
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
-            position: relative;
-        }
+        /* VERSIONES / PATCH NOTES */
+        .patch-box { background: #151515; border: 1px solid #333; border-left: 5px solid #FFA500; padding: 25px; margin-bottom: 25px; max-width: 850px; transition: box-shadow 0.3s; }
+        .patch-box:hover { box-shadow: 0 0 15px rgba(255, 165, 0, 0.3); }
+        .patch-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
+        .patch-title { color: white; font-weight: bold; font-size: 18px; text-transform: uppercase; }
+        .patch-date { color: #666; font-size: 12px; }
+        .patch-tag { font-size: 10px; padding: 3px 8px; border-radius: 3px; font-weight: bold; text-transform: uppercase; margin-left: 8px; }
+        .patch-list { list-style: none; padding: 0; margin: 0; color: #ccc; font-size: 15px; }
+        .patch-list li { margin-bottom: 8px; display: flex; align-items: flex-start; }
+        .patch-list li::before { content: "➤"; color: #FFA500; margin-right: 10px; font-size: 12px; margin-top: 4px; flex-shrink: 0; }
+        .patch-list li strong { margin-right: 4px; }
 
-        .warning-title { color: #FFD700; font-family: 'Anton'; font-size: 32px; margin-bottom: 15px; }
-        
-        .warning-text { 
-            color: #ddd; 
-            font-size: 15px; 
-            line-height: 1.6; 
-            margin-bottom: 25px; 
-            text-align: left; 
-            background: #222; 
-            padding: 20px; 
-            border-radius: 5px;
-        }
+        /* MODALES */
+        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.9); backdrop-filter: blur(8px); align-items: center; justify-content: center; }
+        .modal-content { background-color: #111; border: 1px solid #333; padding: 40px; width: 450px; max-width: 90vw; text-align: center; box-shadow: 0 0 20px rgba(0,0,0,0.5); position: relative; }
+        .close { position: absolute; top: 10px; right: 20px; color: #aaa; font-size: 28px; font-weight: bold; cursor: pointer; }
+        .close:hover { color: white; }
 
-        .btn-confirm { 
-            background-color: #FFD700; 
-            color: black; 
-            border: none; 
-            padding: 15px 30px; 
-            font-weight: bold; 
-            font-size: 16px; 
-            cursor: pointer; 
-            text-transform: uppercase; 
-            width: 100%;
-            transition: 0.3s;
-        }
+        .warning-box { border: 3px solid #FFD700; box-shadow: 0 0 30px rgba(255, 215, 0, 0.3); }
+        .warning-title { color: #FFD700; font-family: 'Anton'; font-size: 32px; margin-bottom: 10px; letter-spacing: 1px; }
+        .warning-text { color: #ddd; font-size: 15px; line-height: 1.6; margin-bottom: 25px; text-align: left; background: #222; padding: 20px; border-radius: 5px; }
+        .btn-warning { background-color: #FFD700; color: black; border: none; padding: 15px 30px; font-weight: bold; font-size: 16px; cursor: pointer; text-transform: uppercase; width: 100%; transition: 0.3s; }
+        .btn-warning:hover { background-color: white; transform: scale(1.02); }
 
-        .btn-confirm:hover { background: white; }
-
-        /* position/z-index: igual que h1/.tagline/.app-card, garantiza
-           que estos links queden por encima del canvas 3D absoluto del
-           hero en el orden de apilamiento, pase lo que pase con el
-           pointer-events del canvas. */
-        .back-link {
-            margin-top: 40px;
-            display: inline-block;
-            color: #444;
-            text-decoration: none;
-            text-transform: uppercase;
-            font-size: 12px;
-            letter-spacing: 2px;
-            position: relative;
-            z-index: 1;
-        }
-        .terms-link { position: relative; z-index: 1; }
-
-        .back-link:hover { color: #FFA500; }
+        .version-btn { display: block; width: 100%; padding: 15px; margin: 10px 0; background: #222; color: white; border: 1px solid #444; text-decoration: none; font-weight: bold; transition: 0.3s; box-sizing: border-box; text-align: left; }
+        .version-btn:hover { background: #FFA500; color: black; border-color: #FFA500; }
+        .version-tag { font-size: 10px; background: #444; padding: 2px 5px; border-radius: 3px; margin-left: 10px; text-transform: uppercase; }
+        .version-note { font-size: 11px; color: #888; display: block; margin-top: 4px; font-weight: normal; }
+        .version-history { margin-top: 12px; border-top: 1px solid #333; padding-top: 12px; }
+        .version-history summary { color: #aaa; cursor: pointer; font-size: 12px; font-weight: bold; letter-spacing: 1px; list-style: none; padding: 12px; text-align: center; text-transform: uppercase; transition: 0.3s; }
+        .version-history summary::-webkit-details-marker { display: none; }
+        .version-history summary:hover { color: #FFA500; }
+        .version-history summary::after { content: " +"; color: #FFA500; }
+        .version-history[open] summary::after { content: " -"; }
+        .version-history-list { max-height: 320px; overflow-y: auto; padding-right: 6px; }
 
         /* DONATION MODAL */
-        .modal-donation { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.9); backdrop-filter: blur(8px); align-items: center; justify-content: center; }
         .btn-donate { display: block; width: 100%; padding: 14px; background: #FFA500; color: black; border: none; font-weight: 900; font-size: 15px; cursor: pointer; text-transform: uppercase; border-radius: 6px; margin-bottom: 10px; transition: 0.3s; box-sizing: border-box; }
         .btn-donate:hover { background: white; transform: scale(1.02); }
         .btn-skip { display: block; width: 100%; padding: 12px; background: transparent; color: #888; border: 1px solid #444; font-weight: bold; font-size: 13px; cursor: pointer; text-transform: uppercase; border-radius: 6px; transition: 0.3s; box-sizing: border-box; }
         .btn-skip:hover { border-color: #888; color: #ccc; }
+
+        footer { padding: 40px; text-align: center; color: #555; font-size: 12px; background: #080808; }
+        footer a { color: #555; text-decoration: none; }
+        footer a:hover { color: #FFA500; }
+
+        @media (max-width: 768px) {
+            .navbar { padding: 20px; }
+            section { padding: 60px 20px; }
+        }
+
         #hero-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
-        h1 { position: relative; z-index: 1; }
-        .tagline { position: relative; z-index: 1; }
     </style>
     <link rel="stylesheet" href="../css/site.css">
 </head>
 <body>
+
+    <nav class="navbar">
+        <a href="../" class="logo">MGGX <span>GAMES</span></a>
+        <a href="../" class="back-btn">← VOLVER AL INICIO</a>
+    </nav>
 
     <div class="hero">
         <canvas id="hero-canvas"></canvas>
@@ -204,14 +204,39 @@
 
             <button class="btn-download" data-page-act="abrirAdvertencia">DESCARGA YA</button>
         </div>
-
-        <a href="../" class="back-link">← VOLVER AL ESTUDIO</a>
-        <br>
-        <a href="../terminos/" class="terms-link" style="color:#333; text-decoration:none; font-size:11px; text-transform:uppercase; letter-spacing:2px; margin-top:10px; display:inline-block;">Términos y Condiciones</a>
     </div>
 
-    <div id="donationModal" class="modal-donation">
+    <!-- MODAL: ADVERTENCIA -->
+    <div id="warningModal" class="modal">
+        <div class="modal-content warning-box">
+            <span class="close" data-page-act="cerrarTodo">&times;</span>
+            <div class="warning-title">⚠️ ATENCIÓN ⚠️</div>
+            <div class="warning-text">
+                <p><strong>La aplicación es 100% SEGURA.</strong></p>
+                <p>Al ser un ejecutable nuevo de un desarrollador Indie, Windows SmartScreen podría lanzar una alerta.</p>
+                <p style="color: #FFD700;"><strong>Pasos para instalar:</strong><br>
+                1. Click en <u>"Más información"</u>.<br>
+                2. Click en <strong>"Ejecutar de todas formas"</strong>.</p>
+            </div>
+            <button class="btn-warning" data-page-act="pasarAVersiones">¡ENTENDIDO!</button>
+        </div>
+    </div>
+
+    <!-- MODAL: ELEGIR VERSIÓN -->
+    <div id="downloadModal" class="modal">
+        <div class="modal-content">
+            <span class="close" data-page-act="cerrarTodo">&times;</span>
+            <h2 style="margin-top:0; font-family:'Anton'; color: white; letter-spacing: 1px;">ELEGÍ TU VERSIÓN</h2>
+            <p style="color:#777; font-size:13px; margin-bottom:20px; text-transform:uppercase; letter-spacing:1px;">DESDE GITHUB</p>
+
+            <div id="download-list"></div>
+        </div>
+    </div>
+
+    <!-- MODAL: DONACIÓN -->
+    <div id="donationModal" class="modal">
         <div class="modal-content" style="border: 2px solid #FFA500; max-width: 420px;">
+            <span class="close" data-page-act="cerrarTodo">&times;</span>
             <div style="font-size: 44px; margin-bottom: 12px;">☕</div>
             <div style="font-family: 'Anton', sans-serif; font-size: 24px; color: #FFA500; margin-bottom: 10px; letter-spacing: 1px; line-height: 1.2;">¿QUERÉS APOYAR<br>EL PROYECTO?</div>
             <p style="color: #aaa; font-size: 14px; line-height: 1.6; margin-bottom: 22px;">
@@ -224,20 +249,29 @@
         </div>
     </div>
 
-    <div id="warningModal" class="modal">
-        <div class="modal-content">
-            <div class="warning-title">⚠️ ATENCIÓN ⚠️</div>
-            <div class="warning-text">
-                <p><strong>La aplicación es 100% SEGURA.</strong></p>
-                <p>Al ser un ejecutable nuevo de un desarrollador Indie, Windows SmartScreen podría lanzar una alerta.</p>
-                <p style="color: #FFD700;"><strong>Pasos para instalar:</strong><br>
-                1. Click en <u>"Más información"</u>.<br>
-                2. Click en <strong>"Ejecutar de todas formas"</strong>.</p>
-            </div>
-            <button class="btn-confirm" data-page-act="descargarAhora">¡ENTENDIDO, DESCARGAR!</button>
-            <p data-page-act="cerrarTodo" style="color: #555; cursor: pointer; margin-top: 15px; font-size: 12px;">CANCELAR</p>
+    <!-- SECCIÓN: VERSIONES / NOVEDADES -->
+    <section id="info">
+        <div class="sec-title">VERSIONES</div>
+
+        <div id="patch-history"></div>
+
+        <div class="text-block" style="margin-top: 40px;">
+            <p>MGGX Autoclicker es la herramienta oficial de automatización del estudio. Pensada para farmeo, clicks repetitivos y testeos de rendimiento, sin instalar servicios de fondo ni software adicional.</p>
         </div>
-    </div>
+    </section>
+
+    <section id="soporte">
+        <div class="sec-title">SOPORTE TÉCNICO</div>
+        <div class="text-block">
+            <p>¿Encontraste un bug o querés sugerir una función? Reportalo en la sección de Contacto del sitio principal.</p>
+            <a href="../#contacto" class="btn-download" style="font-size:14px; padding:12px 25px; border-radius:4px; display:inline-block; width:auto;">IR A CONTACTO</a>
+        </div>
+    </section>
+
+    <footer>
+        COPYRIGHT © 2025 MGGX GAMES. MGGX AUTOCLICKER.
+        &nbsp;|&nbsp; <a href="../terminos/" class="terms-link">Términos y Condiciones</a>
+    </footer>
 
     <!-- Lógica de página en archivo externo: la CSP de producción
          (script-src 'self', sin 'unsafe-inline') bloquea los <script>

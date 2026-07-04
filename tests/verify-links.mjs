@@ -6,6 +6,7 @@
 //  "un overlay/canvas invisible intercepta los clicks", que no
 //  se ven ni en el diff ni en un linter.
 //
+//  Requiere: npm i -D playwright (no está vendorizado en el repo).
 //  Uso:  1) servidor local en :8903 (o ajustar BASE)
 //        2) node tests/verify-links.mjs
 // ============================================================
@@ -39,13 +40,10 @@ for (const [ctxLabel, ctxOpts] of [
     let page = await context.newPage();
     await page.goto(BASE + '/autoclicker/', { waitUntil: 'domcontentloaded' });
     await page.waitForTimeout(1500);
-    await clickAndExpect(page, '.back-link', '/', `${ctxLabel} autoclicker VOLVER AL ESTUDIO`);
-    await page.goto(BASE + '/autoclicker/', { waitUntil: 'domcontentloaded' });
-    await page.waitForTimeout(1500);
     await clickAndExpect(page, '.terms-link', '/terminos/', `${ctxLabel} autoclicker Términos y Condiciones`);
     await page.close();
 
-    for (const proj of ['gas-station', 'wtsapp', 'craft-book']) {
+    for (const proj of ['autoclicker', 'gas-station', 'wtsapp', 'craft-book']) {
         page = await context.newPage();
         await page.goto(`${BASE}/${proj}/`, { waitUntil: 'domcontentloaded' });
         await page.waitForTimeout(1200);

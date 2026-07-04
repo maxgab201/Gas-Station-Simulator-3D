@@ -1,25 +1,28 @@
 // ============================================================
-//  Autoclicker — lógica de página (modales de descarga/donación).
+//  Autoclicker — lógica de página (modales de advertencia,
+//  selección de versión y donación). Mismo flujo que las demás
+//  páginas de producto: DESCARGA YA → advertencia → lista de
+//  TODAS las versiones publicadas → donación → descarga.
 //  Archivo externo a propósito: la CSP de producción
 //  (script-src 'self', sin 'unsafe-inline') bloquea los <script>
-//  embebidos en el HTML — inline, estas funciones jamás existían
-//  en el sitio publicado. js/motion.js despacha los data-page-act
-//  buscándolas por nombre en window, por eso son declaraciones
-//  globales clásicas (no módulo).
+//  embebidos en el HTML. js/motion.js despacha los data-page-act
+//  buscando estas funciones por nombre en window, por eso son
+//  declaraciones globales clásicas (no módulo).
 // ============================================================
 
-var _downloadUrl = "https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/v1.0.0/Autoclicker.instaler.exe";
+var _pendingDownloadUrl = null;
 
 function abrirAdvertencia() {
     document.getElementById("warningModal").style.display = "flex";
 }
 
-function cerrarTodo() {
+function pasarAVersiones() {
     document.getElementById("warningModal").style.display = "none";
-    document.getElementById("donationModal").style.display = "none";
+    document.getElementById("downloadModal").style.display = "flex";
 }
 
-function descargarAhora() {
+function iniciarDescarga(url) {
+    _pendingDownloadUrl = url;
     cerrarTodo();
     document.getElementById("donationModal").style.display = "flex";
 }
@@ -34,11 +37,21 @@ function descargarSinDonar() {
 }
 
 function ejecutarDescarga() {
-    window.location.href = _downloadUrl;
+    if (_pendingDownloadUrl) {
+        window.location.href = _pendingDownloadUrl;
+        _pendingDownloadUrl = null;
+    }
     cerrarTodo();
+}
+
+function cerrarTodo() {
+    document.getElementById("warningModal").style.display = "none";
+    document.getElementById("downloadModal").style.display = "none";
+    document.getElementById("donationModal").style.display = "none";
 }
 
 window.onclick = function(event) {
     if (event.target == document.getElementById("warningModal")) cerrarTodo();
+    if (event.target == document.getElementById("downloadModal")) cerrarTodo();
     if (event.target == document.getElementById("donationModal")) cerrarTodo();
 }
