@@ -603,6 +603,31 @@
               "d": "Backend moderno para garantizar latencia mínima."
             }
           ]
+        },
+        {
+          "id": "wtsapp-pc-0.8.0-mr5p0iw6",
+          "platform": "pc",
+          "version": "0.8.0",
+          "title": "AUTOMATIC UPDATE",
+          "note": "Auto-updater visual e inteligente, sincronización en tiempo real y mejoras de rendimiento.",
+          "url": "https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/0.8.0/wtsapp-setup-v0.8.0.exe",
+          "date": "Julio 2026",
+          "active": true,
+          "experimental": false,
+          "details": [
+            {
+              "t": "AUTO-UPDATER",
+              "d": "Al abrir la app, WtsApp busca actualizaciones en segundo plano y te muestra un banner con una barra de progreso para descargar el parche sin afectar tu uso."
+            },
+            {
+              "t": "SINCRONIZACIÓN EN TIEMPO REAL",
+              "d": "Cada vez que crees un chat nuevo o recibas un mensaje, la lista lateral se refresca de inmediato sin necesidad de recargar, cerrar ni buscar manualmente."
+            },
+            {
+              "t": "MEJORAS DE RENDIMIENTO",
+              "d": "Optimización del backend de la interfaz para una experiencia más fluida y sin interrupciones."
+            }
+          ]
         }
       ]
     }
