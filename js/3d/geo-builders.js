@@ -234,6 +234,43 @@ export function buildMousePointer({ color = 0xffa500 } = {}) {
     return group;
 }
 
+export function buildMedicCross({ color = 0x7ac74f } = {}) {
+    const group = new THREE.Group();
+
+    const cubeMat = stdMat(0x6b4a2b, { roughness: 0.75, metalness: 0.05 });
+    const grassMat = stdMat(color, { roughness: 0.55, metalness: 0.1, emissive: color, emissiveIntensity: 0.18 });
+    group.add(mesh(new THREE.BoxGeometry(0.95, 0.75, 0.95), cubeMat, { y: -0.12 }));
+    group.add(mesh(new THREE.BoxGeometry(0.97, 0.22, 0.97), grassMat, { y: 0.36 }));
+
+    const arm = 0.62, thick = 0.24;
+    const shape = new THREE.Shape();
+    shape.moveTo(-thick / 2, arm / 2);
+    shape.lineTo(thick / 2, arm / 2);
+    shape.lineTo(thick / 2, thick / 2);
+    shape.lineTo(arm / 2, thick / 2);
+    shape.lineTo(arm / 2, -thick / 2);
+    shape.lineTo(thick / 2, -thick / 2);
+    shape.lineTo(thick / 2, -arm / 2);
+    shape.lineTo(-thick / 2, -arm / 2);
+    shape.lineTo(-thick / 2, -thick / 2);
+    shape.lineTo(-arm / 2, -thick / 2);
+    shape.lineTo(-arm / 2, thick / 2);
+    shape.lineTo(-thick / 2, thick / 2);
+    shape.closePath();
+    const crossGeo = new THREE.ExtrudeGeometry(shape, {
+        depth: 0.18,
+        bevelEnabled: true,
+        bevelThickness: 0.03,
+        bevelSize: 0.03,
+        bevelSegments: 2,
+    });
+    crossGeo.center();
+    const crossMat = stdMat(0xe53935, { roughness: 0.25, metalness: 0.2, emissive: 0xe53935, emissiveIntensity: 0.55 });
+    group.add(mesh(crossGeo, crossMat, { y: 0.95 }));
+
+    return group;
+}
+
 /** Nube de partículas tipo "combustible flotando" — puntos con leve deriva. */
 export function buildFloatingParticles({ count = 60, radius = 6, color = 0xffa500, size = 0.045 } = {}) {
     const positions = new Float32Array(count * 3);
