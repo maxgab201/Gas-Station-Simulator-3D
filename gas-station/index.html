@@ -4,11 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gas Station Simulator 3D - MGGX Games</title>
+    <meta name="description" content="Gas Station Simulator 3D: el simulador de gestión de estaciones de servicio. Cargas instantáneas, iluminación realista. Descargá gratis para PC.">
+    <link rel="canonical" href="https://mggx-games.xyz/gas-station/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Gas Station Simulator 3D - MGGX Games">
+    <meta property="og:description" content="Gas Station Simulator 3D: el simulador de gestión de estaciones de servicio. Cargas instantáneas, iluminación realista. Descargá gratis para PC.">
+    <meta property="og:url" content="https://mggx-games.xyz/gas-station/">
+    <meta property="og:image" content="https://mggx-games.xyz/gas-station/fondo.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Gas Station Simulator 3D - MGGX Games">
+    <meta name="twitter:description" content="Gas Station Simulator 3D: el simulador de gestión de estaciones de servicio. Cargas instantáneas, iluminación realista. Descargá gratis para PC.">
+    <meta name="twitter:image" content="https://mggx-games.xyz/gas-station/fondo.jpg">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23050505%22/><text x=%2250%22 y=%2272%22 font-size=%2264%22 font-family=%22Arial Black%22 font-weight=%22900%22 fill=%22%23FFA500%22 text-anchor=%22middle%22>M</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Roboto:wght@300;400;700&display=swap">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1616443796697385" crossorigin="anonymous"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Anton&family=Roboto:wght@300;400;700&display=swap');
-
         body, html { margin: 0; padding: 0; font-family: 'Roboto', sans-serif; background-color: #050505; color: white; scroll-behavior: smooth; }
 
         /* NAVBAR */
@@ -173,9 +185,9 @@
         </div>
     </section>
 
-    <div id="warningModal" class="modal">
+    <div id="warningModal" class="modal" role="dialog" aria-modal="true" aria-label="Advertencia de instalación">
         <div class="modal-content warning-box">
-            <span class="close" data-page-act="cerrarTodo">&times;</span>
+            <span class="close" data-page-act="cerrarTodo" aria-label="Cerrar">&times;</span>
             <div class="warning-title">⚠️ IMPORTANTE ⚠️</div>
             <div class="warning-text">
                 <p><strong>El juego es 100% SEGURO y GRATIS.</strong></p>
@@ -189,9 +201,9 @@
         </div>
     </div>
 
-    <div id="donationModal" class="modal">
+    <div id="donationModal" class="modal" role="dialog" aria-modal="true" aria-label="Apoyar el proyecto">
         <div class="modal-content" style="border: 2px solid #FFA500; max-width: 420px;">
-            <span class="close" data-page-act="cerrarTodo">&times;</span>
+            <span class="close" data-page-act="cerrarTodo" aria-label="Cerrar">&times;</span>
             <div style="font-size: 44px; margin-bottom: 12px;">☕</div>
             <div style="font-family: 'Anton', sans-serif; font-size: 24px; color: #FFA500; margin-bottom: 10px; letter-spacing: 1px; line-height: 1.2;">¿QUERÉS APOYAR<br>EL PROYECTO?</div>
             <p style="color: #aaa; font-size: 14px; line-height: 1.6; margin-bottom: 22px;">
@@ -204,9 +216,9 @@
         </div>
     </div>
 
-    <div id="downloadModal" class="modal">
+    <div id="downloadModal" class="modal" role="dialog" aria-modal="true" aria-label="Elegir versión">
         <div class="modal-content">
-            <span class="close" data-page-act="cerrarTodo">&times;</span>
+            <span class="close" data-page-act="cerrarTodo" aria-label="Cerrar">&times;</span>
             <h2 style="margin-top:0">ELIGE TU VERSIÓN</h2>
             <p style="color:#777; font-size:14px; margin-bottom:20px;">DESDE GITHUB:</p>
             <div id="download-list"></div>
@@ -214,7 +226,7 @@
     </div>
 
     <section id="info">
-        <div class="sec-title">SOBRE EL JUEGO</div>
+        <h2 class="sec-title">SOBRE EL JUEGO</h2>
         
         <div id="patch-history"></div>
         <div class="text-block">
@@ -243,17 +255,17 @@
     </section>
 
     <section id="galeria">
-        <div class="sec-title">GALERÍA</div>
+        <h2 class="sec-title">GALERÍA</h2>
         <div style="color:#aaa; margin-bottom:10px;">Capturas in-game de la versión 1.2.</div>
         <div class="gallery-grid">
-            <img src="foto1.jpg" class="gallery-img" alt="Gameplay 1">
-            <img src="foto2.jpg" class="gallery-img" alt="Gameplay 2">
-            <img src="foto3.jpg" class="gallery-img" alt="Gameplay 3">
+            <img src="foto1.jpg" class="gallery-img" alt="Gameplay 1" width="300" height="180" loading="lazy" decoding="async">
+            <img src="foto2.jpg" class="gallery-img" alt="Gameplay 2" width="300" height="180" loading="lazy" decoding="async">
+            <img src="foto3.jpg" class="gallery-img" alt="Gameplay 3" width="300" height="180" loading="lazy" decoding="async">
         </div>
     </section>
 
     <section id="soporte">
-        <div class="sec-title">SOPORTE TÉCNICO</div>
+        <h2 class="sec-title">SOPORTE TÉCNICO</h2>
         <div class="text-block">
             <p>¿Encontraste un bug? Puedes reportarlo directamente en la sección de Contacto del sitio principal.</p>
             <a href="../#contacto" class="btn" style="font-size:14px; padding:10px 20px;">IR A CONTACTO</a>

@@ -651,6 +651,177 @@
           ]
         }
       ]
+    },
+    {
+      "id": "modmedic",
+      "name": "ModMedic",
+      "page": "modmedic/",
+      "color": "#7ac74f",
+      "platforms": [
+        "pc"
+      ],
+      "versions": [
+        {
+          "id": "mm-4.3.0",
+          "platform": "pc",
+          "version": "4.3.0",
+          "title": "NEMOTRON POR DEFECTO",
+          "note": "Nuevo modelo NIM por defecto y arreglo de \"Probar conexión\".",
+          "url": "https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/4.3/ModMedic-4.3.0-setup.exe",
+          "date": "Julio 2026",
+          "active": true,
+          "experimental": false,
+          "details": [
+            {
+              "t": "MODELO POR DEFECTO",
+              "d": "NVIDIA NIM pasa a nvidia/nemotron-3-ultra-550b-a55b, con migración automática de configuraciones existentes."
+            },
+            {
+              "t": "PROBAR CONEXIÓN",
+              "d": "La prueba guarda automáticamente los cambios pendientes antes de probar: lo que ves en pantalla es lo que se prueba."
+            },
+            {
+              "t": "AJUSTES",
+              "d": "Las secciones de OpenRouter y NVIDIA NIM están siempre visibles para cambiar cualquiera de los dos modelos."
+            }
+          ]
+        },
+        {
+          "id": "mm-4.2.0",
+          "platform": "pc",
+          "version": "4.2.0",
+          "title": "PRUEBA DE CONEXIÓN",
+          "note": "Verificá tu proveedor de IA con un clic desde Ajustes.",
+          "url": "https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/4.2/ModMedic-4.2.0-setup.exe",
+          "date": "Julio 2026",
+          "active": true,
+          "experimental": false,
+          "details": [
+            {
+              "t": "TEST DE API",
+              "d": "Botones para probar el proveedor actual, NVIDIA u OpenRouter: muestra latencia, modelo y respuesta."
+            },
+            {
+              "t": "ERRORES COPIABLES",
+              "d": "Si falla, muestra el error completo (endpoint, modelo, HTTP y cuerpo) con botón \"Copiar error\"."
+            }
+          ]
+        },
+        {
+          "id": "mm-4.1.0",
+          "platform": "pc",
+          "version": "4.1.0",
+          "title": "DESTILADO LOCAL",
+          "note": "Logs gigantes analizados en milisegundos y reintentos ante cortes de red.",
+          "url": "https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/4.1/ModMedic-4.1.0-setup.exe",
+          "date": "Julio 2026",
+          "active": true,
+          "experimental": false,
+          "details": [
+            {
+              "t": "DESTILADO LOCAL",
+              "d": "Los logs grandes se filtran localmente (errores, stack traces, Mixin, versiones) antes de llegar al modelo: un log de 10 MB se reduce a decenas de KB sin llamadas a la API."
+            },
+            {
+              "t": "REINTENTOS",
+              "d": "Backoff automático (2 s, luego 5 s) ante fallos de conexión transitorios antes de cambiar de proveedor."
+            },
+            {
+              "t": "ERRORES CLAROS",
+              "d": "Los fallos de red incluyen URL, modelo y tipo de fallo."
+            }
+          ]
+        },
+        {
+          "id": "mm-4.0.0",
+          "platform": "pc",
+          "version": "4.0.0",
+          "title": "PROVEEDOR DUAL",
+          "note": "NVIDIA NIM + OpenRouter con fallback automático.",
+          "url": "https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/4.0/ModMedic_4.0.0_x64-setup.exe",
+          "date": "Julio 2026",
+          "active": true,
+          "experimental": false,
+          "details": [
+            {
+              "t": "OPENROUTER",
+              "d": "Segundo proveedor de IA configurable (API key, modelo, URL base) con selector de principal en Ajustes."
+            },
+            {
+              "t": "FALLBACK AUTOMÁTICO",
+              "d": "Si el proveedor principal falla, el agente cambia al secundario en la misma investigación, avisando en la interfaz."
+            }
+          ]
+        },
+        {
+          "id": "mm-3.4.0",
+          "platform": "pc",
+          "version": "3.4.0",
+          "title": "SANITIZACIÓN TOTAL",
+          "note": "Limpieza agresiva de contenido aplicada a todos los mensajes del modelo.",
+          "url": "https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/3.4/ModMedic_3.4.0_x64-setup.exe",
+          "date": "Julio 2026",
+          "active": true,
+          "experimental": true,
+          "details": [
+            {
+              "t": "CLIENTE",
+              "d": "Data URIs, rutas file:// y extensiones de imagen se eliminan en cada mensaje enviado, sin excepción."
+            }
+          ]
+        },
+        {
+          "id": "mm-3.1.0",
+          "platform": "pc",
+          "version": "3.1.0",
+          "title": "ACTUALIZAR SIN DESINSTALAR",
+          "note": "El instalador conserva tu configuración e historial entre versiones.",
+          "url": "https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/3.1/ModMedic_3.1.0_x64-setup.exe",
+          "date": "Julio 2026",
+          "active": true,
+          "experimental": true,
+          "details": [
+            {
+              "t": "INSTALADOR",
+              "d": "Template NSIS personalizado: sobreescribe los archivos en vez de desinstalar la versión anterior."
+            }
+          ]
+        },
+        {
+          "id": "mm-3.0.0",
+          "platform": "pc",
+          "version": "3.0.0",
+          "title": "SANITIZACIÓN DE IMÁGENES",
+          "note": "Primera limpieza de referencias a imágenes en el contenido enviado a la IA.",
+          "url": "https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/3.0/ModMedic_3.0.0_x64-setup.exe",
+          "date": "Julio 2026",
+          "active": true,
+          "experimental": true,
+          "details": [
+            {
+              "t": "REDACCIÓN",
+              "d": "Eliminación de data URIs, rutas file:// y archivos de imagen, con tests unitarios."
+            }
+          ]
+        },
+        {
+          "id": "mm-2.0.0",
+          "platform": "pc",
+          "version": "2.0.0",
+          "title": "PRIMERA BUILD VERSIONADA",
+          "note": "Versionado semántico consistente y primer instalador versionado.",
+          "url": "https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/2.0/ModMedic_2.0.0_x64-setup.exe",
+          "date": "Julio 2026",
+          "active": true,
+          "experimental": true,
+          "details": [
+            {
+              "t": "BASE",
+              "d": "Detección de instancias (4 launchers), parser local, lectura estática de mods, redacción de PII, monitoreo en vivo, agente de IA con investigación web e historial local."
+            }
+          ]
+        }
+      ]
     }
   ]
 }

@@ -12,8 +12,31 @@
 // ============================================================
 
 import * as THREE from '../../vendor/three/three.module.min.js';
+import { EffectComposer } from '../../vendor/three/postprocessing/EffectComposer.js';
+import { RenderPass } from '../../vendor/three/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from '../../vendor/three/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from '../../vendor/three/postprocessing/OutputPass.js';
+import { RoomEnvironment } from '../../vendor/three/environments/RoomEnvironment.js';
 
 const REDUCE_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/**
+ * Un solo PMREMGenerator + RoomEnvironment compartido por TODAS las
+ * escenas de la página: generar el environment map es la parte cara
+ * (un render offscreen a un cubemap), así que hacerlo una vez por
+ * página en vez de una vez por escena evita pagar ese costo N veces
+ * cuando varias escenas 3D conviven (no pasa hoy, pero por si acaso).
+ * Se crea perezosamente recién cuando la primera escena la pide,
+ * usando SU renderer (cualquiera sirve, es solo para compilar el PMREM).
+ */
+let sharedEnvTexture = null;
+function getSharedEnvironment(renderer) {
+    if (sharedEnvTexture) return sharedEnvTexture;
+    const pmrem = new THREE.PMREMGenerator(renderer);
+    sharedEnvTexture = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+    pmrem.dispose();
+    return sharedEnvTexture;
+}
 
 /** true en dispositivos cuyo puntero primario es táctil (sin hover fino). */
 export const IS_COARSE_POINTER = window.matchMedia('(pointer: coarse)').matches;
@@ -52,7 +75,7 @@ export function pointToNDC(canvas, clientX, clientY, out = new THREE.Vector2()) 
  * directamente fuera de cuadro en un celular, que es exactamente lo
  * que pasaba antes de este ajuste.
  */
-export function createScene(canvas, { setup, onFrame, cameraFov = 50, near = 0.1, far = 100, alpha = true, background = null, baseAspect = 1440 / 900 } = {}) {
+export function createScene(canvas, { setup, onFrame, cameraFov = 50, near = 0.1, far = 100, alpha = true, background = null, baseAspect = 1440 / 900, bloom = true, environment = true } = {}) {
     if (!canvas) return null;
 
     // WebGLRenderer tira una excepción (no devuelve null) si el navegador
@@ -73,9 +96,20 @@ export function createScene(canvas, { setup, onFrame, cameraFov = 50, near = 0.1
     }
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     renderer.shadowMap.enabled = false; // sombras dinámicas desactivadas: prioriza 60fps en gama baja
+    // ACESFilmic comprime altas luces de forma natural (hombro suave en vez
+    // de recortar a blanco) — sin esto, sumar un environment map real más
+    // bloom sobre escenas ya calibradas para verse brillantes (el ajuste de
+    // iluminación de gas-station) las quema a un borrón sin detalle.
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.0;
 
     const scene = new THREE.Scene();
     if (background !== null) scene.background = background;
+    // Environment map generado (RoomEnvironment vía PMREM, sin textura
+    // externa que descargar): sin esto, los materiales metalness>0
+    // (surtidor, ganchos, autos) no tienen nada que reflejar y se ven
+    // como plástico gris plano bajo solo 2-3 luces puntuales.
+    if (environment) scene.environment = getSharedEnvironment(renderer);
 
     const camera = new THREE.PerspectiveCamera(cameraFov, 1, near, far);
 
@@ -89,10 +123,28 @@ export function createScene(canvas, { setup, onFrame, cameraFov = 50, near = 0.1
 
     setup?.(ctx);
 
+    // Bloom sobre los materiales emissive (pantallas, franjas de acento,
+    // faros, la cruz de ModMedic): son la parte del look que más se
+    // beneficia de un post-proceso barato, porque ya existen — solo
+    // faltaba hacerlos "brillar" en vez de quedar como un color plano.
+    // strength/radius/threshold moderados a propósito: mucho bloom en
+    // una escena chica (un hero, no una pantalla completa) se ve lavado.
+    let composer = null;
+    let bloomPass = null;
+    if (bloom) {
+        composer = new EffectComposer(renderer);
+        composer.addPass(new RenderPass(scene, camera));
+        bloomPass = new UnrealBloomPass(new THREE.Vector2(1, 1), 0.35, 0.35, 0.88);
+        composer.addPass(bloomPass);
+        composer.addPass(new OutputPass());
+    }
+
     function resize() {
         const w = canvas.clientWidth || canvas.parentElement?.clientWidth || 1;
         const h = canvas.clientHeight || canvas.parentElement?.clientHeight || 1;
         renderer.setSize(w, h, false);
+        composer?.setSize(w, h);
+        bloomPass?.resolution.set(w, h);
         const aspect = w / (h || 1);
         camera.aspect = aspect;
         camera.updateProjectionMatrix();
@@ -154,7 +206,8 @@ export function createScene(canvas, { setup, onFrame, cameraFov = 50, near = 0.1
         ctx.pointer.y += (ctx.pointer.targetY - ctx.pointer.y) * 0.06;
 
         onFrame?.(ctx, dt, elapsed);
-        renderer.render(scene, camera);
+        if (composer) composer.render();
+        else renderer.render(scene, camera);
     }
 
     function loop() {
@@ -182,6 +235,7 @@ export function createScene(canvas, { setup, onFrame, cameraFov = 50, near = 0.1
             window.removeEventListener('resize', resize);
             resizeObserver.disconnect();
             io.disconnect();
+            composer?.dispose();
             renderer.dispose();
         },
     };
