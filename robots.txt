@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /data/
+
+Sitemap: https://mggx-games.xyz/sitemap.xml

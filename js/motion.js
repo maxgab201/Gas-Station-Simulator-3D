@@ -82,6 +82,62 @@ function wireA11yForActions() {
 }
 
 /**
+ * Accesibilidad de teclado/foco para los modales de descarga
+ * (.modal en cada página de producto): Escape cierra el modal
+ * abierto, y al cerrarse el foco vuelve al elemento que lo abrió
+ * — el mismo comportamiento que ya tenía el panel Admin
+ * (js/admin.js), acá generalizado para no repetirlo por página.
+ * Se implementa una sola vez acá porque las cinco páginas de
+ * producto comparten el mismo <div class="modal"> + cerrarTodo()
+ * global (ver page.js de cada una).
+ */
+function wireModalA11y() {
+    const modals = document.querySelectorAll('.modal');
+    if (!modals.length) return;
+
+    let lastFocused = null;
+
+    document.addEventListener('click', (event) => {
+        const trigger = event.target.closest('[data-page-act]');
+        if (!trigger) return;
+        // Se dispara ANTES de que window[fn]() corra y muestre el modal
+        // (mismo listener de click que wirePageActions, agregado después,
+        // así que corre después en el mismo evento — pero como solo
+        // necesitamos "quién tenía el foco antes del click", guardarlo acá
+        // es seguro sin depender del orden entre listeners).
+        lastFocused = trigger;
+    });
+
+    function findOpenModal() {
+        for (const m of modals) {
+            if (getComputedStyle(m).display !== 'none') return m;
+        }
+        return null;
+    }
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key !== 'Escape') return;
+        const open = findOpenModal();
+        if (!open) return;
+        window.cerrarTodo?.();
+    });
+
+    // Cuando un modal pasa de visible a oculto, devuelve el foco a quien
+    // lo abrió — evita que el foco del teclado quede "flotando" en un
+    // elemento ya invisible tras cerrar.
+    const mo = new MutationObserver((mutations) => {
+        for (const mut of mutations) {
+            const el = mut.target;
+            if (getComputedStyle(el).display === 'none' && lastFocused) {
+                lastFocused.focus?.();
+                lastFocused = null;
+            }
+        }
+    });
+    modals.forEach(m => mo.observe(m, { attributes: true, attributeFilter: ['style'] }));
+}
+
+/**
  * Tilt 3D sutil por puntero en .game-card (y cualquier [data-tilt]):
  * rota la card en perspectiva siguiendo la posición del cursor o del
  * dedo, puramente con transform (GPU, sin reflow). Los Pointer
@@ -157,6 +213,7 @@ export function init() {
     observe();
     wirePageActions();
     wireA11yForActions();
+    wireModalA11y();
     initTilt();
 }
 

@@ -127,18 +127,23 @@ export function initGasStationScene(containerId = 'three-container') {
             ctx.scene.add(particles);
             ctx.ambientParticles = particles;
 
-            ctx.scene.add(new THREE.AmbientLight(0xffffff, 1.0));
-            ctx.scene.add(new THREE.HemisphereLight(0x8899bb, 0x221a10, 0.6));
-            const key = new THREE.DirectionalLight(0xfff2df, 2.8);
+            // Estos valores bajaron respecto de la iteración anterior: ese
+            // ajuste se calibró SIN environment map ni tone mapping ACES
+            // (ver scene-runtime.js), y ambos ya aportan bastante luz/reflejo
+            // por su cuenta — sumados a las mismas intensidades de antes,
+            // el surtidor se lavaba a un blanco-amarillo sin detalle.
+            ctx.scene.add(new THREE.AmbientLight(0xffffff, 0.45));
+            ctx.scene.add(new THREE.HemisphereLight(0x8899bb, 0x221a10, 0.4));
+            const key = new THREE.DirectionalLight(0xfff2df, 1.7);
             key.position.set(4, 9, 7);
             ctx.scene.add(key);
-            const fill = new THREE.PointLight(ACCENT, 5, 14);
+            const fill = new THREE.PointLight(ACCENT, 2.8, 14);
             fill.position.set(-2.5, 2.8, 3);
             ctx.scene.add(fill);
-            const rim = new THREE.PointLight(0x4488ff, 2.2, 16);
+            const rim = new THREE.PointLight(0x4488ff, 1.3, 16);
             rim.position.set(3.5, 3.5, -4);
             ctx.scene.add(rim);
-            const front = new THREE.PointLight(0xffffff, 2.4, 11);
+            const front = new THREE.PointLight(0xffffff, 1.5, 11);
             front.position.set(2.2, 1.8, 3.8);
             ctx.scene.add(front);
 
