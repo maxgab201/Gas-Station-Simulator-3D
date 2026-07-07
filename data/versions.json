@@ -776,10 +776,10 @@
           "version": "3.1.0",
           "title": "ACTUALIZAR SIN DESINSTALAR",
           "note": "El instalador conserva tu configuración e historial entre versiones.",
-          "url": "",
-          "date": "",
+          "url": "https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/3.1/ModMedic_3.1.0_x64-setup.exe",
+          "date": "Julio 2026",
           "active": true,
-          "experimental": false,
+          "experimental": true,
           "details": [
             {
               "t": "INSTALADOR",
