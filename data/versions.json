@@ -738,8 +738,8 @@
           "version": "4.0.0",
           "title": "PROVEEDOR DUAL",
           "note": "NVIDIA NIM + OpenRouter con fallback automático.",
-          "url": "",
-          "date": "",
+          "url": "https://github.com/maxgab201/Gas-Station-Simulator-3D/releases/download/4.0/ModMedic_4.0.0_x64-setup.exe",
+          "date": "Julio 2026",
           "active": true,
           "experimental": false,
           "details": [
